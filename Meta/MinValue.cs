@@ -276,9 +276,15 @@ namespace AZCL.Meta
             }
         }
 
+        /// <summary>
+        /// Compares this MinValue to an unsigned int64 value.
+        /// </summary>
+        /// <param name="other">UInt64 value to compare against.</param>
+        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(ulong other)
         {
-            throw new NotImplementedException(); //TODO
+            var u64 = new Union64(other);
+            return CompareTo(u64.uint_0_3 | u64.uint_4_7); // because it's either zero or not.
         }
     }
 }

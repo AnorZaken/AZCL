@@ -306,19 +306,37 @@ namespace AZCL.Meta
             if (u64.int_4_7 == 0)
                 return CompareTo(u64.uint_0_3);
 
-            if (u64.int_4_7 < 0 | tc5 > 6)
-                return 1;
+            if (tc5 == 6)
+                return ~u64.int_0_3 == 0 ? unchecked(int.MaxValue - u64.int_4_7) : u64.int_4_7;
 
-            if (tc5 < 6)
-                return -1;
-
-            //else: tc5 == 6
-            return ~u64.int_0_3 == 0 ? int.MaxValue - u64.int_4_7 : 1;
+            return tc5 - 6;
         }
 
+        /// <summary>
+        /// Compares this MaxValue to an unsigned int64 value.
+        /// </summary>
+        /// <param name="other">UInt64 value to compare against.</param>
+        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(ulong other)
         {
-            throw new NotImplementedException(); //TODO
+            Union64 u64 = new Union64(other);
+
+            if (u64.int_4_7 == 0)
+                return CompareTo(u64.uint_0_3);
+            /*
+            if (tc5 < 6) // more common..?
+                return -1;
+            */
+            if (tc5 == 6)
+                return ~u64.int_0_3 == 0 ? unchecked(int.MaxValue - u64.int_4_7) : u64.int_4_7;
+
+            if (tc5 == 7)
+            {
+                u64.uint_0_3 = ~(u64.uint_4_7 & u64.uint_0_3); // will be zero if other is ulong.Max
+                return u64.ushort_0_1 | u64.ushort_2_3;
+            }
+
+            return tc5 - 6;
         }
     }
 }
