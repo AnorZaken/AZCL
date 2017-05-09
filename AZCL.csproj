@@ -55,6 +55,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bits\Rotate.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ReadOnlyArray_Extensions.cs" />
     <Compile Include="Collections\Iter.cs" />
