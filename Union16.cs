@@ -67,18 +67,24 @@ namespace AZCL
         public ushort ushort_0_1;
 
         /// <summary>
-        /// Signed byte 0 (lowest).
+        /// Signed byte 0 (lower half).
         /// </summary>
         [FieldOffset(0)]
         public sbyte sbyte_0;
         /// <summary>
-        /// Byte 0 (lowest).
+        /// Byte 0 (lower half).
         /// </summary>
         [FieldOffset(0)]
         public byte byte_0;
 
+        /// <summary>
+        /// Signed byte 1 (higher half).
+        /// </summary>
         [FieldOffset(1)]
         public sbyte sbyte_1;
+        /// <summary>
+        /// Byte 1 (higher half).
+        /// </summary>
         [FieldOffset(1)]
         public byte byte_1;
     }

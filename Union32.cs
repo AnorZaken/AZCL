@@ -109,8 +109,14 @@ namespace AZCL
         [FieldOffset(0)]
         public byte byte_0;
 
+        /// <summary>
+        /// Signed byte 1.
+        /// </summary>
         [FieldOffset(1)]
         public sbyte sbyte_1;
+        /// <summary>
+        /// Byte 1.
+        /// </summary>
         [FieldOffset(1)]
         public byte byte_1;
 
@@ -125,8 +131,14 @@ namespace AZCL
         [FieldOffset(2)]
         public ushort ushort_2_3;
 
+        /// <summary>
+        /// Signed byte 2.
+        /// </summary>
         [FieldOffset(2)]
         public sbyte sbyte_2;
+        /// <summary>
+        /// Byte 2.
+        /// </summary>
         [FieldOffset(2)]
         public byte byte_2;
 
