@@ -243,7 +243,7 @@ namespace AZCL
         /// </summary><remarks>
         /// This will overwrite all existing elements in the array.
         /// <para/>
-        /// For arrays with value type elements this would have the same effect as calling the <see cref="Clear{T}(T[])"/> method.
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="Clear{T}(T[])"/> method instead.
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array argument is null.
@@ -259,11 +259,59 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Fills an array with new instances of T.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// <para/>
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="Clear{T}(T[,])"/> method instead.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        /// <seealso cref="Clear{T}(T[,])"/>
+        public static void Populate<T>(this T[,] array) where T : new()
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    array[x, y] = new T();
+        }
+
+        /// <summary>
+        /// Fills an array with new instances of T.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// <para/>
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="Clear{T}(T[,,])"/> method instead.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        /// <seealso cref="Clear{T}(T[,,])"/>
+        public static void Populate<T>(this T[,,] array) where T : new()
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            int lenz = array.GetLength(2);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        array[x, y, z] = new T();
+        }
+
+        /// <summary>
         /// Fills the inner arrays of a jagged array with new instances of T.
         /// </summary><remarks>
         /// This will overwrite all existing elements in the inner arrays.
         /// <para/>
-        /// For arrays with value type elements this would have the same effect as calling the <see cref="ClearInner{T}(T[][])"/> method.
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="ClearInner{T}(T[][])"/> method instead.
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array argument is null.
@@ -291,7 +339,7 @@ namespace AZCL
         /// </summary><remarks>
         /// This will overwrite all existing elements in the innermost arrays.
         /// <para/>
-        /// For arrays with value type elements this would have the same effect as calling the <see cref="ClearInner{T}(T[][][])"/> method.
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="ClearInner{T}(T[][][])"/> method instead.
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array argument is null.
@@ -324,26 +372,87 @@ namespace AZCL
         /// </exception>
         public static void Populate<T>(this T[] array, T value)
         {
-            const int HALFLIMIT = 64;
+            const int HALFLIMIT = 100;
             const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
 
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
 
-            int rem = array.Length; // number of elements remaining (or just length in the simple case)
-            if (rem < THRESHOLD)
+            int len = array.Length;
+            if (len < THRESHOLD) // few elements: for-loops are faster
             {
-                for (int i = 0; i < rem; ++i)
+                for (int i = 0; i < len; ++i)
                     array[i] = value;
             }
-            else // use ArrayCopy chunking (above a threshold length)
+            else // many elements: use ArrayCopy chunking
             {
-                for (int i = 0; i < HALFLIMIT; ++i)
+                for (int i = 0; i < HALFLIMIT; ++i) // set an initial bunch of values
                     array[i] = value;
-                int pro = HALFLIMIT; // number of element to process
-                for (rem -= HALFLIMIT; rem > pro; rem -= pro, pro <<= 1)
-                    System.Array.Copy(array, 0, array, pro, pro);
-                System.Array.Copy(array, 0, array, pro, rem);
+                RepeatRange_Impl(array, HALFLIMIT); // copy that range onto all remaining elements
+            }
+        }
+
+        /// <summary>
+        /// Fills an array with a single repeated value.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        public static void Populate<T>(this T[,] array, T value)
+        {
+            const int HALFLIMIT = 90;
+            const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
+
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            
+            if (array.Length < THRESHOLD) // few elements: for-loops are faster
+            {
+                int lenx = array.GetLength(0);
+                int leny = array.GetLength(1);
+                for (int x = 0; x < lenx; ++x)
+                    for (int y = 0; y < leny; ++y)
+                        array[x, y] = value;
+            }
+            else // many elements: use ArrayCopy chunking
+            {
+                SetRange_ForLoop(array, ref value, HALFLIMIT); // set an initial bunch of values (with loops)
+                RepeatRange_Impl(array, HALFLIMIT); // copy that range onto all remaining elements
+            }
+        }
+
+        /// <summary>
+        /// Fills an array with a single repeated value.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        public static void Populate<T>(this T[,,] array, T value)
+        {
+            const int HALFLIMIT = 90;
+            const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
+
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            
+            if (array.Length < THRESHOLD) // few elements: for-loops are faster
+            {
+                int lenx = array.GetLength(0);
+                int leny = array.GetLength(1);
+                int lenz = array.GetLength(2);
+                for (int x = 0; x < lenx; ++x)
+                    for (int y = 0; y < leny; ++y)
+                        for (int z = 0; z < lenz; ++z)
+                            array[x, y, z] = value;
+            }
+            else // many elements: use ArrayCopy chunking
+            {
+                SetRange_ForLoop(array, ref value, HALFLIMIT); // set an initial bunch of values (with loops)
+                RepeatRange_Impl(array, HALFLIMIT); // copy that range onto all remaining elements
             }
         }
 
@@ -363,13 +472,51 @@ namespace AZCL
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
 
-            foreach (T[] arr in array)
-                if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-                else
-                    Populate(arr, value);
+            int i;
+            T[] copysource;
+
+            // find an inner array that has a non-zero length
+            if (!Populate_FindNonEmptyInner(array, out copysource, out i))
+                return; // <-- array is T[0][] so there is nothing to populate
+
+            // populate the inner array assigned to 'copysource'
+            Populate(copysource, value);
+
+            // populate all remaining inner arrays using 'copysource'
+            Populate_RepeatCopy(array, ref copysource, i + 1);
         }
 
+        private static bool Populate_FindNonEmptyInner<T>(T[][] array, out T[] inner, out int i) // 'i' will be the index of 'inner'
+        {
+            for (i = 0; i < array.Length; ++i)
+            {
+                inner = array[i];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                if (inner.Length != 0)
+                    return true;
+            }
+
+            inner = null;
+            return false;
+        }
+
+        private static void Populate_RepeatCopy<T>(T[][] array, ref T[] copysource, int i) // 'i' should be the index of the first inner target
+        {
+            // use Array.Copy and 'copysource' to populate all remaining inner arrays
+            for (; i < array.Length; ++i)
+            {
+                T[] copytarget = array[i];
+
+                if (copytarget == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                ChunkCopy_Impl(ref copysource, copytarget);
+            }
+        }
+        
         /// <summary>
         /// Fills the innermost arrays of a jagged array with a single repeated value.
         /// </summary><remarks>
@@ -385,7 +532,7 @@ namespace AZCL
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-
+            
             foreach (T[][] arr in array)
                 if (arr == null)
                     throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
@@ -396,7 +543,7 @@ namespace AZCL
         /// <summary>
         /// Fills the array using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The Func&lt;int, T&gt; will be called once per element in the array, starting at the first element and progressing in order.
+        /// The System.Func&lt;int, T&gt; will be called once per element in the array, starting at the first element and progressing in order.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
@@ -417,7 +564,7 @@ namespace AZCL
         /// <summary>
         /// Fills the inner arrays using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The Func&lt;int, T&gt; will be called once per element of each inner array,
+        /// The System.Func&lt;int, T&gt; will be called once per element of each inner array,
         /// filling one inner array at a time, in index order, e.g. [0][0], [0][1], [0][2], ... , [1][0], [1][1], etc.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
@@ -448,7 +595,7 @@ namespace AZCL
         /// <summary>
         /// Fills the innermost arrays using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The Func&lt;int, T&gt; will be called once per element of each innermost array,
+        /// The System.Func&lt;int, T&gt; will be called once per element of each innermost array,
         /// filling one inner array at a time, in index order, e.g. [0][0][0], [0][0][1], [0][0][2], ... , [0][1][0], [0][1][1], etc.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
@@ -479,7 +626,7 @@ namespace AZCL
         /// <summary>
         /// Fills the array using a System.Func&lt;int, T&gt; that takes the array index as argument.
         /// </summary><remarks>
-        /// The Func&lt;int, T&gt; will be called once per element in the array, with the index of the element to populate as argument.
+        /// The System.Func&lt;int, T&gt; will be called once per element in the array, with the index of the element to populate as argument.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
@@ -500,7 +647,7 @@ namespace AZCL
         /// <summary>
         /// Fills the inner arrays using a System.Func&lt;int, int, T&gt; that takes the array indexes as arguments.
         /// </summary><remarks>
-        /// The Func&lt;int, int, T&gt; will be called once per element of each inner array,
+        /// The System.Func&lt;int, int, T&gt; will be called once per element of each inner array,
         /// filling one inner array at a time, in index order, e.g. [0][0], [0][1], [0][2], ... , [1][0], [1][1], etc.
         /// The index arguments will be supplied in the same order, i.e <paramref name="array"/>[x][y] = <paramref name="factoryFunc"/>(x, y).
         /// </remarks>
@@ -533,7 +680,7 @@ namespace AZCL
         /// <summary>
         /// Fills the innermost arrays using a System.Func&lt;int, int, int, T&gt; that takes the array indexes as arguments.
         /// </summary><remarks>
-        /// The Func&lt;int, T&gt; will be called once per element of each innermost array,
+        /// The System.Func&lt;int, T&gt; will be called once per element of each innermost array,
         /// filling one inner array at a time, in index order, e.g. [0][0][0], [0][0][1], [0][0][2], ... , [0][1][0], [0][1][1], etc.
         /// The index arguments will be supplied in the same order, i.e <paramref name="array"/>[x][y][z] = <paramref name="factoryFunc"/>(x, y, z).
         /// </remarks>
@@ -567,6 +714,72 @@ namespace AZCL
                     for (int z = 0; z < arr1.Length; ++z)
                         arr1[z] = factoryFunc(x, y, z);
                 }
+            }
+        }
+
+        // -----
+
+        // assumes valid arguments!
+        private static void ChunkCopy_Impl<T>(ref T[] source, T[] target)
+        {
+            int rem = target.Length; // (elements remaining)
+            int has = source.Length; // (source has available)
+            if (has >= rem)
+            {
+                Array.Copy(source, target, rem);
+            }
+            else
+            {
+                Array.Copy(source, target, has); // copy as many elements as source has
+                RepeatRange_Impl(target, has); // copy as much as target has onto itself repeatedly until all remaining elements copied to
+                source = target; // make target the new source (since it's larger)
+            }
+        }
+
+        // assumes valid arguments!
+        private static void RepeatRange_Impl(Array array, int has) // (array 'has' available)
+        {
+            int rem = array.Length - has; // (elements remaining)
+            while (rem > has)
+            {
+                System.Array.Copy(array, 0, array, has, has); // copy as much as the array has
+                rem -= has;
+                has <<= 1; // 'has' doubles each pass
+            }
+            System.Array.Copy(array, 0, array, has, rem); // copy final elements (less than 'has')
+        }
+
+        // assumes valid arguments!
+        private static void SetRange_ForLoop<T>(T[,] array, ref T value, int count, int x = 0, int y = 0)
+        {
+            int leny = array.GetLength(1);
+            for (int i = 0; i < count; ++i, ++y)
+            {
+                if (y == leny)
+                {
+                    y = 0;
+                    ++x;
+                }
+                array[x, y] = value;
+            }
+        }
+
+        // assumes valid arguments!
+        private static void SetRange_ForLoop<T>(T[,,] array, ref T value, int count, int x = 0, int y = 0, int z = 0)
+        {
+            int leny = array.GetLength(1);
+            int lenz = array.GetLength(2);
+            for (int i = 0; i < count; ++i, ++z)
+            {
+                if (z == lenz)
+                {
+                    if (++y == leny)
+                    {
+                        y = 0;
+                        ++x;
+                    }
+                }
+                array[x, y, z] = value;
             }
         }
 
