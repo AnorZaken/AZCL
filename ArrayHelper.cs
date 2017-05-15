@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AZCL
 {
@@ -11,6 +9,7 @@ namespace AZCL
     {
         private const string
             ERR_POPULATE_INNER = "Inner array can't be populated because it's null.",
+            ERR_CONVERT_INNER = "Inner array can't be converted because it's null.",
             ERR_CREATE_INNER = "One or more inner array already exist.";
 
         /// <summary>
@@ -113,6 +112,225 @@ namespace AZCL
                     throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
                 else
                     ClearInner(arr);
+        }
+
+        /// <summary>
+        /// Converts a range of elements from an array of one type to an array of another type.
+        /// </summary><remarks>
+        /// If <paramref name="startIndex"/> is zero then this is the same as calling
+        /// System.Array.ConvertAll&lt;<typeparamref name="TInput"/>, <typeparamref name="TOutput"/>&gt;.
+        /// </remarks><returns>
+        /// An array of length <paramref name="input"/>.Length - <paramref name="startIndex"/> and type <typeparamref name="TOutput"/>
+        /// containing the resulting converted elements.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <param name="startIndex">Starting index in the <paramref name="input"/> array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is negative or greater than the length of the <paramref name="input"/> array.
+        /// </exception>
+        public static TOutput[] Convert<TInput, TOutput>(TInput[] input, Converter<TInput, TOutput> converter, int startIndex = 0)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+            if (unchecked((uint)startIndex > (uint)input.Length))
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            var output = new TOutput[input.Length - startIndex];
+            for (int i = 0; i < output.Length; ++i)
+                output[i] = converter(input[i + startIndex]);
+            return output;
+        }
+
+        /// <summary>
+        /// Converts a range of elements from an array of one type to an array of another type.
+        /// </summary><returns>
+        /// An array of specified <paramref name="length"/> and type <typeparamref name="TOutput"/> containing the resulting converted elements.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <param name="startIndex">Starting index in the <paramref name="input"/> array.</param>
+        /// <param name="length">Number of elements to convert.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is negative or greater than the length of the <paramref name="input"/> array,
+        /// or if <paramref name="length"/> is negative or greater than <paramref name="input"/>.Length - <paramref name="startIndex"/>.
+        /// </exception>
+        public static TOutput[] Convert<TInput, TOutput>(TInput[] input, Converter<TInput, TOutput> converter, int startIndex, int length)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+            if (unchecked((uint)startIndex > (uint)input.Length))
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            if (unchecked((uint)length > (uint)(input.Length - startIndex)))
+                throw new ArgumentOutOfRangeException(nameof(length));
+
+            var output = new TOutput[length];
+            for (int i = 0; i < output.Length; ++i)
+                output[i] = converter(input[i + startIndex]);
+            return output;
+        }
+
+        /// <summary>
+        /// Converts all elements of an array of one type to an array of another type.
+        /// </summary><remarks>
+        /// This is simply a redirected call to System.Array.ConvertAll. It exist here for completeness and convenience.
+        /// </remarks><returns>
+        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the input <paramref name="array"/>.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the input <paramref name="array"/>.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
+        /// <param name="array">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
+        {
+            return System.Array.ConvertAll(array, converter);
+        }
+
+        /// <summary>
+        /// Converts all elements of an array of one type to an array of another type.
+        /// </summary><returns>
+        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the <paramref name="input"/> array.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static TOutput[,] ConvertAll<TInput, TOutput>(TInput[,] input, Converter<TInput, TOutput> converter)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+
+            int lenx = input.GetLength(0);
+            int leny = input.GetLength(1);
+            var output = new TOutput[lenx, leny];
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    output[x, y] = converter(input[x, y]);
+            return output;
+        }
+
+        /// <summary>
+        /// Converts all elements of an array of one type to an array of another type.
+        /// </summary><returns>
+        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the <paramref name="input"/> array.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static TOutput[,,] ConvertAll<TInput, TOutput>(TInput[,,] input, Converter<TInput, TOutput> converter)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+
+            int lenx = input.GetLength(0);
+            int leny = input.GetLength(1);
+            int lenz = input.GetLength(2);
+            var output = new TOutput[lenx, leny, lenz];
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        output[x, y, z] = converter(input[x, y, z]);
+            return output;
+        }
+
+        /// <summary>
+        /// Converts all elements of a jagged array of one type to an identically shaped jagged array of another type.
+        /// </summary><returns>
+        /// A jagged array of type <typeparamref name="TOutput"/> of the same shape as the jagged <paramref name="input"/> array.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the jagged <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the jagged output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if any of the inner arrays are null.
+        /// </exception>
+        public static TOutput[][] ConvertAll<TInput, TOutput>(TInput[][] input, Converter<TInput, TOutput> converter)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+
+            var output = new TOutput[input.Length][];
+            for (int i = 0; i < input.Length; ++i)
+            {
+                var inner = input[i];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
+
+                output[i] = System.Array.ConvertAll(inner, converter);
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Converts all elements of a jagged array of one type to an identically shaped jagged array of another type.
+        /// </summary><returns>
+        /// A jagged array of type <typeparamref name="TOutput"/> of the same shape as the jagged <paramref name="input"/> array.
+        /// </returns>
+        /// <typeparam name="TInput">The type of the elements of the jagged <paramref name="input"/> array.</typeparam>
+        /// <typeparam name="TOutput">The type of the elements of the jagged output array.</typeparam>
+        /// <param name="input">Input array containing elements to convert.</param>
+        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if any of the inner arrays are null.
+        /// </exception>
+        public static TOutput[][][] ConvertAll<TInput, TOutput>(TInput[][][] input, Converter<TInput, TOutput> converter)
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (converter == null)
+                throw new ArgumentNullException(nameof(converter));
+
+            var output = new TOutput[input.Length][][];
+            for (int i = 0; i < input.Length; ++i)
+            {
+                var inner = input[i];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
+
+                output[i] = ConvertAll(inner, converter);
+            }
+
+            return output;
         }
 
         /// <summary>
@@ -236,6 +454,16 @@ namespace AZCL
 
                 CreateJagged(out array[i], secondLength, innermostLength);
             }
+        }
+
+        /// <summary>
+        /// Tests if an array is null or of zero length.
+        /// </summary><returns>
+        /// True if the array is null or empty, otherwise false.
+        /// </returns>
+        public static bool IsNullOrEmpty(Array array)
+        {
+            return array == null || array.Length == 0;
         }
 
         /// <summary>
@@ -486,37 +714,6 @@ namespace AZCL
             Populate_RepeatCopy(array, ref copysource, i + 1);
         }
 
-        private static bool Populate_FindNonEmptyInner<T>(T[][] array, out T[] inner, out int i) // 'i' will be the index of 'inner'
-        {
-            for (i = 0; i < array.Length; ++i)
-            {
-                inner = array[i];
-
-                if (inner == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-
-                if (inner.Length != 0)
-                    return true;
-            }
-
-            inner = null;
-            return false;
-        }
-
-        private static void Populate_RepeatCopy<T>(T[][] array, ref T[] copysource, int i) // 'i' should be the index of the first inner target
-        {
-            // use Array.Copy and 'copysource' to populate all remaining inner arrays
-            for (; i < array.Length; ++i)
-            {
-                T[] copytarget = array[i];
-
-                if (copytarget == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-
-                ChunkCopy_Impl(ref copysource, copytarget);
-            }
-        }
-        
         /// <summary>
         /// Fills the innermost arrays of a jagged array with a single repeated value.
         /// </summary><remarks>
@@ -532,18 +729,25 @@ namespace AZCL
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            
-            foreach (T[][] arr in array)
-                if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-                else
-                    Populate(arr, value);
+
+            int x, y;
+            T[] copysource;
+
+            // find an inner array that has a non-zero length
+            if (!Populate_FindNonEmptyInner(array, out copysource, out x, out y))
+                return; // <-- array is T[0][] so there is nothing to populate
+
+            // populate the inner array assigned to 'copysource'
+            Populate(copysource, value);
+
+            // populate all remaining inner arrays using 'copysource'
+            Populate_RepeatCopy(array, ref copysource, x, y + 1);
         }
 
         /// <summary>
         /// Fills the array using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The System.Func&lt;int, T&gt; will be called once per element in the array, starting at the first element and progressing in order.
+        /// The System.Func&lt;T&gt; will be called once per element in the array, starting at the first element and progressing in order.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
@@ -562,10 +766,69 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Fills the array using a System.Func&lt;T&gt;.
+        /// </summary><remarks>
+        /// The System.Func&lt;T&gt; will be called once per element in the array, starting at [0,0] and progressing in [x,y] order.
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,] array, System.Func<T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    array[x, y] = factoryFunc();
+
+            /*
+            int leny = array.GetLength(1);
+            for (int i = 0; i < array.Length; ++i)
+            {
+                var r = Maths.DivRem(i, leny);
+                array[r.div, r.rem] = factoryFunc();
+            }
+            */
+        }
+
+        /// <summary>
+        /// Fills the array using a System.Func&lt;T&gt;.
+        /// </summary><remarks>
+        /// The System.Func&lt;T&gt; will be called once per element in the array, starting at [0,0,0] and progressing in [x,y,z] order.
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,,] array, System.Func<T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            int lenz = array.GetLength(2);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        array[x, y, z] = factoryFunc();
+        }
+
+        /// <summary>
         /// Fills the inner arrays using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The System.Func&lt;int, T&gt; will be called once per element of each inner array,
-        /// filling one inner array at a time, in index order, e.g. [0][0], [0][1], [0][2], ... , [1][0], [1][1], etc.
+        /// The System.Func&lt;T&gt; will be called once per element of each inner array,
+        /// starting at the first element of the first inner array and progressing in [x][y] order.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the inner arrays.</param>
@@ -595,8 +858,8 @@ namespace AZCL
         /// <summary>
         /// Fills the innermost arrays using a System.Func&lt;T&gt;.
         /// </summary><remarks>
-        /// The System.Func&lt;int, T&gt; will be called once per element of each innermost array,
-        /// filling one inner array at a time, in index order, e.g. [0][0][0], [0][0][1], [0][0][2], ... , [0][1][0], [0][1][1], etc.
+        /// The System.Func&lt;T&gt; will be called once per element of each innermost array,
+        /// starting at the first element of the first innermost array of the first inner array and progressing in [x][y][z] order.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the innermost arrays.</param>
@@ -626,7 +889,8 @@ namespace AZCL
         /// <summary>
         /// Fills the array using a System.Func&lt;int, T&gt; that takes the array index as argument.
         /// </summary><remarks>
-        /// The System.Func&lt;int, T&gt; will be called once per element in the array, with the index of the element to populate as argument.
+        /// The System.Func&lt;int, T&gt; will be called once per element in the array, with the index of
+        /// the element to populate as argument, starting at the first element and progressing in order.
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
@@ -645,11 +909,63 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Fills the array using a System.Func&lt;int, int, T&gt; that takes the array indexes as arguments.
+        /// </summary><remarks>
+        /// The System.Func&lt;int, int, T&gt; will be called once per element in the array, progressing in [x,y] order.
+        /// The <paramref name="factoryFunc"/> arguments will be supplied in the same order, i.e <paramref name="factoryFunc"/>(x, y).
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,] array, System.Func<int, int, T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    array[x, y] = factoryFunc(x, y);
+        }
+
+        /// <summary>
+        /// Fills the array using a System.Func&lt;int, int, int, T&gt; that takes the array indexes as arguments.
+        /// </summary><remarks>
+        /// The System.Func&lt;int, int, int, T&gt; will be called once per element in the array, progressing in [x,y,z] order.
+        /// The <paramref name="factoryFunc"/> arguments will be supplied in the same order, i.e <paramref name="factoryFunc"/>(x, y, z).
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,,] array, System.Func<int, int, int, T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenx = array.GetLength(0);
+            int leny = array.GetLength(1);
+            int lenz = array.GetLength(2);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        array[x, y, z] = factoryFunc(x, y, z);
+        }
+
+        /// <summary>
         /// Fills the inner arrays using a System.Func&lt;int, int, T&gt; that takes the array indexes as arguments.
         /// </summary><remarks>
         /// The System.Func&lt;int, int, T&gt; will be called once per element of each inner array,
-        /// filling one inner array at a time, in index order, e.g. [0][0], [0][1], [0][2], ... , [1][0], [1][1], etc.
-        /// The index arguments will be supplied in the same order, i.e <paramref name="array"/>[x][y] = <paramref name="factoryFunc"/>(x, y).
+        /// starting at the first element of the first inner array and progressing in [x][y] order.
+        /// The <paramref name="factoryFunc"/> arguments will be supplied in the same order, i.e <paramref name="factoryFunc"/>(x, y).
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the inner arrays.</param>
@@ -680,9 +996,9 @@ namespace AZCL
         /// <summary>
         /// Fills the innermost arrays using a System.Func&lt;int, int, int, T&gt; that takes the array indexes as arguments.
         /// </summary><remarks>
-        /// The System.Func&lt;int, T&gt; will be called once per element of each innermost array,
-        /// filling one inner array at a time, in index order, e.g. [0][0][0], [0][0][1], [0][0][2], ... , [0][1][0], [0][1][1], etc.
-        /// The index arguments will be supplied in the same order, i.e <paramref name="array"/>[x][y][z] = <paramref name="factoryFunc"/>(x, y, z).
+        /// The System.Func&lt;int, int, int, T&gt; will be called once per element of each innermost array,
+        /// starting at the first element of the first innermost array of the first inner array and progressing in [x][y][z] order.
+        /// The <paramref name="factoryFunc"/> arguments will be supplied in the same order, i.e <paramref name="factoryFunc"/>(x, y, z).
         /// </remarks>
         /// <param name="array">Array to populate.</param>
         /// <param name="factoryFunc">A delegate that is used as a factory to populate the innermost arrays.</param>
@@ -715,6 +1031,52 @@ namespace AZCL
                         arr1[z] = factoryFunc(x, y, z);
                 }
             }
+        }
+
+
+
+        // -----
+
+        // creates a new array with same dimensions as source
+        internal static T[,] New<T>(T[,] source)
+        {
+            return new T[source.GetLength(0), source.GetLength(1)];
+        }
+
+        // creates a new array with same dimensions as source
+        internal static T[,,] New<T>(T[,,] source)
+        {
+            return new T[source.GetLength(0), source.GetLength(1), source.GetLength(2)];
+        }
+
+        // creates a new array with same shape as source
+        internal static T[][] New<T>(T[][] source, int instancingDepth = 1)
+        {
+            if (unchecked((uint)instancingDepth > 1u))
+                throw new ArgumentOutOfRangeException(nameof(instancingDepth));
+
+            var arr = new T[source.Length][];
+            if (instancingDepth != 0)
+            {
+                for (int i = 0; i < arr.Length; ++i)
+                    arr[i] = new T[source[i].Length];
+            }
+            return arr;
+        }
+
+        // creates a new array with same shape as source
+        internal static T[][][] New<T>(T[][][] source, int instancingDepth = 1)
+        {
+            if (unchecked((uint)instancingDepth > 1u))
+                throw new ArgumentOutOfRangeException(nameof(instancingDepth));
+
+            var arr = new T[source.Length][][];
+            if (instancingDepth != 0)
+            {
+                for (int i = 0; i < arr.Length; ++i)
+                    arr[i] = New(source[i], instancingDepth - 1);
+            }
+            return arr;
         }
 
         // -----
@@ -783,6 +1145,73 @@ namespace AZCL
             }
         }
 
-        // todo: populate for rank 2 & 3 arrays
+        // assumes valid arguments!*
+        private static bool Populate_FindNonEmptyInner<T>(T[][] array, out T[] inner, out int i) // 'i' will be the index of 'inner'
+        {
+            for (i = 0; i < array.Length; ++i)
+            {
+                inner = array[i];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                if (inner.Length != 0)
+                    return true;
+            }
+
+            inner = null;
+            return false;
+        }
+
+        // assumes valid arguments!*
+        private static bool Populate_FindNonEmptyInner<T>(T[][][] array, out T[] innermost, out int x, out int y) // 'x' and 'y' will be the indexes of 'innermost'
+        {
+            for (x = 0; x < array.Length; ++x)
+            {
+                T[][] inner = array[x];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                Populate_FindNonEmptyInner(inner, out innermost, out y);
+            }
+
+            y = 0;
+            innermost = null;
+            return false;
+        }
+
+        // assumes valid arguments!*
+        private static void Populate_RepeatCopy<T>(T[][] array, ref T[] copysource, int i) // 'i' should be the index of the first inner target
+        {
+            // use Array.Copy and 'copysource' to populate all remaining inner arrays
+            for (; i < array.Length; ++i)
+            {
+                T[] copytarget = array[i];
+
+                if (copytarget == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                ChunkCopy_Impl(ref copysource, copytarget);
+            }
+        }
+
+        // assumes valid arguments!*
+        private static void Populate_RepeatCopy<T>(T[][][] array, ref T[] copysource, int x, int y) // 'x' and 'y' should be the indexes of the first inner target
+        {
+            // we know 'x' is valid, because that is the inner array where 'copysource' was found.
+            // (this is not the case for 'y' which could be equal to the length of that inner array)
+            do
+            {
+                T[][] inner = array[x];
+
+                if (inner == null)
+                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+
+                Populate_RepeatCopy(inner, ref copysource, y);
+                y = 0; // <-- set to zero after the above call so the original y-argument is used exactly once.
+            }
+            while (++x < array.Length);
+        }
     }
 }
