@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AZCL
+namespace AZCL.Bits
 {
     /// <summary>
     /// A 16-bit Union of standard c# value-types, i.e. [unsigned] shorts and bytes.

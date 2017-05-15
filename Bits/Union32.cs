@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AZCL
+namespace AZCL.Bits
 {
     /// <summary>
     /// A 32-bit Union of standard c# value-types: [unsigned] int/shorts/bytes and a float value.
@@ -110,12 +110,12 @@ namespace AZCL
         public byte byte_0;
 
         /// <summary>
-        /// Signed byte 1.
+        /// Signed byte 1 (second lowest).
         /// </summary>
         [FieldOffset(1)]
         public sbyte sbyte_1;
         /// <summary>
-        /// Byte 1.
+        /// Byte 1 (second lowest).
         /// </summary>
         [FieldOffset(1)]
         public byte byte_1;
@@ -132,12 +132,12 @@ namespace AZCL
         public ushort ushort_2_3;
 
         /// <summary>
-        /// Signed byte 2.
+        /// Signed byte 2 (second highest).
         /// </summary>
         [FieldOffset(2)]
         public sbyte sbyte_2;
         /// <summary>
-        /// Byte 2.
+        /// Byte 2 (second highest).
         /// </summary>
         [FieldOffset(2)]
         public byte byte_2;
