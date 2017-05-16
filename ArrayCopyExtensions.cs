@@ -622,9 +622,9 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Creates a copy of this array that contains one less element by excludes the value at index <paramref name="index"/>.
+        /// Creates a copy of this array that contains one less element by excluding the value at index <paramref name="index"/>.
         /// </summary><returns>
-        /// A new array of length - 1 which is a copy of the source array except that the value found at the specified source <paramref name="index"/> has been excluded.
+        /// A new array of length - 1 which is a copy of the source array except that the specified element has been excluded.
         /// </returns>
         /// <param name="source">Source array.</param>
         /// <param name="index">Index of element to exclude from the copy.</param>
@@ -649,17 +649,51 @@ namespace AZCL
             return copy;
         }
 
-        public static T[][] CopyExcluding<T>(this T[][] source, int x, int y, int copyDepth = 1)
+        /// <summary>
+        /// Creates a copy of this jagged array but with the element found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] excluded.
+        /// </summary><remarks>
+        /// Use the <paramref name="copyDepth"/> parameter to control the "shallowness" / depth of copying to perform.
+        /// <br/>
+        /// A value of zero means the inner arrays of the returned array will simply be shallow copied references to the inner
+        /// arrays of the source*, i.e. Object.ReferenceEquals(result[x], source[x]) == true, x != <paramref name="excludeX"/>.
+        /// <br/>
+        /// A value of one means that one level of inner arrays will be copied, i.e. Object.ReferenceEquals(result[x], source[x]) == false.
+        /// <br/>
+        /// The default value for <paramref name="copyDepth"/> is always to copy all inner arrays.
+        /// Increasing <paramref name="copyDepth"/> further in an attempt to turn this copy method into a cloning method is not supported.
+        /// <br/>
+        /// <i>*Of course all inner arrays along the specified index path down to the element to exclude will always have to be copied
+        /// regardless of what argument was supplied to the <paramref name="copyDepth"/> parameter. This is because a change to an inner
+        /// array "Inner" for excluding a value means "Inner" has to be replaced with a copy (with one less element), this in turn means
+        /// that the parent array of "Inner" has to be copied too since one of its elements need replacing (original "Inner" to new one
+        /// element shorter "Inner"). This bubbles up until we reach the top parent (the <paramref name="source"/> argument).</i>
+        /// </remarks>
+        /// <param name="source">Source array.</param>
+        /// <param name="excludeX">First index of element to exclude from the copy.</param>
+        /// <param name="excludeY">Second index of element to exclude from the copy.</param>
+        /// <param name="copyDepth">Determines the depth of copying. Can not exceed the default value, which is to copy all inner arrays.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="source"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="excludeX"/> is less than zero or greater than or equal to the (outer) length of the <paramref name="source"/> array.<br/>
+        /// Thrown if <paramref name="excludeY"/> is less than zero or greater than or equal to the length of the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>].<br/>
+        /// Thrown if <paramref name="copyDepth"/> is less than zero or greater than or equal to the number of (jagged) dimensions of the <paramref name="source"/> array.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>] is null.
+        /// </exception>
+        public static T[][] CopyExcluding<T>(this T[][] source, int excludeX, int excludeY, int copyDepth = 1)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            if (unchecked((uint)x >= (uint)source.Length))
-                throw new ArgumentOutOfRangeException(nameof(x));
-            var inner = source[x];
+            if (unchecked((uint)excludeX >= (uint)source.Length))
+                throw new ArgumentOutOfRangeException(nameof(excludeX));
+            var inner = source[excludeX];
             if (inner == null)
                 throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
-            if (unchecked((uint)y >= (uint)inner.Length))
-                throw new ArgumentOutOfRangeException(nameof(y));
+            if (unchecked((uint)excludeY >= (uint)inner.Length))
+                throw new ArgumentOutOfRangeException(nameof(excludeY));
             if (unchecked((uint)copyDepth > 1u))
                 throw new ArgumentOutOfRangeException(nameof(copyDepth));
 
@@ -667,60 +701,170 @@ namespace AZCL
 
             if (copyDepth == 0)
             {
-                if (x != 0)
-                    System.Array.Copy(source, copy, x);
-                copy[x] = CopyExcluding(source[x], y);
-                if (x != copy.Length)
-                    System.Array.Copy(source, x + 1, copy, x, copy.Length - x);
+                if (excludeX != 0)
+                    System.Array.Copy(source, copy, excludeX);
+                copy[excludeX] = CopyExcluding(source[excludeX], excludeY);
+                if (excludeX != copy.Length)
+                    System.Array.Copy(source, excludeX + 1, copy, excludeX, copy.Length - excludeX);
             }
             else
             {
-                for (int i = 0; i < x; ++i)
+                for (int i = 0; i < excludeX; ++i)
                     copy[i] = Copy(source[i]);
-                copy[x] = CopyExcluding(source[x], y);
-                for (int i = x + 1; i < copy.Length; ++i)
+                copy[excludeX] = CopyExcluding(source[excludeX], excludeY);
+                for (int i = excludeX + 1; i < copy.Length; ++i)
                     copy[i] = Copy(source[i]);
             }
 
             return copy;
         }
 
-        public static T[][][] CopyExcluding<T>(this T[][][] source, int x, int y, int z, int copyDepth = 2)
+        /* IMPORTANT NOTE - regarding CopyExcluding overloads
+         * -----------------------------------------------------------------------------------------------
+         * The overload below MUST be included!
+         * This is because overload resolution with all int arguments, the last of which is optional,
+         * is otherwise very likely to result in a call to the wrong / unintended method.
+         * 
+         * The following happens if the below overload does NOT exist:
+         * Having a T[][][] array; and calling array.CopyExcluding(x, y, z) would not result in a call
+         * to CopyExcluding(T[][][], x, y, z, copyDepth=2) as one might reasonably expect, but rather
+         * it will become a call to CopyExcluding(T[][], x, y, copyDepth=z).
+         * Following the principle of least surprise this is unacceptable!
+         * This is what C# designer call "a pit of despair": A mistake that is easy to make, isn't caught
+         * at compile time, possibly not even at runtime either until potentially something somewhere
+         * else in the code blows up, and you are stuck in a debugging nightmare. A dark place.
+         * 
+         * So there are three options:
+         * A. Have different method names. This will pollute intellisense since they no longer overload.
+         * B. Make the copyDepth parameter non-optional. This isn't desirable either since the copyDepth
+         *    parameter is a bit advanced. Having it default to the most likely choice is a big plus.
+         * C. Include the below overload since it will be preferred in the trouble case described above.
+         * 
+         * Clearly option C is the best choice.
+         * A cautionary tale as to why it can be dangerous to combine overloads and optional parameters!
+         */
+
+        /// <summary>
+        /// Creates a copy of this jagged array but with the element found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] excluded.
+        /// </summary><remarks>
+        /// This is the same as calling <see cref="CopyExcluding{T}(T[][][], int, int, int, int)"/> with a default "copyExcluding = 2" argument,
+        /// which in essence means that every inner array will be copied (as opposed to referenced).
+        /// See the remarks on the <see cref="CopyExcluding{T}(T[][][], int, int, int, int)"/> method for more info.
+        /// </remarks>
+        /// <param name="source">Source array.</param>
+        /// <param name="excludeX">First index of element to exclude from the copy.</param>
+        /// <param name="excludeY">Second index of element to exclude from the copy.</param>
+        /// <param name="excludeZ">Third index of element to exclude from the copy.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="source"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="excludeX"/> is less than zero or greater than or equal to the (outer) length of the <paramref name="source"/> array.<br/>
+        /// Thrown if <paramref name="excludeY"/> is less than zero or greater than or equal to the length of the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>].<br/>
+        /// Thrown if <paramref name="excludeZ"/> is less than zero or greater than or equal to the length of the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>].
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>] or <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] is null.
+        /// </exception>
+        public static T[][][] CopyExcluding<T>(this T[][][] source, int excludeX, int excludeY, int excludeZ)
+        {
+            return CopyExcluding(source, excludeX, excludeY, excludeZ, copyDepth: 2);
+        }
+
+        /// <summary>
+        /// Creates a copy of this jagged array but with the element found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] excluded.
+        /// </summary><remarks>
+        /// Use the <paramref name="copyDepth"/> parameter to control the "shallowness" / depth of copying to perform.
+        /// <br/>
+        /// A value of zero means the inner arrays of the returned array will simply be shallow copied references to the inner
+        /// arrays of the source*, i.e. Object.ReferenceEquals(result[x], source[x]) == true, x != <paramref name="excludeX"/>.
+        /// <br/>
+        /// A value of one means that one level of inner arrays will be copied, i.e. Object.ReferenceEquals(result[x], source[x]) == false.
+        /// <br/>
+        /// The default value for <paramref name="copyDepth"/> is always to copy all inner arrays.
+        /// Increasing <paramref name="copyDepth"/> further in an attempt to turn this copy method into a cloning method is not supported.
+        /// <br/>
+        /// <i>*Of course all inner arrays along the specified index path down to the element to exclude will always have to be copied
+        /// regardless of what argument was supplied to the <paramref name="copyDepth"/> parameter. This is because a change to an inner
+        /// array "Inner" for excluding a value means "Inner" has to be replaced with a copy (with one less element), this in turn means
+        /// that the parent array of "Inner" has to be copied too since one of its elements need replacing (original "Inner" to new one
+        /// element shorter "Inner"). This bubbles up until we reach the top parent (the <paramref name="source"/> argument).</i>
+        /// </remarks>
+        /// <param name="source">Source array.</param>
+        /// <param name="excludeX">First index of element to exclude from the copy.</param>
+        /// <param name="excludeY">Second index of element to exclude from the copy.</param>
+        /// <param name="excludeZ">Third index of element to exclude from the copy.</param>
+        /// <param name="copyDepth">Determines the depth of copying. Can not exceed the default value, which is to copy all inner arrays.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="source"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="excludeX"/> is less than zero or greater than or equal to the (outer) length of the <paramref name="source"/> array.<br/>
+        /// Thrown if <paramref name="excludeY"/> is less than zero or greater than or equal to the length of the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>].<br/>
+        /// Thrown if <paramref name="excludeZ"/> is less than zero or greater than or equal to the length of the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>].<br/>
+        /// Thrown if <paramref name="copyDepth"/> is less than zero or greater than or equal to the number of (jagged) dimensions of the <paramref name="source"/> array.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>] or <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] is null.
+        /// </exception>
+        public static T[][][] CopyExcluding<T>(this T[][][] source, int excludeX, int excludeY, int excludeZ, int copyDepth = 2)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            if (unchecked((uint)x >= (uint)source.Length))
-                throw new ArgumentOutOfRangeException(nameof(x));
-            var inner = source[x];
+            if (unchecked((uint)excludeX >= (uint)source.Length))
+                throw new ArgumentOutOfRangeException(nameof(excludeX));
+            var inner = source[excludeX];
             if (inner == null)
                 throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
-            if (unchecked((uint)y >= (uint)inner.Length))
-                throw new ArgumentOutOfRangeException(nameof(y));
-            if (unchecked((uint)copyDepth > 1u))
+            if (unchecked((uint)excludeY >= (uint)inner.Length))
+                throw new ArgumentOutOfRangeException(nameof(excludeY));
+            var innermost = inner[excludeY];
+            if (innermost == null)
+                throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
+            if (unchecked((uint)excludeZ >= (uint)innermost.Length))
+                throw new ArgumentOutOfRangeException(nameof(excludeY));
+            if (unchecked((uint)copyDepth > 2u))
                 throw new ArgumentOutOfRangeException(nameof(copyDepth));
 
             var copy = new T[source.Length][][];
 
             if (copyDepth == 0)
             {
-                if (x != 0)
-                    System.Array.Copy(source, copy, x);
-                copy[x] = CopyExcluding(source[x], y, z, 0);
-                if (x != copy.Length)
-                    System.Array.Copy(source, x + 1, copy, x, copy.Length - x);
+                if (excludeX != 0)
+                    System.Array.Copy(source, copy, excludeX);
+                copy[excludeX] = CopyExcluding(source[excludeX], excludeY, excludeZ, 0);
+                if (excludeX != copy.Length)
+                    System.Array.Copy(source, excludeX + 1, copy, excludeX, copy.Length - excludeX);
             }
             else
             {
-                for (int i = 0; i < x; ++i)
+                for (int i = 0; i < excludeX; ++i)
                     copy[i] = Copy(source[i], copyDepth - 1);
-                copy[x] = CopyExcluding(source[x], y, z, copyDepth - 1);
-                for (int i = x + 1; i < copy.Length; ++i)
+                copy[excludeX] = CopyExcluding(source[excludeX], excludeY, excludeZ, copyDepth - 1);
+                for (int i = excludeX + 1; i < copy.Length; ++i)
                     copy[i] = Copy(source[i], copyDepth - 1);
             }
 
             return copy;
         }
 
-        // todo: documentation for CopyExcluding for jagged arrays
+        
+        /* Code that illustrates the overloading-with-jagged-arrays-and-optional-parameters issue:
+         * Now it should work as expected, but if CopyExcluding(T[][][],int,int,int) is removed then
+         * the call at B would call the same method as the call at A: CopyExcluding(T[][],int,int,int). */
+        // -----------------------------------------------------------------------------------------
+        /* private static void OverloadResolution()
+        {
+            var a = new int[1][][];
+            var b = a.CopyExcluding(0);
+            var c = a.CopyExcluding(0, 0); //    <--- A
+            var d = a.CopyExcluding(0, 0, 0); // <--- B
+            var e = a.CopyExcluding(0, 0, 0, 0);
+            var f = new int[1][];
+            var g = f.CopyExcluding(0);
+            var h = f.CopyExcluding(0, 0);
+            var i = f.CopyExcluding(0, 0, 0);
+        }
+        */
     }
 }
