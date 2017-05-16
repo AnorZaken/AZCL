@@ -3,7 +3,7 @@
 namespace AZCL
 {
     /// <summary>
-    /// Copy methods extension for generic arrays T[].
+    /// Extends [generic] array types with various Copy methods.
     /// </summary>
     public static class ArrayCopyExtensions
     {

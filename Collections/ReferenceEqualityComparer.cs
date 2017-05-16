@@ -5,8 +5,10 @@ using System.Runtime.CompilerServices;
 namespace AZCL.Collections
 {
     /// <summary>
+    /// An EqualityComparer for testing reference equality.
+    /// </summary><remarks>
     /// This implementation is primarily intended for .Net4.0+ (where it becomes universal thanks to contravariance in generics).
-    /// </summary>
+    /// </remarks>
     /// <seealso cref="T:AZCL.Collections.ReferenceEqualityComparer{T}"/>
     public sealed class ReferenceEqualityComparer : IEqualityComparer, IEqualityComparer<object>
     {
@@ -32,8 +34,10 @@ namespace AZCL.Collections
     }
 
     /// <summary>
+    /// An EqualityComparer for testing reference equality.
+    /// </summary><remarks>
     /// This implementation is primarily intended for .Net3.5 or earlier (before the IEqualityComparer&lt;T&gt; interface had contravariance).
-    /// </summary>
+    /// </remarks>
     /// <seealso cref="T:AZCL.Collections.ReferenceEqualityComparer"/>
     public sealed class ReferenceEqualityComparer<T> : IEqualityComparer, IEqualityComparer<T>
         where T : class

@@ -3,7 +3,7 @@
 namespace AZCL.Meta
 {
     /// <summary>
-    /// Get info about primitive numeric types.
+    /// Provides info about primitive numeric types.
     /// </summary>
     public static class Numeric
     {

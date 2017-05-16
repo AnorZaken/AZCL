@@ -2,7 +2,7 @@
 namespace AZCL
 {
     /// <summary>
-    /// Common extensions for Char.
+    /// Extensions for use on Char values.
     /// </summary>
     public static class CharExtensions
     {

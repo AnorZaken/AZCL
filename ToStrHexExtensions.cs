@@ -4,7 +4,7 @@ using System;
 namespace AZCL
 {
     /// <summary>
-    /// Static extension class providing the ToStrHex method for all primitive integer types.
+    /// Extends all primitive integer types with the ToStrHex method.
     /// </summary>
     public static class ToStrHexExtensions
     {

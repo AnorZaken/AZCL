@@ -39,7 +39,7 @@ namespace AZCL.Bits
         }
 
         /// <summary>
-        /// Gets or sets the i'th byte.
+        /// Gets or sets the i-th byte.
         /// </summary>
         /// <param name="i">The index of the byte to get or set [0-3].</param>
         public byte this[int i] // Union32 has 4 bytes.

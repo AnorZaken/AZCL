@@ -5,7 +5,7 @@ namespace AZCL.Collections
     /// <summary>
     /// Static helper class for creating array enumerators.
     /// </summary><remarks>
-    /// Iter stands for Iterator, and although this certainly isn't an iterator, there is some resemblence in the
+    /// Iter stands for Iterator, and although this certainly isn't an iterator, there is some resemblance in the
     /// sense that iterators are used to (automatically) generate enumerators, and this class provides methods to
     /// create enumerators (with automatic type inference). Hence the name choice.
     /// </remarks>
