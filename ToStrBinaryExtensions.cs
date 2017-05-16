@@ -4,7 +4,7 @@ using System;
 namespace AZCL
 {
     /// <summary>
-    /// Static extension class providing the ToStrBinary method for all primitive integer types.
+    /// Extends all primitive integer types with the ToStrBinary method.
     /// </summary>
     public static class ToStrBinaryExtensions
     {

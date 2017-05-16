@@ -21,7 +21,7 @@ namespace AZCL.Collections
     public struct ReadOnlyArrayEnumerator<T>
 #else
     /// <summary>
-    /// An array enumerator implemented as a struct, with extended functionality such as moving backwards, retriving index and length, and optional source range restriction.
+    /// An array enumerator implemented as a struct, with extended functionality such as moving backwards, retrieving index and length, and optional source range restriction.
     /// </summary><remarks>
     /// Instances of this struct are valid even when default initialized. See <see cref="ArrayEnumerator{T}.IsDefault"/>.
     /// <para/>
@@ -449,7 +449,7 @@ namespace AZCL.Collections
         /// Element indexer relative to the enumerator's source start index.
         /// </summary>
         /// <param name="i">A positive index less than <see cref="Length"/>.</param>
-        /// <returns>The i'th element in the range of elements covered by this enumerator.</returns>
+        /// <returns>The i-th element in the range of elements covered by this enumerator.</returns>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if the index is negative or greater than or equal to <see cref="Length"/>.
         /// </exception>

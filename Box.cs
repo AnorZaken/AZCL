@@ -4,6 +4,7 @@ namespace AZCL
     /// <summary>
     /// A simple generic boxing class.
     /// </summary>
+    [System.Obsolete("The Box becomes utterly redundant once Optionals (wip) enter the fray.", false)]
 	public class Box<T>
 	{
         /// <summary>

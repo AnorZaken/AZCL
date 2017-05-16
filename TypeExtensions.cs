@@ -3,10 +3,11 @@
 namespace AZCL
 {
     /// <summary>
-    /// Common extensions for use on System.Type instances.
+    /// Extensions for use on System.Type instances.
     /// </summary>
     public static class TypeExtensions
     {
+        // cached generic type definition
         private static readonly object typeof_Nullable = typeof(Nullable<>);
 
         /// <summary>

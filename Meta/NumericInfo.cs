@@ -16,7 +16,6 @@ namespace AZCL.Meta
         /// </summary>
         public NumericInfo(TypeCode tc)
         {
-            //bool isNumeric = unchecked((uint)tc - 5u) <= 10u);
             this.tc = (byte)tc;
         }
 
