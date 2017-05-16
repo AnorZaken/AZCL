@@ -467,6 +467,15 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Gets a 32-bit integer that represents the total number of elements in all
+        /// the dimensions of the array, or 0 if the array is null.
+        /// </summary>
+        public static int LengthOrZero<T>(Array array)
+        {
+            return array == null ? 0 : array.Length;
+        }
+
+        /// <summary>
         /// Fills an array with new instances of T.
         /// </summary><remarks>
         /// This will overwrite all existing elements in the array.
