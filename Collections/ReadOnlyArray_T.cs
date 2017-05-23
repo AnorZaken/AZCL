@@ -6,17 +6,14 @@ namespace AZCL.Collections
     /// <summary>
     /// A read-only struct wrapper for generic arrays.
     /// </summary><remarks>
-    /// Instances of this struct are valid even when default initialized. See <see cref="ReadOnlyArray{T}.IsDefault"/>.
+    /// Instances of this struct are valid even when default initialized. See <see cref="ReadOnlyArray{T}.IsAbsent"/>.
     /// <para/>
-    /// This struct contains only a single field: a reference to the source array.
+    /// This struct contains only a single field: a reference to the backing array.
     /// Thus its size will match that of a reference meaning that instances can be passed around as arguments without performance penalty.
     /// </remarks>
     /// <typeparam name="T">The type of the elements of the array.</typeparam>
-    public partial struct ReadOnlyArray<T> : IEquatable<ReadOnlyArray<T>>, IEquatable<T[]>, IEnumerable<T>
+    public partial struct ReadOnlyArray<T> : IEquatable<ReadOnlyArray<T>>, IEquatable<Array>, IEnumerable<T>
     {
-        private const string
-               ERR_SOURCE_NULL = "Source array is null.";
-
         private readonly T[] array;
 
         /// <summary>
@@ -44,48 +41,14 @@ namespace AZCL.Collections
             this.array = array;
         }
 
-        // used by ReadOnlyArrayEnumerator ctor and ReadOnlyArray extensions
-        internal T[] Source
+        // used in various casts / ctors / extensions
+        internal T[] Array
         {
             get { return array; }
         }
 
         /// <summary>
-        /// True if this instance was default initialized / constructed (source array is null).
-        /// </summary><remarks>
-        /// Default instances are still valid and behave as if the source was an empty array.
-        /// </remarks>
-        public bool IsDefault
-        {
-            get { return array == null; }
-        }
-
-        /// <summary>
-        /// Creates a copy of the source array.
-        /// </summary>
-        /// <returns>A copy of the source array, or null if the source array is null.</returns>
-        public T[] CopySource()
-        {
-            if (array == null)
-                return null;
-            T[] copy = new T[array.Length];
-            Array.Copy(array, copy, array.Length);
-            return copy;
-        }
-
-        /// <summary>
-        /// Gets a 32-bit integer that represents the total number of elements in all
-        /// the dimensions of the wrapped source array.
-        /// </summary><remarks>
-        /// Will be zero if the ReadOnlyArray was default constructed.
-        /// </remarks>
-        public int Length
-        {
-            get { return array == null ? 0 : array.Length; }
-        }
-
-        /// <summary>
-        /// Gets the value at the specified position in the wrapped source array.
+        /// Gets the value at the specified position in the wrapped backing array.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if the index is less than zero, or larger than or equal to <see cref="Length"/>.
@@ -95,9 +58,23 @@ namespace AZCL.Collections
             get
             {
                 if (array == null)
-                    throw new IndexOutOfRangeException(ERR_SOURCE_NULL);
+                    throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
                 return array[index];
             }
+        }
+
+        /// <summary>
+        /// Creates a copy of the backing array.
+        /// </summary><returns>
+        /// A copy of the backing array, or null if the backing array is absent.
+        /// </returns>
+        public T[] CopyBacking()
+        {
+            if (array == null)
+                return null;
+            T[] copy = new T[array.Length];
+            System.Array.Copy(array, copy, array.Length);
+            return copy;
         }
 
         /// <summary>
@@ -122,42 +99,53 @@ namespace AZCL.Collections
             if (this.array != null)
                 this.array.CopyTo(array, index);
         }
-        
+
         /// <summary>
         /// Indicates whether this instance and a specified object are considered equivalent.
-        /// </summary>
-        /// <param name="obj">Another object to compare to.</param>
-        /// <returns>
-        /// True if <paramref name="obj"/> is a <see cref="ReadOnlyArray{T}"/> of the same <typeparamref name="T"/> and their source arrays are
-        /// reference equal, or if <paramref name="obj"/> is non-null and reference equal to the source array of this instance; otherwise false.
+        /// </summary><returns>
+        /// True if <paramref name="obj"/> is a <see cref="ReadOnlyArray{T}"/> of the same <typeparamref name="T"/>
+        /// and their backing arrays are reference equal, or if <paramref name="obj"/> is non-null and reference
+        /// equal to the backing array of this instance; otherwise false.
         /// </returns>
+        /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
             return obj != null && (object.ReferenceEquals(this.array, obj) || obj is ReadOnlyArray<T> && Equals((ReadOnlyArray<T>)obj));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Indicates whether this and another instance are considered equivalent.
+        /// </summary><returns>
+        /// True if both instances share the same backing array, or if both backing arrays are absent; otherwise false.
+        /// </returns>
+        /// <param name="other">Another instance to compare against.</param>
         public bool Equals(ReadOnlyArray<T> other)
         {
             return object.ReferenceEquals(this.array, other.array);
         }
-        /// <inheritdoc/>
-        public bool Equals(T[] other) // returns true for null if source array is also null.
+
+        /// <summary>
+        /// Indicates whether the backing array of this wrapper and a specified array are reference equal.
+        /// </summary><returns>
+        /// True if this wrapper has a backing array (backing array is not absent) and it is the same
+        /// array as the specified <paramref name="other"/> argument; otherwise false.
+        /// </returns>
+        /// <param name="other">Array to compare against the backing array of this wrapper.</param>
+        public bool Equals(Array other)
         {
-            return object.ReferenceEquals(this.array, other);
+            return array != null & object.ReferenceEquals(this.array, other);
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        /// Get an enumerator that can iterate through the collection.
         /// </summary><remarks>
-        /// This is the method that a foreach statement would call on a ReadOnlyArray value. (The C# compiler employs duck-typing hacks for foreach loops!)
+        /// This is the method that a foreach statement would call. (The C# compiler employs duck-typing for foreach loops.)
         /// </remarks>
         public Enumerator GetEnumerator()
         {
             return new Enumerator(array);
         }
-
-        /// <inheritdoc/>
+        
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             IEnumerable<T> e = array ?? Empty<T>.Array;
@@ -176,7 +164,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Gets the value at the specified position in the wrapped source array.
+        /// Gets the value at the specified position in the wrapped backing array.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if the index is less than zero, or larger than or equal to <see cref="Length"/>.
@@ -184,6 +172,27 @@ namespace AZCL.Collections
         public T GetValue(int index)
         {
             return this[index];
+        }
+
+        /// <summary>
+        /// True if this instance was default initialized / constructed (backing array is absent).
+        /// </summary><remarks>
+        /// Default instances are still valid and behave as if the backing was an empty array.
+        /// </remarks>
+        public bool IsAbsent
+        {
+            get { return array == null; }
+        }
+
+        /// <summary>
+        /// Gets a 32-bit integer that represents the total number of elements in all
+        /// the dimensions of the wrapped backing array.
+        /// </summary><remarks>
+        /// Will be zero if this wrapper was default constructed / backing array is absent.
+        /// </remarks>
+        public int Length
+        {
+            get { return array == null ? 0 : array.Length; }
         }
 
         /// <inheritdoc/>

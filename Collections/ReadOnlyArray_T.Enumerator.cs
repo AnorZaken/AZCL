@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace AZCL.Collections
 {
-    public partial struct ReadOnlyArray<T> : IEquatable<ReadOnlyArray<T>>, IEquatable<T[]>, IEnumerable<T>
+    public partial struct ReadOnlyArray<T> : IEquatable<ReadOnlyArray<T>>, IEquatable<Array>, IEnumerable<T>
     {
         /// <summary>
-        /// A simple standard struct implementation of an IEnumerator&lt;T&gt; for arrays.
+        /// A simple standard struct implementation of an IEnumerator&lt;<typeparamref name="T"/>&gt; for arrays.
         /// </summary>
         public struct Enumerator : IEnumerator<T>
         {
+            private int index, length;
             private readonly T[] source;
             private T current;
-            private int index, length;
 
             /// <summary>
-            /// Creates an enumerator for the specified array.
+            /// Creates an <see cref="Enumerator"/> for the specified array.
             /// </summary>
             public Enumerator(T[] array)
             {
@@ -25,24 +25,30 @@ namespace AZCL.Collections
                 this.current = default(T);
             }
 
+            /// <summary>
+            /// Creates an <see cref="Enumerator"/> for the array wrapped in the <see cref="ReadOnlyArray{T}"/> argument.
+            /// </summary>
+            public Enumerator(ReadOnlyArray<T> array) : this(array.Array)
+            { }
+
             /// <inheritdoc/>
             public T Current
             {
                 get { return current; }
             }
 
-            void IDisposable.Dispose()
-            { }
-
             object System.Collections.IEnumerator.Current
             {
                 get
                 {
                     if (unchecked((uint)(index - 1) >= (uint)length))
-                        throw new InvalidOperationException("Enumerators current position is before the first or past the last element in the collection.");
+                        throw new InvalidOperationException(ERR.CURRENT_INVALID);
                     return current;
                 }
             }
+
+            void IDisposable.Dispose()
+            { }
 
             /// <inheritdoc/>
             public bool MoveNext()
@@ -50,7 +56,6 @@ namespace AZCL.Collections
                 if (index >= length)
                 {
                     current = default(T);
-                    index = length + 1;
                     return false;
                 }
                 current = source[index];
@@ -66,14 +71,14 @@ namespace AZCL.Collections
             }
 
             /// <summary>
-            /// Creates an <see cref="ReadOnlyArrayEnumerator{T}"/> from a <see cref="ReadOnlyArray{T}.Enumerator"/>.
+            /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from a <see cref="ReadOnlyArray{T}.Enumerator"/>.
             /// </summary><remarks>
             /// This cast retains the current position of the <paramref name="enumerator"/> argument (such as it is at cast time)!
             /// </remarks>
-            public static implicit operator ReadOnlyArrayEnumerator<T>(Enumerator enumerator)
+            public static implicit operator ArrayEnumeratorReadOnly<T>(Enumerator enumerator)
             {
                 var arr = enumerator.source;
-                return arr == null ? default(ReadOnlyArrayEnumerator<T>) : new ReadOnlyArrayEnumerator<T>(arr, 0, arr.Length - 1, enumerator.index - 1);
+                return arr == null ? default(ArrayEnumeratorReadOnly<T>) : new ArrayEnumeratorReadOnly<T>(arr, 0, arr.Length - 1, enumerator.index - 1);
             }
         }
     }
