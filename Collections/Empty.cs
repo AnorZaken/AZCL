@@ -6,18 +6,18 @@ namespace AZCL.Collections
     // This could be greatly expanded in .net4+
 
     /// <summary>
-    /// Static helper class for caching various empty (read-only) collection instances.
+    /// Provides a static cache of various empty (read-only) collection instances.
     /// </summary>
     /// <typeparam name="T">Element type of the collections.</typeparam>
     public static class Empty<T>
     {
         /// <summary>
-        /// Empty (zero length) T[] array.
+        /// Empty (zero length) <typeparamref name="T"/>[] array.
         /// </summary>
         public static readonly T[] Array = new T[0];
 
         /// <summary>
-        /// Empty (read-only) ICollection&lt;T&gt;.
+        /// Empty (read-only) ICollection&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static ICollection<T> ICollection
         {
@@ -25,7 +25,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Empty IEnumerable&lt;T&gt;.
+        /// Empty IEnumerable&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static IEnumerable<T> IEnumerable
         {
@@ -33,7 +33,15 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Empty IList&lt;T&gt;.
+        /// Get an empty IEnumerator&lt;<typeparamref name="T"/>&gt;.
+        /// </summary>
+        public static IEnumerator<T> GetEnumerator()
+        {
+            return IEnumerable.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Empty IList&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static IList<T> IList
         {
@@ -41,7 +49,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Empty System.Collections.ObjectMode.ReadOnlyCollection&lt;T&gt;.
+        /// Empty System.Collections.ObjectMode.ReadOnlyCollection&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static ReadOnlyCollection<T> ReadOnlyCollection = new ReadOnlyCollection<T>(Array); // contains one IList and one Object reference (the latter is syncRoot).
     }

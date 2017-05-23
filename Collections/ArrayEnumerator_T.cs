@@ -1,5 +1,5 @@
 ﻿//#define READ_ONLY
-// ArrayEnumerator and ReadOnlyArrayEnumerator are near identical, so for the sake of less developer errors it's the same source with a toggled define.
+// ArrayEnumerator and ArrayEnumeratorReadOnly are near identical, so for the sake of less developer errors it's the same source with a toggled define.
 
 using System;
 using System.Collections.Generic;
@@ -13,17 +13,17 @@ namespace AZCL.Collections
     /// Only the array and its elements are read-only, i.e. if <typeparamref name="T"/> is a reference type then the references stored in the array can't be changed,
     /// but there is of course nothing preventing a call to any mutating method exposed on the referenced objects.
     /// <para/>
-    /// Instances of this struct are valid even when default initialized. See <see cref="ReadOnlyArrayEnumerator{T}.IsDefault"/>.
+    /// Instances of this struct are valid even when default initialized. See <see cref="ArrayEnumeratorReadOnly{T}.IsAbsent"/>.
     /// <para/>
     /// The size of the struct is one reference (the source array) + three Int32 values.
     /// </remarks>
     /// <typeparam name="T">Array element type.</typeparam>
-    public struct ReadOnlyArrayEnumerator<T>
+    public struct ArrayEnumeratorReadOnly<T>
 #else
     /// <summary>
     /// An array enumerator implemented as a struct, with extended functionality such as moving backwards, retrieving index and length, and optional source range restriction.
     /// </summary><remarks>
-    /// Instances of this struct are valid even when default initialized. See <see cref="ArrayEnumerator{T}.IsDefault"/>.
+    /// Instances of this struct are valid even when default initialized. See <see cref="ArrayEnumerator{T}.IsAbsent"/>.
     /// <para/>
     /// The size of the struct is one reference (the source array) + three Int32 values.
     /// </remarks>
@@ -32,31 +32,27 @@ namespace AZCL.Collections
 #endif
         : IEnumerator<T>
     {
-        private const string
-            ERR_SOURCE_NULL = "Source array is null.",
-            ERR_CURRENT_OUTSIDE_RANGE = "Current enumerator position is outside its source range.";
-
         // cast operators:
 #if READ_ONLY
         /// <summary>
-        /// Creates an <see cref="ReadOnlyArrayEnumerator{T}"/> from an array.
+        /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from an array.
         /// </summary>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static implicit operator ReadOnlyArrayEnumerator<T>(T[] array)
+        public static implicit operator ArrayEnumeratorReadOnly<T>(T[] array)
         {
-            return new ReadOnlyArrayEnumerator<T>(array);
+            return new ArrayEnumeratorReadOnly<T>(array);
         }
 
         /// <summary>
-        /// Creates an <see cref="ReadOnlyArrayEnumerator{T}"/> from a <see cref="ReadOnlyArray{T}"/>.
+        /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from a <see cref="ReadOnlyArray{T}"/>.
         /// </summary><remarks>
         /// This operator does not throw, even if the <see cref="ReadOnlyArray{T}"/> argument was default initialized.
         /// </remarks>
-        public static implicit operator ReadOnlyArrayEnumerator<T>(ReadOnlyArray<T> array)
+        public static implicit operator ArrayEnumeratorReadOnly<T>(ReadOnlyArray<T> array)
         {
-            return new ReadOnlyArrayEnumerator<T>(array);
+            return new ArrayEnumeratorReadOnly<T>(array);
         }
 #else
         /// <summary>
@@ -71,37 +67,37 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Creates an <see cref="ReadOnlyArrayEnumerator{T}"/> from an <see cref="ArrayEnumerator{T}"/>.
+        /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from an <see cref="ArrayEnumerator{T}"/>.
         /// </summary><remarks>
         /// This cast retains the current position of the <paramref name="mutable"/> enumerator (such as it is at cast time)!
         /// </remarks>
-        public static implicit operator ReadOnlyArrayEnumerator<T>(ArrayEnumerator<T> mutable)
+        public static implicit operator ArrayEnumeratorReadOnly<T>(ArrayEnumerator<T> mutable)
         {
-            return new ReadOnlyArrayEnumerator<T>(mutable.array, mutable.startInclusive, mutable.endInclusive, mutable.index);
+            return new ArrayEnumeratorReadOnly<T>(mutable.array, mutable.startInclusive, mutable.endInclusive, mutable.index);
         }
 #endif
 
-        // The T[] ctors are identical except for "a ReadOnlyArrayEnumerator" vs "an ArrayEnumerator" in their summaries,
-        // however ReadOnlyArrayEnumerator has an additional set of (public) ctors for construction from ReadOnlyArrays,
+        // The T[] ctors are identical except for "a ArrayEnumeratorReadOnly" vs "an ArrayEnumerator" in their summaries,
+        // however ArrayEnumeratorReadOnly has an additional set of (public) ctors for construction from ReadOnlyArrays,
         // as well as one additional (internal) ctor used for some casts, including the one above.
         #region --- Ctor ---
 #if READ_ONLY
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> from an array.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> from an array.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public ReadOnlyArrayEnumerator(T[] array)
+        public ArrayEnumeratorReadOnly(T[] array)
             : this(array, 0, array == null ? 0 : array.Length - 1)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
         }
-        
+
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering the early part of an array.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering the early part of an array.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="length">Number of elements the enumerator should cover.</param>
@@ -111,7 +107,7 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="length"/> is less than zero or larger than the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(T[] array, int length)
+        public ArrayEnumeratorReadOnly(T[] array, int length)
             : this(array, 0, length - 1)
         {
             if (array == null)
@@ -119,9 +115,9 @@ namespace AZCL.Collections
             if (unchecked((uint)length > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(length));
         }
-        
+
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering the latter part of an array.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering the latter part of an array.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="start">Index from which the iteration should begin (inclusive).</param>
@@ -131,7 +127,7 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="start"/> is less than zero or larger than the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(int start, T[] array)
+        public ArrayEnumeratorReadOnly(int start, T[] array)
             : this(array, start, array == null ? 0 : array.Length - 1)
         {
             if (array == null)
@@ -139,9 +135,9 @@ namespace AZCL.Collections
             if (unchecked((uint)start > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(start));
         }
-        
+
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering a specified range of an array.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering a specified range of an array.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="start">Index from which the iteration should begin (inclusive).</param>
@@ -155,7 +151,7 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="start"/> + <paramref name="length"/> exceeds the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(int start, T[] array, int length)
+        public ArrayEnumeratorReadOnly(int start, T[] array, int length)
             : this(array, start, start + length - 1)
         {
             if (array == null)
@@ -167,51 +163,51 @@ namespace AZCL.Collections
                     throw new ArgumentOutOfRangeException(nameof(start));
                 if (unchecked((uint)length > (uint)array.Length))
                     throw new ArgumentOutOfRangeException(nameof(length));
-                
-                throw new ArgumentException("Start index + length exceeds the length of the array argument.");
+
+                throw new ArgumentException(ERR.START_PLUS_LENGTH);
             }
         }
 
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> from a <see cref="ReadOnlyArray{T}"/>.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> from a <see cref="ReadOnlyArray{T}"/>.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
-        public ReadOnlyArrayEnumerator(ReadOnlyArray<T> array)
-            : this(array.SourceInternal, 0, array.Length - 1)
+        public ArrayEnumeratorReadOnly(ReadOnlyArray<T> array)
+            : this(array.Source, 0, array.Length - 1)
         { }
 
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering the early part of a <see cref="ReadOnlyArray{T}"/>.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering the early part of a <see cref="ReadOnlyArray{T}"/>.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="length">Number of elements the enumerator should cover.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="length"/> is less than zero or larger than the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(ReadOnlyArray<T> array, int length)
-            : this(array.SourceInternal, 0, length - 1)
+        public ArrayEnumeratorReadOnly(ReadOnlyArray<T> array, int length)
+            : this(array.Source, 0, length - 1)
         {
             if (unchecked((uint)length > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(length));
         }
 
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering the latter part of a <see cref="ReadOnlyArray{T}"/>.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering the latter part of a <see cref="ReadOnlyArray{T}"/>.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="start">Index from which the iteration should begin (inclusive).</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="start"/> is less than zero or larger than the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(int start, ReadOnlyArray<T> array)
-            : this(array.SourceInternal, start, array.Length - 1)
+        public ArrayEnumeratorReadOnly(int start, ReadOnlyArray<T> array)
+            : this(array.Source, start, array.Length - 1)
         {
             if (unchecked((uint)start > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(start));
         }
 
         /// <summary>
-        /// Creates a <see cref="ReadOnlyArrayEnumerator{T}"/> covering a specified range of a <see cref="ReadOnlyArray{T}"/>.
+        /// Creates a <see cref="ArrayEnumeratorReadOnly{T}"/> covering a specified range of a <see cref="ReadOnlyArray{T}"/>.
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         /// <param name="start">Index from which the iteration should begin (inclusive).</param>
@@ -222,8 +218,8 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="start"/> + <paramref name="length"/> exceeds the length of the array.
         /// </exception>
-        public ReadOnlyArrayEnumerator(int start, ReadOnlyArray<T> array, int length)
-            : this(array.SourceInternal, start, start + length - 1)
+        public ArrayEnumeratorReadOnly(int start, ReadOnlyArray<T> array, int length)
+            : this(array.Source, start, start + length - 1)
         {
             if ((start | length) < 0 | unchecked((uint)(start + length) > (uint)array.Length))
             {
@@ -232,20 +228,20 @@ namespace AZCL.Collections
                 if (unchecked((uint)length > (uint)array.Length))
                     throw new ArgumentOutOfRangeException(nameof(length));
 
-                throw new ArgumentException("Start index + length exceeds the length of the array argument.");
+                throw new ArgumentException(ERR.START_PLUS_LENGTH);
             }
         }
-        
-        private ReadOnlyArrayEnumerator(T[] array, int startInclusive, int endInclusive)
+
+        private ArrayEnumeratorReadOnly(T[] array, int startInclusive, int endInclusive)
         {
             this.array = array;
             this.startInclusive = startInclusive;
             this.endInclusive = endInclusive;
             this.index = -1;
         }
-        
-        // Ctor used to preserve the current position when casting from ArrayEnumerator or ReadOnlyArray.Enumerator to ReadOnlyArrayEnumerator.
-        internal ReadOnlyArrayEnumerator(T[] array, int startInclusive, int endInclusive, int index)
+
+        // Ctor used to preserve the current position when casting from ArrayEnumerator or ReadOnlyArray.Enumerator to ArrayEnumeratorReadOnly.
+        internal ArrayEnumeratorReadOnly(T[] array, int startInclusive, int endInclusive, int index)
         {
             this.array = array;
             this.startInclusive = startInclusive;
@@ -335,7 +331,7 @@ namespace AZCL.Collections
                 if (unchecked((uint)length > (uint)array.Length))
                     throw new ArgumentOutOfRangeException(nameof(length));
                 
-                throw new ArgumentException("Start index + length exceeds the length of the array argument.");
+                throw new ArgumentException(ERR.START_PLUS_LENGTH);
             }
         }
 
@@ -394,6 +390,16 @@ namespace AZCL.Collections
         }
 
         /// <summary>
+        /// True if this enumerator instance was default initialized / constructed (source is null).
+        /// </summary><remarks>
+        /// Default instances are still valid and as is thus expected they behave as empty enumerators.
+        /// </remarks>
+        public bool IsAbsent
+        {
+            get { return array == null; }
+        }
+
+        /// <summary>
         /// The length of the element range of the enumerator.
         /// </summary><remarks>
         /// This is always less than or equal to the length of the source array, or zero if the source array is null.
@@ -402,20 +408,23 @@ namespace AZCL.Collections
         {
             get { return array == null ? 0 : LengthFast; }
         }
-        
+
         private int LengthFast
         {
             get { return endInclusive - startInclusive + 1; }
         }
 
         /// <summary>
-        /// True if this enumerator instance was default initialized / constructed (source is null).
-        /// </summary><remarks>
-        /// Default instances are still valid and as is thus expected they behave as empty enumerators.
-        /// </remarks>
-        public bool IsDefault
+        /// Creates an array copy of the source elements covered by the enumerators range.
+        /// </summary>
+        /// <returns>An array copy of the source elements covered by the enumerators range, or null if the source is null.</returns>
+        public T[] Copy()
         {
-            get { return array == null; }
+            if (array == null)
+                return null;
+            T[] copy = new T[LengthFast];
+            Array.Copy(array, startInclusive, copy, 0, LengthFast);
+            return copy;
         }
 
 #if !READ_ONLY
@@ -432,18 +441,6 @@ namespace AZCL.Collections
             return copy;
         }
 #endif
-        /// <summary>
-        /// Creates an array copy of the source elements covered by the enumerators range.
-        /// </summary>
-        /// <returns>An array copy of the source elements covered by the enumerators range, or null if the source is null.</returns>
-        public T[] Copy()
-        {
-            if (array == null)
-                return null;
-            T[] copy = new T[LengthFast];
-            Array.Copy(array, startInclusive, copy, 0, LengthFast);
-            return copy;
-        }
 
         /// <summary>
         /// Element indexer relative to the enumerator's source start index.
@@ -505,13 +502,26 @@ namespace AZCL.Collections
             set
             {
                 if (array == null)
-                    throw new InvalidOperationException(ERR_SOURCE_NULL);
+                    throw new InvalidOperationException(ERR.BACKING_ARRAY_ABSENT);
                 if (index == -1)
-                    throw new InvalidOperationException(ERR_CURRENT_OUTSIDE_RANGE);
+                    throw new InvalidOperationException(ERR.CURRENT_INVALID);
                 array[index] = value;
             }
         }
 #endif
+
+        object System.Collections.IEnumerator.Current
+        {
+            get
+            {
+                if (array == null)
+                    throw new InvalidOperationException(ERR.BACKING_ARRAY_ABSENT);
+                if (index == -1)
+                    throw new InvalidOperationException(ERR.CURRENT_INVALID);
+
+                return array[index];
+            }
+        }
 
         /// <summary>
         /// Advances the enumerator to the next element of the source (within the enumerators range).
@@ -572,18 +582,5 @@ namespace AZCL.Collections
 
         void IDisposable.Dispose()
         { }
-
-        object System.Collections.IEnumerator.Current
-        {
-            get
-            {
-                if (array == null)
-                    throw new InvalidOperationException(ERR_SOURCE_NULL);
-                if (index == -1)
-                    throw new InvalidOperationException(ERR_CURRENT_OUTSIDE_RANGE);
-
-                return array[index];
-            }
-        }
     }
 }

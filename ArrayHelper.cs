@@ -1,11 +1,12 @@
 ﻿using System;
+using AZCL.Collections;
 
 namespace AZCL
 {
     /// <summary>
     /// Helper class with various array related methods and extensions.
     /// </summary>
-    public static class ArrayHelper
+    public static partial class ArrayHelper
     {
         private const string
             ERR_POPULATE_INNER = "Inner array can't be populated because it's null.",
@@ -22,97 +23,38 @@ namespace AZCL
         /// <param name="value">The element to append to the end of the new array.</param>
         public static void AppendOrCreate<T>(ref T[] array, T value)
         {
-            array = array == null ? new T[] { value } : ArrayCopyExtensions.CopyAndAppend(array, value);
+            array = array == null ? new T[] { value } : ArrayExtensions.CopyAndAppend(array, value);
         }
 
         /// <summary>
-        /// Clears an array by setting all values to default(T).
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if the array is null.
-        /// </exception>
-        /// <seealso cref="Populate{T}(T[])"/>
-        public static void Clear<T>(this T[] array)
-        {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            System.Array.Clear(array, 0, array.Length);
-        }
-
-        /// <summary>
-        /// Clears an array by setting all values to default(T).
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if the array is null.
-        /// </exception>
-        public static void Clear<T>(this T[,] array)
-        {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            System.Array.Clear(array, 0, array.Length);
-        }
-
-        /// <summary>
-        /// Clears an array by setting all values to default(T).
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if the array is null.
-        /// </exception>
-        public static void Clear<T>(this T[,,] array)
-        {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            System.Array.Clear(array, 0, array.Length);
-        }
-
-        /// <summary>
-        /// Clears all elements of all inner arrays by setting them to default(T).
+        /// Wraps a multi-rank array in an <see cref="ArrayR2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary><remarks>
-        /// This method does not remove / overwrite any of the inner arrays themselves, only the <typeparamref name="T"/>-elements inside them.
+        /// Unfortunately multi-rank arrays in C# only implements IEnumerable and not IEnumerable&lt;<typeparamref name="T"/>&gt;.
+        /// To solve this AZCL implements its own enumerators for multi-rank arrays (up to rank 3) and provides associated wrappers for use in foreach loops.
+        /// <br/>
+        /// Example: given "T[,] arr;" for some type T it can be used as "foreach(T elem in arr.AsLinqable())".
         /// </remarks>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if the array is null.
+        /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if any inner array is null.
-        /// </exception>
-        public static void ClearInner<T>(this T[][] array)
+        public static ArrayR2<T> AsLinqable<T>(this T[,] array)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            foreach (T[] arr in array)
-                if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-                else
-                    Clear(arr);
+            return new ArrayR2<T>(array);
         }
 
+        /* wip
         /// <summary>
-        /// Clears all elements of all inner arrays by setting them to default(T).
-        /// </summary><remarks>
-        /// This method does not remove / overwrite any of the inner arrays themselves, only the <typeparamref name="T"/>-elements inside them.
-        /// </remarks>
+        /// Wraps a multi-rank array in an <see cref="ArrayR2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
+        /// </summary>
+        /// <inheritdoc cref="AsLinqable{T}(T[,])" select="remarks"/>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if the array is null.
+        /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if any inner array is null.
-        /// </exception>
-        public static void ClearInner<T>(this T[][][] array)
+        public static ArrayR3<T> AsLinqable<T>(this T[,,] array)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            foreach (T[][] arr in array)
-                if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
-                else
-                    ClearInner(arr);
+            return new ArrayR3<T>(array);
         }
+        */
 
         /// <summary>
         /// Converts a range of elements from an array of one type to an array of another type.
@@ -181,155 +123,6 @@ namespace AZCL
             var output = new TOutput[length];
             for (int i = 0; i < output.Length; ++i)
                 output[i] = converter(input[i + startIndex]);
-            return output;
-        }
-
-        /// <summary>
-        /// Converts all elements of an array of one type to an array of another type.
-        /// </summary><remarks>
-        /// This is simply a redirected call to System.Array.ConvertAll. It exist here for completeness and convenience.
-        /// </remarks><returns>
-        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the input <paramref name="array"/>.
-        /// </returns>
-        /// <typeparam name="TInput">The type of the elements of the input <paramref name="array"/>.</typeparam>
-        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
-        /// <param name="array">Input array containing elements to convert.</param>
-        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the arguments are null.
-        /// </exception>
-        public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
-        {
-            return System.Array.ConvertAll(array, converter);
-        }
-
-        /// <summary>
-        /// Converts all elements of an array of one type to an array of another type.
-        /// </summary><returns>
-        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the <paramref name="input"/> array.
-        /// </returns>
-        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
-        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
-        /// <param name="input">Input array containing elements to convert.</param>
-        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the arguments are null.
-        /// </exception>
-        public static TOutput[,] ConvertAll<TInput, TOutput>(TInput[,] input, Converter<TInput, TOutput> converter)
-        {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-            if (converter == null)
-                throw new ArgumentNullException(nameof(converter));
-
-            int lenx = input.GetLength(0);
-            int leny = input.GetLength(1);
-            var output = new TOutput[lenx, leny];
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
-                    output[x, y] = converter(input[x, y]);
-            return output;
-        }
-
-        /// <summary>
-        /// Converts all elements of an array of one type to an array of another type.
-        /// </summary><returns>
-        /// An array of type <typeparamref name="TOutput"/> of the same size and rank as the <paramref name="input"/> array.
-        /// </returns>
-        /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
-        /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
-        /// <param name="input">Input array containing elements to convert.</param>
-        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the arguments are null.
-        /// </exception>
-        public static TOutput[,,] ConvertAll<TInput, TOutput>(TInput[,,] input, Converter<TInput, TOutput> converter)
-        {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-            if (converter == null)
-                throw new ArgumentNullException(nameof(converter));
-
-            int lenx = input.GetLength(0);
-            int leny = input.GetLength(1);
-            int lenz = input.GetLength(2);
-            var output = new TOutput[lenx, leny, lenz];
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
-                    for (int z = 0; z < lenz; ++z)
-                        output[x, y, z] = converter(input[x, y, z]);
-            return output;
-        }
-
-        /// <summary>
-        /// Converts all elements of a jagged array of one type to an identically shaped jagged array of another type.
-        /// </summary><returns>
-        /// A jagged array of type <typeparamref name="TOutput"/> of the same shape as the jagged <paramref name="input"/> array.
-        /// </returns>
-        /// <typeparam name="TInput">The type of the elements of the jagged <paramref name="input"/> array.</typeparam>
-        /// <typeparam name="TOutput">The type of the elements of the jagged output array.</typeparam>
-        /// <param name="input">Input array containing elements to convert.</param>
-        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the arguments are null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if any of the inner arrays are null.
-        /// </exception>
-        public static TOutput[][] ConvertAll<TInput, TOutput>(TInput[][] input, Converter<TInput, TOutput> converter)
-        {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-            if (converter == null)
-                throw new ArgumentNullException(nameof(converter));
-
-            var output = new TOutput[input.Length][];
-            for (int i = 0; i < input.Length; ++i)
-            {
-                var inner = input[i];
-
-                if (inner == null)
-                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
-
-                output[i] = System.Array.ConvertAll(inner, converter);
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// Converts all elements of a jagged array of one type to an identically shaped jagged array of another type.
-        /// </summary><returns>
-        /// A jagged array of type <typeparamref name="TOutput"/> of the same shape as the jagged <paramref name="input"/> array.
-        /// </returns>
-        /// <typeparam name="TInput">The type of the elements of the jagged <paramref name="input"/> array.</typeparam>
-        /// <typeparam name="TOutput">The type of the elements of the jagged output array.</typeparam>
-        /// <param name="input">Input array containing elements to convert.</param>
-        /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if any of the arguments are null.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if any of the inner arrays are null.
-        /// </exception>
-        public static TOutput[][][] ConvertAll<TInput, TOutput>(TInput[][][] input, Converter<TInput, TOutput> converter)
-        {
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-            if (converter == null)
-                throw new ArgumentNullException(nameof(converter));
-
-            var output = new TOutput[input.Length][][];
-            for (int i = 0; i < input.Length; ++i)
-            {
-                var inner = input[i];
-
-                if (inner == null)
-                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
-
-                output[i] = ConvertAll(inner, converter);
-            }
-
             return output;
         }
 
@@ -796,15 +589,6 @@ namespace AZCL
             for (int x = 0; x < lenx; ++x)
                 for (int y = 0; y < leny; ++y)
                     array[x, y] = factoryFunc();
-
-            /*
-            int leny = array.GetLength(1);
-            for (int i = 0; i < array.Length; ++i)
-            {
-                var r = Maths.DivRem(i, leny);
-                array[r.div, r.rem] = factoryFunc();
-            }
-            */
         }
 
         /// <summary>
@@ -1043,6 +827,7 @@ namespace AZCL
         }
 
 
+        //public static void Slice<T>(T[,] input, out T[][] output); // <-- TODO !
 
         // -----
 
@@ -1086,6 +871,48 @@ namespace AZCL
                     arr[i] = New(source[i], instancingDepth - 1);
             }
             return arr;
+        }
+
+        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
+        internal static void CalculateIndexesUnbound<T>(T[,] array, int index, out int x, out int y)
+        {
+            int leny;
+            if (array == null || (leny = array.GetLength(1)) == 0)
+            {
+                x = index;
+                y = 0;
+            }
+            else
+            {
+                // Fast DivRem
+                x = index / leny;
+                y = index - x * leny;
+                // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
+                // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
+                // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+            }
+        }
+
+        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
+        internal static void CalculateIndexesUnbound<T>(T[,,] array, int index, out int x, out int y, out int z)
+        {
+            int leny, lenz;
+            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
+            {
+                x = index;
+                y = 0;
+                z = 0;
+            }
+            else
+            {
+                int lenm = leny * lenz;
+                int m;
+
+                x = index / lenm;     // Fast DivRem (div-part 1)
+                m = index - x * lenm; // Fast DivRem (mod-part 1)
+                y = m / lenz;     // Fast DivRem (div-part 2)
+                z = m - y * lenz; // Fast DivRem (mod-part 2)
+            }
         }
 
         // -----

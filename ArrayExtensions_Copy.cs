@@ -3,9 +3,9 @@
 namespace AZCL
 {
     /// <summary>
-    /// Extends [generic] array types with various Copy methods.
+    /// Extends [generic] array types with various methods.
     /// </summary>
-    public static class ArrayCopyExtensions
+    public static partial class ArrayExtensions
     {
         private const string
             ERR_EXCLUDING_INNER = "The inner array found at the specified index is null.";
