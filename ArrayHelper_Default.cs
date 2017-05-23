@@ -195,7 +195,7 @@ namespace AZCL
 
             foreach (T[] arr in array)
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.CLEAR_INNER);
                 else
                     Clear(arr);
         }
@@ -218,7 +218,7 @@ namespace AZCL
 
             foreach (T[][] arr in array)
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.CLEAR_INNER);
                 else
                     ClearInner(arr);
         }
@@ -448,7 +448,7 @@ namespace AZCL
                 var inner = input[i];
 
                 if (inner == null)
-                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
+                    throw new ArgumentException(paramName: nameof(input), message: ERR.CONVERT_INNER);
 
                 output[i] = System.Array.ConvertAll(inner, converter);
             }
@@ -484,7 +484,7 @@ namespace AZCL
                 var inner = input[i];
 
                 if (inner == null)
-                    throw new ArgumentException(paramName: nameof(input), message: ERR_CONVERT_INNER);
+                    throw new ArgumentException(paramName: nameof(input), message: ERR.CONVERT_INNER);
 
                 output[i] = ConvertAll(inner, converter);
             }

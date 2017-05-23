@@ -7,9 +7,6 @@ namespace AZCL
     /// </summary>
     public static partial class ArrayExtensions
     {
-        private const string
-            ERR_EXCLUDING_INNER = "The inner array found at the specified index is null.";
-
         /// <summary>
         /// Creates a copy of this array, or returns null if source is null.
         /// </summary>
@@ -691,7 +688,7 @@ namespace AZCL
                 throw new ArgumentOutOfRangeException(nameof(excludeX));
             var inner = source[excludeX];
             if (inner == null)
-                throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
+                throw new ArgumentException(paramName: nameof(source), message: ERR.EXCLUDE_INNER);
             if (unchecked((uint)excludeY >= (uint)inner.Length))
                 throw new ArgumentOutOfRangeException(nameof(excludeY));
             if (unchecked((uint)copyDepth > 1u))
@@ -815,12 +812,12 @@ namespace AZCL
                 throw new ArgumentOutOfRangeException(nameof(excludeX));
             var inner = source[excludeX];
             if (inner == null)
-                throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
+                throw new ArgumentException(paramName: nameof(source), message: ERR.EXCLUDE_INNER);
             if (unchecked((uint)excludeY >= (uint)inner.Length))
                 throw new ArgumentOutOfRangeException(nameof(excludeY));
             var innermost = inner[excludeY];
             if (innermost == null)
-                throw new ArgumentException(paramName: nameof(source), message: ERR_EXCLUDING_INNER);
+                throw new ArgumentException(paramName: nameof(source), message: ERR.EXCLUDE_INNER);
             if (unchecked((uint)excludeZ >= (uint)innermost.Length))
                 throw new ArgumentOutOfRangeException(nameof(excludeY));
             if (unchecked((uint)copyDepth > 2u))

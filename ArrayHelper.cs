@@ -4,15 +4,10 @@ using AZCL.Collections;
 namespace AZCL
 {
     /// <summary>
-    /// Helper class with various array related methods and extensions.
+    /// Various array related methods and extensions.
     /// </summary>
     public static partial class ArrayHelper
     {
-        private const string
-            ERR_POPULATE_INNER = "Inner array can't be populated because it's null.",
-            ERR_CONVERT_INNER = "Inner array can't be converted because it's null.",
-            ERR_CREATE_INNER = "One or more inner array already exist.";
-
         /// <summary>
         /// Updates the <paramref name="array"/> reference with a copy that has the specified <paramref name="value"/> appended.
         /// </summary><remarks>
@@ -183,7 +178,7 @@ namespace AZCL
             for (int i = 0; i < array.Length; ++i)
             {
                 if (array[i] != null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_CREATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.CREATE_INNER);
 
                 array[i] = new T[innerLength];
             }
@@ -243,7 +238,7 @@ namespace AZCL
             for (int i = 0; i < array.Length; ++i)
             {
                 if (array[i] != null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_CREATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.CREATE_INNER);
 
                 CreateJagged(out array[i], secondLength, innermostLength);
             }
@@ -359,7 +354,7 @@ namespace AZCL
             {
                 var arr = array[i];
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
                 Populate(arr);
             }
         }
@@ -387,7 +382,7 @@ namespace AZCL
             {
                 var arr = array[i];
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
                 Populate(arr);
             }
         }
@@ -642,7 +637,7 @@ namespace AZCL
             {
                 T[] arr = array[i];
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 Populate(arr, factoryFunc);
             }
@@ -673,7 +668,7 @@ namespace AZCL
             {
                 T[][] arr = array[i];
                 if (arr == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 Populate(arr, factoryFunc);
             }
@@ -779,7 +774,7 @@ namespace AZCL
             {
                 T[] arr1 = array[x];
                 if (arr1 == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 for (int y = 0; y < arr1.Length; ++y)
                     arr1[y] = factoryFunc(x, y);
@@ -812,13 +807,13 @@ namespace AZCL
             {
                 T[][] arr2 = array[x];
                 if (arr2 == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 for (int y = 0; y < arr2.Length; ++y)
                 {
                     T[] arr1 = arr2[y];
                     if (arr1 == null)
-                        throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                        throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                     for (int z = 0; z < arr1.Length; ++z)
                         arr1[z] = factoryFunc(x, y, z);
@@ -989,7 +984,7 @@ namespace AZCL
                 inner = array[i];
 
                 if (inner == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 if (inner.Length != 0)
                     return true;
@@ -1007,7 +1002,7 @@ namespace AZCL
                 T[][] inner = array[x];
 
                 if (inner == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 Populate_FindNonEmptyInner(inner, out innermost, out y);
             }
@@ -1026,7 +1021,7 @@ namespace AZCL
                 T[] copytarget = array[i];
 
                 if (copytarget == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 ChunkCopy_Impl(ref copysource, copytarget);
             }
@@ -1042,7 +1037,7 @@ namespace AZCL
                 T[][] inner = array[x];
 
                 if (inner == null)
-                    throw new ArgumentException(paramName: nameof(array), message: ERR_POPULATE_INNER);
+                    throw new ArgumentException(paramName: nameof(array), message: ERR.POPULATE_INNER);
 
                 Populate_RepeatCopy(inner, ref copysource, y);
                 y = 0; // <-- set to zero after the above call so the original y-argument is used exactly once.
