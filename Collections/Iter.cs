@@ -7,7 +7,7 @@ namespace AZCL.Collections
     /// </summary><remarks>
     /// Iter stands for Iterator, and although this certainly isn't an iterator, there is some resemblance in the
     /// sense that iterators are used to (automatically) generate enumerators, and this class provides methods to
-    /// create enumerators (with automatic type inference). Hence the name choice.
+    /// create enumerators (with automatic type inference). Hence the name.
     /// </remarks>
     public static class Iter
     {
@@ -37,54 +37,54 @@ namespace AZCL.Collections
 
         // ----
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(T[])"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(T[] array)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(T[])"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(T[] array)
         {
-            return new ReadOnlyArrayEnumerator<T>(array);
+            return new ArrayEnumeratorReadOnly<T>(array);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(T[], int)"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(T[] array, int length)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(T[], int)"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(T[] array, int length)
         {
-            return new ReadOnlyArrayEnumerator<T>(array, length);
+            return new ArrayEnumeratorReadOnly<T>(array, length);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(int, T[])"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(int start, T[] array)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, T[])"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, T[] array)
         {
-            return new ReadOnlyArrayEnumerator<T>(start, array);
+            return new ArrayEnumeratorReadOnly<T>(start, array);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(int, T[], int)"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(int start, T[] array, int length)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, T[], int)"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, T[] array, int length)
         {
-            return new ReadOnlyArrayEnumerator<T>(start, array, length);
+            return new ArrayEnumeratorReadOnly<T>(start, array, length);
         }
 
         // ----
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(ReadOnlyArray{T})"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(ReadOnlyArray<T> array)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(ReadOnlyArray{T})"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(ReadOnlyArray<T> array)
         {
-            return new ReadOnlyArrayEnumerator<T>(array);
+            return new ArrayEnumeratorReadOnly<T>(array);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(ReadOnlyArray{T}, int)"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(ReadOnlyArray<T> array, int length)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(ReadOnlyArray{T}, int)"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(ReadOnlyArray<T> array, int length)
         {
-            return new ReadOnlyArrayEnumerator<T>(array, length);
+            return new ArrayEnumeratorReadOnly<T>(array, length);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(int, ReadOnlyArray{T})"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, ReadOnlyArray{T})"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array)
         {
-            return new ReadOnlyArrayEnumerator<T>(start, array);
+            return new ArrayEnumeratorReadOnly<T>(start, array);
         }
 
-        /// <inheritdoc cref="ReadOnlyArrayEnumerator{T}.ReadOnlyArrayEnumerator(int, ReadOnlyArray{T}, int)"/>
-        public static ReadOnlyArrayEnumerator<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array, int length)
+        /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, ReadOnlyArray{T}, int)"/>
+        public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array, int length)
         {
-            return new ReadOnlyArrayEnumerator<T>(start, array, length);
+            return new ArrayEnumeratorReadOnly<T>(start, array, length);
         }
     }
 }

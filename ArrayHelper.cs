@@ -22,7 +22,7 @@ namespace AZCL
         /// <param name="value">The element to append to the end of the new array.</param>
         public static void AppendOrCreate<T>(ref T[] array, T value)
         {
-            array = array == null ? new T[] { value } : ArrayCopyExtensions.CopyAndAppend(array, value);
+            array = array == null ? new T[] { value } : ArrayExtensions.CopyAndAppend(array, value);
         }
 
         /// <summary>
