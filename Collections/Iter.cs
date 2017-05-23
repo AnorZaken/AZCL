@@ -11,6 +11,16 @@ namespace AZCL.Collections
     /// </remarks>
     public static class Iter
     {
+        /// <summary>
+        /// Creates an enumerator (of <typeparamref name="T"/>) for a rank 2 array.
+        /// </summary>
+        public static ArrayR2<T>.Enumerator Create<T>(T[,] array)
+        {
+            return new ArrayR2<T>.Enumerator(array);
+        }
+
+        // ----
+
         /// <inheritdoc cref="ArrayEnumerator{T}.ArrayEnumerator(T[])"/>
         public static ArrayEnumerator<T> Create<T>(T[] array)
         {

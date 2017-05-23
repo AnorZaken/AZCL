@@ -59,8 +59,11 @@
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
     <Compile Include="Bits\Rotate.cs" />
+    <Compile Include="Collections\ArrayR2_T.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="Collections\ReadOnlyArrayR2_T.cs" />
+    <Compile Include="Collections\ArrayR2_T.Enumerator.cs" />
     <Compile Include="Collections\Iter.cs" />
     <Compile Include="Collections\ReadOnlyArray_T.Enumerator.cs" />
     <Compile Include="Box.cs" />
