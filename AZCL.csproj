@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="ArrayCopyExtensions.cs" />
     <Compile Include="ArrayHelper.cs" />
+    <Compile Include="ArrayExtensions_Length.cs" />
     <Compile Include="Bits\Rotate.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ReadOnlyArray_Extensions.cs" />
