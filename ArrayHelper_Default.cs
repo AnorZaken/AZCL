@@ -84,10 +84,57 @@ namespace AZCL
             return array.Array == null ? Empty<T>.ReadOnlyCollection : new ReadOnlyCollection<T>(array.Array);
         }
 
+        /// <summary>
+        /// Searches a sorted array for a specific element, using the IComparable&lt;T&gt; interface implemented by each element and by the specified object.
+        /// </summary><returns>
+        /// The index of the sought value in the array, if the value is found; otherwise, a negative number.
+        /// If the sought value is (comparably) greater than all elements in the array, then the negative number
+        /// returned will be the bitwise complement of array.Length.
+        /// If the sought value is not found the negative number returned will be the bitwise complement of the
+        /// index of the first element that is (comparably) larger.
+        /// If this method is called with a non-sorted array, the return value can be incorrect and a negative
+        /// number could be returned, even if value is present in the array.
+        /// </returns>
+        /// <param name="array">A sorted array to search.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <typeparamref name="T"/> does not implement the IComparable&lt;T&gt; generic interface.
+        /// </exception>
+        public static int BinarySearch<T>(T[] array, T value)
+        {
+            return Array.BinarySearch(array, value);
+        }
 
+        /// <summary>
+        /// Searches a sorted array for a specific element, using the IComparable&lt;T&gt; interface implemented by each element and by the specified object.
+        /// </summary>
+        /// <inheritdoc cref="BinarySearch{T}(T[], T)" select="returns"/>
+        /// <param name="array">A sorted array to search.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <typeparamref name="T"/> does not implement the IComparable&lt;T&gt; generic interface.
+        /// </exception>
         public static int BinarySearch<T>(this ReadOnlyArray<T> array, T value)
         {
             return array.Array == null ? -1 : Array.BinarySearch<T>(array.Array, value);
+        }
+
+        /// <summary>
+        /// Searches a sorted array for a value using the specified IComparer&lt;T&gt;.
+        /// </summary>
+        /// <param name="array">A sorted array to search.</param>
+        /// <param name="value">The value to search for.</param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
+        public static int BinarySearch<T>(T[] array, T value, IComparer<T> comparer)
+        {
+            return Array.BinarySearch(array, value, comparer);
         }
 
 
@@ -96,10 +143,37 @@ namespace AZCL
             return array.Array == null ? -1 : Array.BinarySearch<T>(array.Array, value, comparer);
         }
 
+        /// <summary>
+        /// Searches a range of elements in a sorted array for a value, using the IComparable&lt;T&gt; interface implemented by each element and by the specified value.
+        /// </summary>
+        /// <param name="array">A sorted array to search.</param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="value">The value to search for.</param>
+        /// <returns></returns>
+        public static int BinarySearch<T>(T[] array, int index, int length, T value)
+        {
+            return Array.BinarySearch(array, index, length, value);
+        }
+
 
         public static int BinarySearch<T>(this ReadOnlyArray<T> array, int index, int length, T value)
         {
             return array.Array == null ? -1 : Array.BinarySearch<T>(array.Array, index, length, value);
+        }
+
+        /// <summary>
+        /// Searches a range of elements in a sorted array for a value using the specified IComparer&lt;T&gt;.
+        /// </summary>
+        /// <param name="array">A sorted array to search.</param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="value">The value to search for.</param>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
+        public static int BinarySearch<T>(T[] array, int index, int length, T value, IComparer<T> comparer)
+        {
+            return Array.BinarySearch(array, index, length, value, comparer);
         }
 
 
