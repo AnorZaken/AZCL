@@ -32,7 +32,7 @@ namespace AZCL
 
         private static IIndexFinder<T> CreateInstance()
         {
-            if (Meta.IsAssignableFrom<T, IEquatable<T>>.value)
+            if (Meta.Evaluate.IsEquatable<T>())
             {
                 Type t_looper = typeof(IndexFinderEquatable<>).MakeGenericType(typeof(T));
                 return (IIndexFinder<T>)Activator.CreateInstance(t_looper);

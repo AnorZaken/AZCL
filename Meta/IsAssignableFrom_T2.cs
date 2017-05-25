@@ -1,8 +1,14 @@
 ﻿
 namespace AZCL.Meta
 {
-    internal static class IsAssignableFrom<TFrom, TTo> // TODO: make doc then make public.
+    /// <summary>
+    /// Static meta class that indicates whether <typeparamref name="TTarget"/> is assignable from <typeparamref name="TFrom"/>.
+    /// </summary>
+    public static class IsAssignableFrom<TTarget, TFrom>
     {
-        public static readonly bool value = typeof(TTo).IsAssignableFrom(typeof(TFrom));
+        /// <summary>
+        /// Indicates whether <typeparamref name="TTarget"/> is assignable from <typeparamref name="TFrom"/>
+        /// </summary>
+        public static readonly bool value = Evaluate.IsAssignableFrom<TTarget, TFrom>();
     }
 }

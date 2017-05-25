@@ -3,16 +3,21 @@
 namespace AZCL.Meta
 {
     /// <summary>
-    /// Provides info about primitive numeric types.
-    /// </summary>
+    /// Provides info about numeric simple types.
+    /// </summary><remarks>
+    /// See <a href="https://docs.microsoft.com/en-us/dotnet/articles/csharp/language-reference/keywords/built-in-types-table">
+    /// https://docs.microsoft.com/en-us/dotnet/articles/csharp/language-reference/keywords/built-in-types-table </a>
+    /// to read more about simple types.
+    /// </remarks>
     public static class Numeric
     {
-        internal const string _ERR_TC_NOT_NUMERIC = "TypeCode does not correspond to a primitive numeric type.";
+        internal const string
+            ERR_TYPECODE = "TypeCode does not correspond to a numeric simple type.";
 
         /// <summary>
-        /// Checks if a TypeCode corresponds to one of the primitive numeric types.
+        /// Returns whether the TypeCode corresponds to one of the numeric simple types.
         /// </summary><remarks>
-        /// The primitive numeric types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.
+        /// The numeric simple types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.
         /// </remarks>
         public static bool IsNumeric(TypeCode typeCode)
         {
@@ -20,9 +25,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Checks if a Type corresponds to one of the primitive numeric types.
+        /// Returns whether the Type corresponds to one of the numeric simple types.
         /// </summary><remarks>
-        /// The primitive numeric types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.
+        /// The numeric simple types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.
         /// </remarks>
         public static bool IsNumeric(Type type)
         {
@@ -30,9 +35,19 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Checks if a TypeCode corresponds to an unsigned primitive numeric type.
+        /// Returns whether the TypeCode corresponds to an integral type.
         /// </summary><remarks>
-        /// The unsigned primitive numeric types are: byte, ushort, uint, ulong.
+        /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
+        /// </remarks>
+        public static bool IsInteger(TypeCode typeCode)
+        {
+            return unchecked((uint)typeCode - 5u) < 8u;
+        }
+
+        /// <summary>
+        /// Returns whether the TypeCode corresponds to an unsigned integral type.
+        /// </summary><remarks>
+        /// The unsigned integral types are: byte, ushort, uint, and ulong.
         /// </remarks>
         public static bool IsUnsigned(TypeCode typeCode)
         {
@@ -40,15 +55,17 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Checks if a TypeCode corresponds to the float or double type.
-        /// </summary>
+        /// Returns whether the TypeCode corresponds to a floating-point type.
+        /// </summary><remarks>
+        /// The floating-point types are: float and double.
+        /// </remarks>
         public static bool IsFloat(TypeCode typeCode)
         {
             return unchecked((int)typeCode - 5 & -2) == 8;
         }
 
         /// <summary>
-        /// Numeric info about type <typeparamref name="T"/>.
+        /// Returns a NumericInfo instance for the type <typeparamref name="T"/>.
         /// </summary>
         public static NumericInfo Info<T>() where T : struct, IConvertible
         {
@@ -56,7 +73,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Numeric info about type <typeparamref name="T"/>.
+        /// Returns a NumericInfo instance for the type <typeparamref name="T"/>.
         /// </summary>
         public static NumericInfo Info<T>(T instance) where T : struct, IConvertible // (type inference for caller)
         {
@@ -64,7 +81,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Numeric info about a type.
+        /// Returns a NumericInfo instance for the specified type.
         /// </summary>
         public static NumericInfo Info(Type type)
         {
@@ -72,7 +89,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Numeric info about an IConvertible type.
+        /// Returns a NumericInfo instance for an IConvertible type.
         /// </summary>
         public static NumericInfo Info(IConvertible instance)
         {
@@ -82,7 +99,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Numeric info about type with specified TypeCode.
+        /// Returns a NumericInfo instance for the type with the specified TypeCode.
         /// </summary>
         public static NumericInfo Info(TypeCode tc)
         {
@@ -90,54 +107,66 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Get a <see cref="MaxValue"/> instance corresponding to type <typeparamref name="T"/>.
+        /// Returns a <see cref="MaxValue"/> instance corresponding to type <typeparamref name="T"/>.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the specified type doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MaxValue Max<T>(T value) where T : struct, IConvertible
         {
             return new MaxValue(value.GetTypeCode());
         }
 
         /// <summary>
-        /// Get a <see cref="MaxValue"/> instance corresponding to type <typeparamref name="T"/>.
+        /// Returns a <see cref="MaxValue"/> instance corresponding to type <typeparamref name="T"/>.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the specified type doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MaxValue Max<T>() where T : struct, IConvertible
         {
             return new MaxValue(default(T).GetTypeCode());
         }
 
         /// <summary>
-        /// Get a <see cref="MaxValue"/> instance corresponding to the specified type.
+        /// Returns a <see cref="MaxValue"/> instance corresponding to the specified type.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MaxValue Max(TypeCode typeCode)
         {
             return new MaxValue(typeCode);
         }
 
         /// <summary>
-        /// Get a <see cref="MinValue"/> instance corresponding to type <typeparamref name="T"/>.
+        /// Returns a <see cref="MinValue"/> instance corresponding to type <typeparamref name="T"/>.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the specified type doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MinValue Min<T>() where T : struct, IConvertible
         {
             return new MinValue(default(T).GetTypeCode());
         }
 
         /// <summary>
-        /// Get a <see cref="MinValue"/> instance corresponding to type <typeparamref name="T"/>.
+        /// Returns a <see cref="MinValue"/> instance corresponding to type <typeparamref name="T"/>.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the specified type doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MinValue Min<T>(T value) where T : struct, IConvertible
         {
             return new MinValue(value.GetTypeCode());
         }
 
         /// <summary>
-        /// Get a <see cref="MinValue"/> instance corresponding to the specified type.
+        /// Returns a <see cref="MinValue"/> instance corresponding to the specified type.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the corresponding type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a numeric simple type.
+        /// </exception>
         public static MinValue Min(TypeCode typeCode)
         {
             return new MinValue(typeCode);
