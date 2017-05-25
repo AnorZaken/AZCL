@@ -5,9 +5,9 @@ using AZCL.Bits;
 namespace AZCL.Meta
 {
     /// <summary>
-    /// A struct that describes the min-value of a primitive numeric type. (Struct size: 1 byte)
+    /// Represents a min-value of a numeric simple type. (Struct size: 1 byte)
     /// </summary><remarks>
-    /// An uninitialized instance will correspond to sbyte.
+    /// An uninitialized instance will correspond to sbyte.MinValue.
     /// </remarks>
     [System.Runtime.InteropServices.StructLayout(LayoutKind.Sequential)]
     public struct MinValue : IComparable<TypeCode>, IComparable<MinValue>,
@@ -16,14 +16,15 @@ namespace AZCL.Meta
     {
         private readonly byte tc5;
 
-        private const string _ERR_Overflow = "This min-value can not be represented in that type.";
+        private const string
+            ERR_OVERFLOW = "This min-value can not be represented in that type.";
 
         /// <summary>
-        /// Creates a MinValue instance for a primitive numeric type.
+        /// Initializes a new MinValue instance for a numeric simple type.
         /// </summary>
-        /// <param name="typeCode">TypeCode of a primitive numeric type.</param>
+        /// <param name="typeCode">TypeCode of a numeric simple type.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a primitive numeric type.
+        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a numeric simple type.
         /// </exception>
         /// <seealso cref="Numeric.IsNumeric(TypeCode)"/>
         public MinValue(TypeCode typeCode)
@@ -31,7 +32,7 @@ namespace AZCL.Meta
             int tc5 = (int)typeCode - 5;
 
             if (unchecked((uint)tc5 > 10u)) // not numeric
-                throw new ArgumentException(Numeric._ERR_TC_NOT_NUMERIC, nameof(typeCode));
+                throw new ArgumentException(Numeric.ERR_TYPECODE, nameof(typeCode));
 
             this.tc5 = (byte)tc5;
         }
@@ -45,9 +46,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MinValue is for an Integer type.
+        /// Indicates whether this MinValue is of an integral type.
         /// </summary><remarks>
-        /// The Integer types are sbyte, byte, short, ushort, int, uint, long, ulong.
+        /// The integral types are sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public bool IsInteger
         {
@@ -55,7 +56,15 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MinValue fits inside a 32-bit signed integer.
+        /// Indicates whether this MinValue is of an unsigned integral type.
+        /// </summary>
+        public bool IsUnsigned
+        {
+            get { return (tc5 < 8) & ((tc5 & 1) == 0); } // (is actually < 7 - but 7 is an odd number anyway so w/e)
+        }
+
+        /// <summary>
+        /// Indicates whether this MinValue fits inside a 32-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt32"/>
         public bool FitsInt32
@@ -66,7 +75,9 @@ namespace AZCL.Meta
         /// <summary>
         /// This MinValue as an Int32. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MinValue is less than Int32.MinValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MinValue is less than Int32.MinValue.
+        /// </exception>
         /// <seealso cref="FitsInt32"/>
         public int AsInt32
         {
@@ -75,12 +86,12 @@ namespace AZCL.Meta
                 if (FitsInt32)
                     return (tc5 & 1) - 1 & int.MinValue >> 24 - (tc5 + tc5 + (tc5 & 4) << 1); // hint: (tc5 & 1) is for signed / unsigned
                 else
-                    throw new OverflowException(_ERR_Overflow);
+                    throw new OverflowException(ERR_OVERFLOW);
             }
         }
 
         /// <summary>
-        /// True if this MinValue fits inside a 32-bit signed integer.
+        /// Indicates whether this MinValue fits inside a 32-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt64"/>
         public bool FitsInt64
@@ -91,7 +102,9 @@ namespace AZCL.Meta
         /// <summary>
         /// This MinValue as an Int64. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MinValue is less than Int64.MinValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MinValue is less than Int64.MinValue.
+        /// </exception>
         /// <seealso cref="FitsInt64"/>
         public long AsInt64
         {
@@ -99,18 +112,17 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Compares this MinValue to the MinValue of another primitive numeric type.
-        /// </summary>
-        /// <param name="other">TypeCode of a primitive numeric type to compare min-value against.</param>
-        /// <returns>
+        /// Compares this MinValue to the MinValue of a numeric simple type.
+        /// </summary><returns>
         /// A 32-bit signed integer that indicates the relative order of the objects being compared.
         /// The return value has the following meanings:
         /// <br/>Less than zero: This min-value is less than the min-value of other.
         /// <br/>Zero: The min-values are the same (same type or both unsigned).
         /// <br/>Greater than zero: This min-value is greater than the min-value of other.
         /// </returns>
+        /// <param name="other">TypeCode of a numeric simple type to compare min-value against.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="other"/> doesn't correspond to a primitive numeric type.
+        /// Thrown if <paramref name="other"/> doesn't correspond to a numeric simple type.
         /// </exception>
         /// <seealso cref="Numeric.IsNumeric(TypeCode)"/>
         public int CompareTo(TypeCode other)
@@ -122,7 +134,7 @@ namespace AZCL.Meta
                 return 0;
 
             if (unchecked((uint)tc2 > 10u)) // not numeric
-                throw new ArgumentException(Numeric._ERR_TC_NOT_NUMERIC, nameof(other));
+                throw new ArgumentException(Numeric.ERR_TYPECODE, nameof(other));
 
             if ((tc1 | tc2) < 8) // "both are integer type"
             {
@@ -146,8 +158,11 @@ namespace AZCL.Meta
             }
         }
 
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <summary>
+        /// Compares this MinValue to another MinValue.
+        /// </summary>
         /// <param name="other">MinValue to compare against.</param>
+        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(MinValue other)
         {
             return CompareTo(other.TypeCode);

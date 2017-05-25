@@ -5,8 +5,10 @@ using AZCL.Bits;
 namespace AZCL.Meta
 {
     /// <summary>
-    /// A struct that describes the max-value of a primitive numeric type. (Struct size: 1 byte)
-    /// </summary>
+    /// Represents a max-value for a numeric simple type. (Struct size: 1 byte)
+    /// </summary><remarks>
+    /// An uninitialized instance will correspond to sbyte.MaxValue.
+    /// </remarks>
     [System.Runtime.InteropServices.StructLayout(LayoutKind.Sequential)]
     public struct MaxValue : IComparable<TypeCode>, IComparable<MaxValue>,
         IComparable<sbyte>, IComparable<byte>, IComparable<short>, IComparable<ushort>,
@@ -14,14 +16,15 @@ namespace AZCL.Meta
     {
         private readonly byte tc5;
 
-        private const string _ERR_Overflow = "This max-value can not be represented in that type.";
+        private const string
+            ERR_OVERFLOW = "This max-value can not be represented in that type.";
 
         /// <summary>
-        /// Creates a MaxValue instance for a primitive numeric type.
+        /// Initializes a new MaxValue instance for a numeric simple type.
         /// </summary>
-        /// <param name="typeCode">TypeCode of a primitive numeric type.</param>
+        /// <param name="typeCode">TypeCode of a numeric simple type.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a primitive numeric type.
+        /// Thrown if <paramref name="typeCode"/> doesn't correspond to a numeric simple type.
         /// </exception>
         /// <seealso cref="Numeric.IsNumeric(TypeCode)"/>
         public MaxValue(TypeCode typeCode)
@@ -29,7 +32,7 @@ namespace AZCL.Meta
             int tc5 = (int)typeCode - 5;
 
             if (unchecked((uint)tc5 > 10u)) // not numeric
-                throw new ArgumentException("TypeCode does not correspond to a numeric type.", nameof(typeCode));
+                throw new ArgumentException(Numeric.ERR_TYPECODE, nameof(typeCode));
 
             this.tc5 = (byte)tc5;
         }
@@ -43,17 +46,17 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MaxValue is for an Integer type.
+        /// Indicates whether this MaxValue is of an integral type.
         /// </summary><remarks>
-        /// The Integer types are sbyte, byte, short, ushort, int, uint, long, ulong.
+        /// The integral types are sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
-        public bool IsInteger
+        public bool IsIntegral
         {
             get { return tc5 < 8; }
         }
 
         /// <summary>
-        /// True if this MaxValue is for an unsigned Integer type.
+        /// Indicates whether this MaxValue is of an unsigned integral type.
         /// </summary>
         public bool IsUnsigned
         {
@@ -61,7 +64,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MaxValue fits inside a 32-bit signed integer.
+        /// Indicates whether this MaxValue fits inside a 32-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt32"/>
         /// <seealso cref="FitsUInt32"/>
@@ -73,14 +76,16 @@ namespace AZCL.Meta
         /// <summary>
         /// This MaxValue as an Int32. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MaxValue is greater than Int32.MaxValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MaxValue is greater than Int32.MaxValue.
+        /// </exception>
         /// <seealso cref="FitsInt32"/>
         public int AsInt32
         {
             get
             {
                 if (tc5 > 4)
-                    throw new OverflowException(_ERR_Overflow);
+                    throw new OverflowException(ERR_OVERFLOW);
 
                 int t6 = tc5 & 6;
                 return int.MaxValue >> 24 - (tc5 & 1) - (t6 + t6 + (t6 & 4) << 1);
@@ -88,7 +93,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MaxValue fits inside a 32-bit unsigned integer.
+        /// Indicates whether this MaxValue fits inside a 32-bit unsigned integer.
         /// </summary>
         /// <seealso cref="AsUInt32"/>
         /// <seealso cref="FitsInt32"/>
@@ -100,14 +105,16 @@ namespace AZCL.Meta
         /// <summary>
         /// This MaxValue as an UInt32. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MaxValue is greater than UInt32.MaxValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MaxValue is greater than UInt32.MaxValue.
+        /// </exception>
         /// <seealso cref="FitsUInt32"/>
         public uint AsUInt32
         {
             get
             {
                 if (tc5 > 5)
-                    throw new OverflowException(_ERR_Overflow);
+                    throw new OverflowException(ERR_OVERFLOW);
 
                 int t6 = tc5 & 6;
                 return uint.MaxValue >> 25 - (tc5 & 1) - (t6 + t6 + (t6 & 4) << 1);
@@ -121,7 +128,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MaxValue fits inside a 64-bit signed integer.
+        /// Indicates whether this MaxValue fits inside a 64-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt64"/>
         /// <seealso cref="FitsUInt64"/>
@@ -133,7 +140,9 @@ namespace AZCL.Meta
         /// <summary>
         /// This MaxValue as an Int64. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MaxValue is greater than Int64.MaxValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MaxValue is greater than Int64.MaxValue.
+        /// </exception>
         /// <seealso cref="FitsInt64"/>
         public long AsInt64
         {
@@ -144,7 +153,7 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if this MaxValue fits inside a 64-bit unsigned integer.
+        /// Indicates whether this MaxValue fits inside a 64-bit unsigned integer.
         /// </summary>
         /// <seealso cref="AsUInt64"/>
         /// <seealso cref="FitsInt64"/>
@@ -156,7 +165,9 @@ namespace AZCL.Meta
         /// <summary>
         /// This MaxValue as an UInt64. (Throwing!)
         /// </summary>
-        /// <exception cref="OverflowException">Thrown if this MaxValue is greater than UInt64.MaxValue.</exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if this MaxValue is greater than UInt64.MaxValue.
+        /// </exception>
         /// <seealso cref="FitsUInt64"/>
         public ulong AsUInt64
         {
@@ -167,18 +178,17 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Compares this MaxValue to the MaxValue of another primitive numeric type.
-        /// </summary>
-        /// <param name="other">TypeCode of a primitive numeric type to compare max-value against.</param>
-        /// <returns>
+        /// Compares this MaxValue to the MaxValue of a numeric simple type.
+        /// </summary><returns>
         /// A 32-bit signed integer that indicates the relative order of the objects being compared.
         /// The return value has the following meanings:
         /// <br/>Less than zero: This max-value is less than the max-value of other.
         /// <br/>Zero: These max-values represent the same type.
         /// <br/>Greater than zero: This max-value is greater than the max-value of other.
         /// </returns>
+        /// <param name="other">TypeCode of a numeric simple type to compare max-value against.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="other"/> doesn't correspond to a primitive numeric type.
+        /// Thrown if <paramref name="other"/> doesn't correspond to a numeric simple type.
         /// </exception>
         /// <seealso cref="Numeric.IsNumeric(TypeCode)"/>
         public int CompareTo(TypeCode other)
@@ -190,7 +200,7 @@ namespace AZCL.Meta
                 return 0;
 
             if (unchecked((uint)tc2 > 10u)) // not numeric
-                throw new ArgumentException("TypeCode does not correspond to a primitive numeric type.", nameof(other));
+                throw new ArgumentException(Numeric.ERR_TYPECODE, nameof(other));
 
             if ((tc1 | tc2) < 10) // "neither is decimal"
             {
@@ -206,8 +216,11 @@ namespace AZCL.Meta
             }
         }
 
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <summary>
+        /// Compares this MaxValue to another MaxValue.
+        /// </summary>
         /// <param name="other">MaxValue to compare against.</param>
+        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(MaxValue other)
         {
             return CompareTo(other.TypeCode);
