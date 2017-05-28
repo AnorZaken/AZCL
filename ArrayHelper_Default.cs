@@ -40,8 +40,7 @@ namespace AZCL
         {
             return new ReadOnlyArrayR2<T>(array);
         }
-
-        /* wip
+        
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
         /// </summary>
@@ -60,7 +59,6 @@ namespace AZCL
         {
             return new ReadOnlyArrayR3<T>(array);
         }
-        */
 
         /// <summary>
         /// Creates a System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt; wrapper for an array.
@@ -313,8 +311,7 @@ namespace AZCL
             if (arr != null)
                 Array.Clear(arr, 0, arr.Length);
         }
-
-        /* wip
+        
         /// <summary>
         /// Clears an array by setting all values to default(T).
         /// </summary><remarks>
@@ -326,7 +323,6 @@ namespace AZCL
             if (arr != null)
                 Array.Clear(arr, 0, arr.Length);
         }
-        */
 
         /// <summary>
         /// Clears all elements of all inner arrays by setting them to default(T).
@@ -528,8 +524,7 @@ namespace AZCL
             }
             return ConvertAll(input.Array, converter);
         }
-
-        /* wip
+        
         /// <summary>
         /// Converts all elements of an array of one type to an array of another type.
         /// </summary><remarks>
@@ -578,7 +573,6 @@ namespace AZCL
             }
             return ConvertAll(input.Array, converter);
         }
-        */
 
         /// <summary>
         /// Converts all elements of a jagged array of one type to an identically shaped jagged array of another type.
@@ -681,10 +675,11 @@ namespace AZCL
         /// </exception>
         public static bool Exists<T>(T[,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return Exists(new ReadOnlyArrayR2<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
 
-        /* wip
         /// <summary>
         /// Determines whether the array contains elements that match the conditions of the predicate.
         /// </summary><returns>
@@ -697,9 +692,10 @@ namespace AZCL
         /// </exception>
         public static bool Exists<T>(T[,,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return Exists(new ReadOnlyArrayR3<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
-        */
 
         /// <summary>
         /// Determines whether the array contains elements that match the conditions of the predicate.
@@ -748,8 +744,7 @@ namespace AZCL
 
             return array.Any(new Func<T, bool>(match));
         }
-
-        /* wip
+        
         /// <summary>
         /// Obsolete: Use Linq Any(Func&lt;T, bool&gt;) extension instead.
         /// </summary>
@@ -775,7 +770,6 @@ namespace AZCL
 
             return array.Any(new Func<T, bool>(match));
         }
-        */
 
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the predicate.
@@ -804,10 +798,11 @@ namespace AZCL
         /// </exception>
         public static bool TrueForAll<T>(T[,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return TrueForAll(new ReadOnlyArrayR2<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
 
-        /* wip
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the predicate.
         /// </summary><returns>
@@ -820,9 +815,10 @@ namespace AZCL
         /// </exception>
         public static bool TrueForAll<T>(T[,,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return TrueForAll(new ReadOnlyArrayR3<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
-        */
 
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the predicate.
@@ -871,8 +867,7 @@ namespace AZCL
 
             return array.All(new Func<T, bool>(match));
         }
-
-        /* wip
+        
         /// <summary>
         /// Obsolete: Use Linq All(Func&lt;T, bool&gt;) extension instead.
         /// </summary>
@@ -898,7 +893,6 @@ namespace AZCL
 
             return array.All(new Func<T, bool>(match));
         }
-        */
 
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the first occurrence.
@@ -927,11 +921,11 @@ namespace AZCL
         /// </exception>
         public static T Find<T>(T[,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return Find(new ArrayR2<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
 
-
-        /* wip
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the first occurrence.
         /// </summary><returns>
@@ -944,9 +938,10 @@ namespace AZCL
         /// </exception>
         public static T Find<T>(T[,,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return Find(new ArrayR3<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
-        */
 
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the first occurrence.
@@ -995,8 +990,7 @@ namespace AZCL
 
             return array.FirstOrDefault(new Func<T, bool>(match));
         }
-
-        /* wip
+        
         /// <summary>
         /// Obsolete: Use Linq FirstOrDefault(Func&lt;T, bool&gt;) extension instead.
         /// </summary>
@@ -1022,7 +1016,6 @@ namespace AZCL
 
             return array.FirstOrDefault(new Func<T, bool>(match));
         }
-        */
 
         /// <summary>
         /// Retrieves all the elements that match the conditions defined by the specified predicate.
@@ -1051,10 +1044,11 @@ namespace AZCL
         /// </exception>
         public static T[] FindAll<T>(T[,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return FindAll(new ArrayR2<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
 
-        /* wip
         /// <summary>
         /// Retrieves all the elements that match the conditions defined by the specified predicate.
         /// </summary><returns>
@@ -1067,9 +1061,10 @@ namespace AZCL
         /// </exception>
         public static T[] FindAll<T>(T[,,] array, Predicate<T> match)
         {
+#pragma warning disable CS0618
             return FindAll(new ArrayR3<T>(array), match); // <-- ctor does null check.
+#pragma warning restore CS0618
         }
-        */
 
         /// <summary>
         /// Retrieves all the elements that match the conditions defined by the specified predicate.
@@ -1118,8 +1113,7 @@ namespace AZCL
 
             return array.IsAbsent ? Empty<T>.Array : array.Where(new Func<T, bool>(match)).ToArray();
         }
-
-        /* wip
+        
         /// <summary>
         /// Obsolete: Use Linq Where(Func&lt;T, bool&gt;) extension instead.
         /// </summary>
@@ -1145,7 +1139,6 @@ namespace AZCL
 
             return array.IsAbsent ? Empty<T>.Array : array.Where(new Func<T, bool>(match)).ToArray();
         }
-        */
 
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the last occurrence.
@@ -1291,8 +1284,7 @@ namespace AZCL
             }
             return FindLast<T>(array.Array, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the last occurrence.
         /// </summary><returns>
@@ -1336,7 +1328,6 @@ namespace AZCL
             }
             return FindLast<T>(array.Array, match);
         }
-        */
 
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found.
@@ -1474,8 +1465,7 @@ namespace AZCL
             }
             return FindIndex<T>(array.Array, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found.
         /// </summary><returns>
@@ -1519,7 +1509,6 @@ namespace AZCL
             }
             return FindIndex<T>(array.Array, match);
         }
-        */
 
         /// <summary>
         /// Searches the array, starting at the specified index, for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found within that range.
@@ -1697,8 +1686,7 @@ namespace AZCL
         {
             return FindIndex<T>(array.Array ?? Empty<T>.ArrayR2, startIndex, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array, starting at the specified index, for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found within that range.
         /// </summary><returns>
@@ -1736,7 +1724,6 @@ namespace AZCL
         {
             return FindIndex<T>(array.Array ?? Empty<T>.ArrayR3, startIndex, match);
         }
-        */
 
         /// <summary>
         /// Searches the specified range of the array for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found.
@@ -1934,8 +1921,7 @@ namespace AZCL
         {
             return FindIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, count, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the specified range of the array for an element that matches the conditions defined by the predicate, returning the index of the first occurrence found.
         /// </summary><returns>
@@ -1977,7 +1963,6 @@ namespace AZCL
         {
             return FindIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, count, match);
         }
-        */
 
         /// <summary>
         /// Searches the array backwards for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in the array.
@@ -2121,8 +2106,7 @@ namespace AZCL
             }
             return FindLastIndex(array.Array, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array backwards for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in the array.
         /// </summary><returns>
@@ -2166,7 +2150,6 @@ namespace AZCL
             }
             return FindLastIndex(array.Array, match);
         }
-        */
 
         /// <summary>
         /// Searches the array backwards, starting at the specified index, for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in that range.
@@ -2366,8 +2349,7 @@ namespace AZCL
         {
             return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array backwards, starting at the specified index, for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in that range.
         /// </summary><returns>
@@ -2407,7 +2389,6 @@ namespace AZCL
         {
             return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, match);
         }
-        */
 
         /// <summary>
         /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
@@ -2631,8 +2612,7 @@ namespace AZCL
         {
             return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, count, match);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
         /// for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in that range.
@@ -2678,7 +2658,6 @@ namespace AZCL
         {
             return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, count, match);
         }
-        */
 
         /// <summary>
         /// Searches the array for the specified value and returns the index of its first occurrence.
@@ -2768,8 +2747,7 @@ namespace AZCL
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array for the specified value and returns the index of its first occurrence.
         /// </summary><returns>
@@ -2795,7 +2773,6 @@ namespace AZCL
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         }
-        */
 
         /// <summary>
         /// Searches the array for the specified value, starting at the specified index, returning the index of the first occurrence found within that range.
@@ -2916,8 +2893,7 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array for the specified value, starting at the specified index, returning the index of the first occurrence found within that range.
         /// </summary><returns>
@@ -2957,7 +2933,6 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
-        */
 
         /// <summary>
         /// Searches the specified range of the array for the specified value, returning the index of the first occurrence found.
@@ -3081,8 +3056,7 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the specified range of the array for the specified value, returning the index of the first occurrence found.
         /// </summary><returns>
@@ -3120,7 +3094,6 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
-        */
 
         /// <summary>
         /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
@@ -3208,8 +3181,7 @@ namespace AZCL
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
         /// </summary><returns>
@@ -3235,7 +3207,6 @@ namespace AZCL
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
-        */
 
         /// <summary>
         /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
@@ -3360,8 +3331,7 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
         /// </summary><returns>
@@ -3395,7 +3365,6 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
-        */
 
         /// <summary>
         /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
@@ -3525,8 +3494,7 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
-
-        /* wip
+        
         /// <summary>
         /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
         /// for the specified value, returning the index of the last occurrence in that range.
@@ -3566,6 +3534,5 @@ namespace AZCL
         {
             return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
-        */
     }
 }

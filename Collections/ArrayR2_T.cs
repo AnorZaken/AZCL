@@ -6,7 +6,7 @@ namespace AZCL.Collections
     /// <summary>
     /// Thin wrapper for rank 2 arrays to implement IEnumerable&lt;<typeparamref name="T"/>&gt; and thus become "Linq-able" and usable in foreach loops.
     /// </summary><remarks>
-    /// The original wrapped array is exposed by the <see cref="ArrayR2{T}.Array"/> property.
+    /// The wrapped array is exposed through the <see cref="ArrayR2{T}.Array"/> property.
     /// </remarks>
     public partial struct ArrayR2<T> : IEquatable<ArrayR2<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: implement for better Linq performance?
     {
@@ -33,7 +33,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Creates a ReadOnlyArray wrapper for an array.
+        /// Creates an ArrayR2 wrapper for a rank 2 array.
         /// </summary>
         /// <param name="array">The array to wrap.</param>
         /// <exception cref="ArgumentNullException">
@@ -123,7 +123,7 @@ namespace AZCL.Collections
             if (unchecked((uint)index >= (uint)Length))
                 throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
 
-            int leny = LengthY;
+            int leny = array.GetLength(1); // we know array is non null after the above check^
             // Fast DivRem:
             x = index / leny;
             y = index - x * leny;
@@ -216,6 +216,8 @@ namespace AZCL.Collections
         /// <summary>
         /// Gets the value at the specified position in the wrapped backing array.
         /// </summary>
+        /// <param name="x">First index of the element to get.</param>
+        /// <param name="y">Second index of the element to get.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
