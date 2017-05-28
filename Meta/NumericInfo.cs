@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace AZCL.Meta
 {
     /// <summary>
-    /// A struct that holds info about a primitive numeric type. (Struct size: 1 byte)
+    /// Represents meta information about a numeric simple type. (Struct size: 1 byte)
     /// </summary>
     [System.Runtime.InteropServices.StructLayout(LayoutKind.Sequential)]
     public struct NumericInfo
@@ -12,16 +12,15 @@ namespace AZCL.Meta
         private readonly byte tc;
 
         /// <summary>
-        /// Create a NumericInfo instance from a TypeCode.
+        /// Initializes a NumericInfo instance from a TypeCode.
         /// </summary>
         public NumericInfo(TypeCode tc)
         {
-            //bool isNumeric = unchecked((uint)tc - 5u) <= 10u);
             this.tc = (byte)tc;
         }
 
         /// <summary>
-        /// The System.TypeCode of the type.
+        /// System.TypeCode of the represented type.
         /// </summary>
         public TypeCode TypeCode
         {
@@ -29,9 +28,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is one of the primitive numeric types.
+        /// Indicates whether the represented type is a numeric simple type.
         /// </summary><remarks>
-        /// The primitive numeric types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, decimal.
+        /// The numeric simple types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.
         /// </remarks>
         public bool IsNumeric
         {
@@ -39,9 +38,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is an integer type. (NOT DECIMAL!)
+        /// Indicates whether the represented type is an integral type.
         /// </summary><remarks>
-        /// True if this NumericInfo instance corresponds to sbyte, byte, short, ushort, int, uint, long or ulong.
+        /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public bool IsInteger
         {
@@ -49,9 +48,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is a signed integer type. (NOT DECIMAL!)
+        /// Indicates whether the represented type is a signed integral type.
         /// </summary><remarks>
-        /// True if this NumericInfo instance corresponds to sbyte, short, int or long.
+        /// The signed integral types are: sbyte, short, int, and long.
         /// </remarks>
         public bool IsIntSigned
         {
@@ -59,9 +58,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is an unsigned integer type.
+        /// Indicates whether the represented type is an unsigned integral type.
         /// </summary><remarks>
-        /// True if this NumericInfo instance corresponds to byte, ushort, uint or ulong.
+        /// The unsigned integral types are: byte, ushort, uint, and ulong.
         /// </remarks>
         public bool IsIntUnsigned
         {
@@ -69,15 +68,17 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is float or double.
-        /// </summary>
+        /// Indicates whether the represented type is a floating-point type.
+        /// </summary><remarks>
+        /// The floating-point types are: float and double.
+        /// </remarks>
         public bool IsFloat
         {
             get { return (tc - 5 & -2) == 8; }
         }
 
         /// <summary>
-        /// Size of the type in bytes, or -1 if the type is not one of the primitive numeric types!
+        /// Size of the represented type in bytes, or -1 if the represented type is not a numeric simple type.
         /// </summary>
         private int SizeOf
         {
@@ -93,9 +94,9 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// True if the type is bound by a 32-bit signed integer.
+        /// Indicates whether the represented type is bound by a 32-bit signed integer.
         /// </summary><remarks>
-        /// This is true if the type is sbyte, byte, short, ushort or int.
+        /// This is true if the type is sbyte, byte, short, ushort, or int.
         /// </remarks>
         public bool FitsInt32
         {
@@ -103,18 +104,22 @@ namespace AZCL.Meta
         }
 
         /// <summary>
-        /// Get a <see cref="MaxValue"/> instance of the represented type.
+        /// Gets a <see cref="MaxValue"/> instance of the represented type.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the represented type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the represented type isn't a numeric simple type.
+        /// </exception>
         public MaxValue Max
         {
             get { return new MaxValue(this.TypeCode); }
         }
 
         /// <summary>
-        /// Get a <see cref="MinValue"/> instance of the represented type.
+        /// Gets a <see cref="MinValue"/> instance of the represented type.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown if the represented type isn't primitive numeric.</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the represented type isn't a numeric simple type.
+        /// </exception>
         public MinValue Min
         {
             get { return new MinValue(this.TypeCode); }

@@ -3,21 +3,22 @@
 namespace AZCL
 {
     /// <summary>
-    /// Common extensions for use on System.Type instances.
+    /// Extensions for use on System.Type instances.
     /// </summary>
     public static class TypeExtensions
     {
-        private static readonly object typeof_Nullable = typeof(Nullable<>);
+        // cached generic type definition
+        private static readonly object tdef_Nullable = typeof(Nullable<>);
 
         /// <summary>
-        /// Returns true if the System.Type is a Nullable&lt;&gt; type.
-        /// </summary><remarks>
-        /// Also returns true if the type is the generic type definition for Nullable&lt;&gt;,
-        /// i.e. the result of the expression: <code>typeof(Nullable&lt;&gt;)</code>
-        /// </remarks>
+        /// Returns whether the System.Type is a Nullable&lt;?&gt; type.
+        /// </summary><returns>
+        /// True if the type is a Nullable&lt;X&gt; for some other type X (or the generic type
+        /// definition of Nullable&lt;&gt;); otherwise false.
+        /// </returns>
         public static bool IsNullable(this Type t)
         {
-            return t.IsGenericType && Object.ReferenceEquals(typeof_Nullable, t.IsGenericTypeDefinition ? t : t.GetGenericTypeDefinition());
+            return t.IsGenericType && ReferenceEquals(tdef_Nullable, t.GetGenericTypeDefinition());
         }
     }
 }

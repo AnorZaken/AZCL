@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AZCL
+namespace AZCL.Bits
 {
     /// <summary>
     /// An 128-bit Union of standard c# value-types: [unsigned] longs/ints/shorts/bytes, four floats and two doubles.
@@ -34,7 +34,7 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Gets or sets the i'th byte.
+        /// Gets or sets the i-th byte.
         /// </summary>
         /// <param name="i">The index of the byte to get or set [0-15].</param>
         public byte this[int i] // Union128 has 16 bytes.
@@ -144,8 +144,14 @@ namespace AZCL
         [FieldOffset(0)]
         public byte byte_0;
 
+        /// <summary>
+        /// Signed byte 1 (second lowest).
+        /// </summary>
         [FieldOffset(1)]
         public sbyte sbyte_1;
+        /// <summary>
+        /// Byte 1 (second lowest).
+        /// </summary>
         [FieldOffset(1)]
         public byte byte_1;
 
@@ -160,13 +166,25 @@ namespace AZCL
         [FieldOffset(2)]
         public ushort ushort_2_3;
 
+        /// <summary>
+        /// Signed byte 2 (third lowest).
+        /// </summary>
         [FieldOffset(2)]
         public sbyte sbyte_2;
+        /// <summary>
+        /// Byte 2 (third lowest).
+        /// </summary>
         [FieldOffset(2)]
         public byte byte_2;
 
+        /// <summary>
+        /// Signed byte 3 (fourth lowest).
+        /// </summary>
         [FieldOffset(3)]
         public sbyte sbyte_3;
+        /// <summary>
+        /// Byte 3 (fourth lowest).
+        /// </summary>
         [FieldOffset(3)]
         public byte byte_3;
 
@@ -198,13 +216,25 @@ namespace AZCL
         [FieldOffset(4)]
         public ushort ushort_4_5;
 
+        /// <summary>
+        /// Signed byte 4 (fifth lowest).
+        /// </summary>
         [FieldOffset(4)]
         public sbyte sbyte_4;
+        /// <summary>
+        /// Byte 4 (fifth lowest).
+        /// </summary>
         [FieldOffset(4)]
         public byte byte_4;
 
+        /// <summary>
+        /// Signed byte 5 (sixth lowest).
+        /// </summary>
         [FieldOffset(5)]
         public sbyte sbyte_5;
+        /// <summary>
+        /// Byte 5 (sixth lowest).
+        /// </summary>
         [FieldOffset(5)]
         public byte byte_5;
 
@@ -219,13 +249,25 @@ namespace AZCL
         [FieldOffset(6)]
         public ushort ushort_6_7;
 
+        /// <summary>
+        /// Signed byte 6 (seventh lowest).
+        /// </summary>
         [FieldOffset(6)]
         public sbyte sbyte_6;
+        /// <summary>
+        /// Byte 6 (seventh lowest).
+        /// </summary>
         [FieldOffset(6)]
         public byte byte_6;
 
+        /// <summary>
+        /// Signed byte 7 (eighth lowest).
+        /// </summary>
         [FieldOffset(7)]
         public sbyte sbyte_7;
+        /// <summary>
+        /// Byte 7 (eighth lowest).
+        /// </summary>
         [FieldOffset(7)]
         public byte byte_7;
 
@@ -274,13 +316,25 @@ namespace AZCL
         [FieldOffset(8)]
         public ushort ushort_8_9;
 
+        /// <summary>
+        /// Signed byte 8 (eighth highest).
+        /// </summary>
         [FieldOffset(8)]
         public sbyte sbyte_8;
+        /// <summary>
+        /// Byte 8 (eighth highest).
+        /// </summary>
         [FieldOffset(8)]
         public byte byte_8;
 
+        /// <summary>
+        /// Signed byte 9 (seventh highest).
+        /// </summary>
         [FieldOffset(9)]
         public sbyte sbyte_9;
+        /// <summary>
+        /// Byte 9 (seventh highest).
+        /// </summary>
         [FieldOffset(9)]
         public byte byte_9;
 
@@ -295,13 +349,25 @@ namespace AZCL
         [FieldOffset(10)]
         public ushort ushort_10_11;
 
+        /// <summary>
+        /// Signed byte 10 (sixth highest).
+        /// </summary>
         [FieldOffset(10)]
         public sbyte sbyte_10;
+        /// <summary>
+        /// Byte 10 (sixth highest).
+        /// </summary>
         [FieldOffset(10)]
         public byte byte_10;
 
+        /// <summary>
+        /// Signed byte 11 (fifth highest).
+        /// </summary>
         [FieldOffset(11)]
         public sbyte sbyte_11;
+        /// <summary>
+        /// Byte 11 (fifth highest).
+        /// </summary>
         [FieldOffset(11)]
         public byte byte_11;
 
@@ -333,13 +399,25 @@ namespace AZCL
         [FieldOffset(12)]
         public ushort ushort_12_13;
 
+        /// <summary>
+        /// Signed byte 12 (fourth highest).
+        /// </summary>
         [FieldOffset(12)]
         public sbyte sbyte_12;
+        /// <summary>
+        /// Byte 12 (fourth highest).
+        /// </summary>
         [FieldOffset(12)]
         public byte byte_12;
 
+        /// <summary>
+        /// Signed byte 13 (third highest).
+        /// </summary>
         [FieldOffset(13)]
         public sbyte sbyte_13;
+        /// <summary>
+        /// Byte 13 (third highest).
+        /// </summary>
         [FieldOffset(13)]
         public byte byte_13;
 
@@ -354,8 +432,14 @@ namespace AZCL
         [FieldOffset(14)]
         public ushort ushort_14_15;
 
+        /// <summary>
+        /// Signed byte 14 (second highest).
+        /// </summary>
         [FieldOffset(14)]
         public sbyte sbyte_14;
+        /// <summary>
+        /// Byte 14 (second highest).
+        /// </summary>
         [FieldOffset(14)]
         public byte byte_14;
 

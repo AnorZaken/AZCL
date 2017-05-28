@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace AZCL
+namespace AZCL.Bits
 {
     /// <summary>
     /// A 64-bit Union of standard c# value-types: [unsigned] long/ints/shorts/bytes, two floats and a double value.
@@ -52,7 +52,7 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Gets or sets the i'th byte.
+        /// Gets or sets the i-th byte.
         /// </summary>
         /// <param name="i">The index of the byte to get or set [0-7].</param>
         public byte this[int i] // Union64 has 8 bytes.
@@ -162,8 +162,14 @@ namespace AZCL
         [FieldOffset(0)]
         public byte byte_0;
 
+        /// <summary>
+        /// Signed byte 1 (second lowest).
+        /// </summary>
         [FieldOffset(1)]
         public sbyte sbyte_1;
+        /// <summary>
+        /// Byte 1 (second lowest).
+        /// </summary>
         [FieldOffset(1)]
         public byte byte_1;
 
@@ -178,13 +184,25 @@ namespace AZCL
         [FieldOffset(2)]
         public ushort ushort_2_3;
 
+        /// <summary>
+        /// Signed byte 2 (third lowest).
+        /// </summary>
         [FieldOffset(2)]
         public sbyte sbyte_2;
+        /// <summary>
+        /// Byte 2 (third lowest).
+        /// </summary>
         [FieldOffset(2)]
         public byte byte_2;
 
+        /// <summary>
+        /// Signed byte 3 (fourth lowest).
+        /// </summary>
         [FieldOffset(3)]
         public sbyte sbyte_3;
+        /// <summary>
+        /// Byte 3 (fourth lowest).
+        /// </summary>
         [FieldOffset(3)]
         public byte byte_3;
 
@@ -216,13 +234,25 @@ namespace AZCL
         [FieldOffset(4)]
         public ushort ushort_4_5;
 
+        /// <summary>
+        /// Signed byte 4 (fourth highest).
+        /// </summary>
         [FieldOffset(4)]
         public sbyte sbyte_4;
+        /// <summary>
+        /// Byte 4 (fourth highest).
+        /// </summary>
         [FieldOffset(4)]
         public byte byte_4;
 
+        /// <summary>
+        /// Signed byte 5 (third highest).
+        /// </summary>
         [FieldOffset(5)]
         public sbyte sbyte_5;
+        /// <summary>
+        /// Byte 5 (third highest).
+        /// </summary>
         [FieldOffset(5)]
         public byte byte_5;
 
@@ -237,8 +267,14 @@ namespace AZCL
         [FieldOffset(6)]
         public ushort ushort_6_7;
 
+        /// <summary>
+        /// Signed byte 6 (second highest).
+        /// </summary>
         [FieldOffset(6)]
         public sbyte sbyte_6;
+        /// <summary>
+        /// Byte 6 (second highest).
+        /// </summary>
         [FieldOffset(6)]
         public byte byte_6;
 

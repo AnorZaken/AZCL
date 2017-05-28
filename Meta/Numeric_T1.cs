@@ -8,7 +8,7 @@ namespace AZCL.Meta
     public static class Numeric<T>
     {
         /// <summary>
-        /// Numeric info about type <typeparamref name="T"/>.
+        /// A static NumericInfo instance for type <typeparamref name="T"/>.
         /// </summary>
         public static readonly NumericInfo info = new NumericInfo(Type.GetTypeCode(typeof(T)));
     }
