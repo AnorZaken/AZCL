@@ -335,14 +335,37 @@ namespace AZCL
             return -1;
         }
 
+        public int LastIndexOf(T[] array, ref T value, int startIndex)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            if (value == null)
+            {
+                for (int i = startIndex; i >= 0; --i)
+                    if (array[i] == null)
+                        return i;
+            }
+            else
+            {
+                for (int i = startIndex; i >= 0; --i)
+                    if ((array[i]?.Equals(value)).GetValueOrDefault())
+                        return i;
+            }
+
+            return -1;
+        }
+
         public int LastIndexOf(T[,] array, ref T value, int startIndex)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            if (unchecked((uint)startIndex > (uint)array.Length))
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
 
-            if (startIndex == array.Length)
+            if (startIndex == -1)
                 return -1;
 
             int leny = array.LengthY();
@@ -385,10 +408,10 @@ namespace AZCL
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            if (unchecked((uint)startIndex > (uint)array.Length))
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
 
-            if (startIndex == array.Length)
+            if (startIndex == -1)
                 return -1;
 
             int leny = array.LengthY();
@@ -441,13 +464,41 @@ namespace AZCL
             return -1;
         }
 
+        public int LastIndexOf(T[] array, ref T value, int startIndex, int count)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            int lastIndex = unchecked(startIndex + 1 - count);
+
+            if ((count | lastIndex) < 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            if (value == null)
+            {
+                for (int i = startIndex; i >= lastIndex; --i)
+                    if (array[i] == null)
+                        return i;
+            }
+            else
+            {
+                for (int i = startIndex; i >= lastIndex; --i)
+                    if ((array[i]?.Equals(value)).GetValueOrDefault())
+                        return i;
+            }
+
+            return -1;
+        }
+
         public int LastIndexOf(T[,] array, ref T value, int startIndex, int count)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            if (unchecked((uint)startIndex > (uint)array.Length))
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if (unchecked((uint)count > (uint)(array.Length - startIndex)))
+            if ((count | startIndex - count + 1) < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (count == 0)
@@ -497,9 +548,9 @@ namespace AZCL
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
-            if (unchecked((uint)startIndex > (uint)array.Length))
+            if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if (unchecked((uint)count > (uint)(array.Length - startIndex)))
+            if (unchecked(startIndex + 1 - count | count) < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (count == 0)

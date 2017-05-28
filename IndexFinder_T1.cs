@@ -18,9 +18,11 @@ namespace AZCL
         int LastIndexOf(T[,] array, ref T value);
         int LastIndexOf(T[,,] array, ref T value);
 
+        int LastIndexOf(T[] array, ref T value, int startValue);
         int LastIndexOf(T[,] array, ref T value, int startValue);
         int LastIndexOf(T[,,] array, ref T value, int startValue);
 
+        int LastIndexOf(T[] array, ref T value, int startValue, int count);
         int LastIndexOf(T[,] array, ref T value, int startValue, int count);
         int LastIndexOf(T[,,] array, ref T value, int startValue, int count);
     }
