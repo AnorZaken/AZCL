@@ -345,10 +345,12 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(array));
 
             foreach (T[] arr in array)
+            {
                 if (arr == null)
                     throw new ArgumentException(paramName: nameof(array), message: ERR.CLEAR_INNER);
                 else
                     Clear(arr);
+            }
         }
 
         /// <summary>
@@ -368,10 +370,12 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(array));
 
             foreach (T[][] arr in array)
+            {
                 if (arr == null)
                     throw new ArgumentException(paramName: nameof(array), message: ERR.CLEAR_INNER);
                 else
                     ClearInner(arr);
+            }
         }
 
         /// <summary>
@@ -468,7 +472,7 @@ namespace AZCL
         /// </exception>
         public static TOutput[] ConvertAll<TInput, TOutput>(ReadOnlyArray<TInput> input, Converter<TInput, TOutput> converter)
         {
-            if (input.IsAbsent)
+            if (input.Array == null)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
@@ -494,7 +498,7 @@ namespace AZCL
         /// </exception>
         public static ArrayR2<TOutput> ConvertAll<TInput, TOutput>(ArrayR2<TInput> input, Converter<TInput, TOutput> converter)
         {
-            if (input.IsAbsent)
+            if (input.Array == null)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
@@ -515,7 +519,7 @@ namespace AZCL
         /// </exception>
         public static ArrayR2<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArrayR2<TInput> input, Converter<TInput, TOutput> converter)
         {
-            if (input.IsAbsent)
+            if (input.Array == null)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
@@ -542,7 +546,7 @@ namespace AZCL
         /// </exception>
         public static ArrayR3<TOutput> ConvertAll<TInput, TOutput>(ArrayR3<TInput> input, Converter<TInput, TOutput> converter)
         {
-            if (input.IsAbsent)
+            if (input.Array == null)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
@@ -565,7 +569,7 @@ namespace AZCL
         /// </exception>
         public static ArrayR3<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArrayR3<TInput> input, Converter<TInput, TOutput> converter)
         {
-            if (input.IsAbsent)
+            if (input.Array == null)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
@@ -599,6 +603,7 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(converter));
 
             var output = new TOutput[input.Length][];
+
             for (int i = 0; i < input.Length; ++i)
             {
                 var inner = input[i];
@@ -635,6 +640,7 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(converter));
 
             var output = new TOutput[input.Length][][];
+
             for (int i = 0; i < input.Length; ++i)
             {
                 var inner = input[i];
@@ -711,6 +717,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return false;
             }
             return Array.Exists<T>(array.Array, match);
@@ -833,6 +840,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return false;
             }
             return Array.TrueForAll<T>(array.Array, match);
@@ -956,6 +964,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return Array.Find<T>(array.Array, match);
@@ -1078,6 +1087,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return Empty<T>.Array;
             }
             return Array.FindAll<T>(array.Array, match);
@@ -1232,6 +1242,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return Array.FindLast<T>(array.Array, match);
@@ -1253,6 +1264,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return FindLast<T>(array.Array, match);
@@ -1274,6 +1286,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return FindLast<T>(array.Array, match);
@@ -1296,6 +1309,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return FindLast<T>(array.Array, match);
@@ -1317,6 +1331,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return default(T);
             }
             return FindLast<T>(array.Array, match);
@@ -1410,6 +1425,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return Array.FindIndex<T>(array.Array, match);
@@ -1431,6 +1447,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindIndex<T>(array.Array, match);
@@ -1452,6 +1469,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindIndex<T>(array.Array, match);
@@ -1474,6 +1492,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindIndex<T>(array.Array, match);
@@ -1495,6 +1514,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindIndex<T>(array.Array, match);
@@ -1870,17 +1890,7 @@ namespace AZCL
         /// </exception>
         public static int FindIndex<T>(this ReadOnlyArray<T> array, int startIndex, int count, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return Array.FindIndex<T>(array.Array, startIndex, count, match);
+            return Array.FindIndex<T>(array.Array ?? Empty<T>.Array, startIndex, count, match);
         }
 
         /// <summary>
@@ -2027,13 +2037,21 @@ namespace AZCL
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
 
-            int leny = array.LengthY();
-            int lenz = array.LengthZ();
-            for (int x = array.LengthX() - 1; x >= 0; --x)
-                for (int y = leny - 1; y >= 0; --y)
-                    for (int z = lenz - 1; z >= 0; --z)
-                        if (match(array[x, y, z]))
-                            return (x * leny + y) * lenz + z;
+            int x = array.LengthX() - 1;
+            if (x >= 0) // minor optimization (a convoluted way of doing 3 nested for-loops...)
+            {
+                int leny = array.LengthY(); // (...to avoid these two calls if LengthX is zero)
+                int lenz = array.LengthZ();
+
+                do
+                {
+                    for (int y = leny - 1; y >= 0; --y)
+                        for (int z = lenz - 1; z >= 0; --z)
+                            if (match(array[x, y, z]))
+                                return (x * leny + y) * lenz + z;
+                }
+                while (--x >= 0);
+            }
 
             return -1;
         }
@@ -2054,6 +2072,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return Array.FindLastIndex(array.Array, match);
@@ -2075,6 +2094,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindLastIndex(array.Array, match);
@@ -2096,6 +2116,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindLastIndex(array.Array, match);
@@ -2118,6 +2139,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindLastIndex(array.Array, match);
@@ -2139,6 +2161,7 @@ namespace AZCL
             {
                 if (match == null)
                     throw new ArgumentNullException(nameof(match));
+
                 return -1;
             }
             return FindLastIndex(array.Array, match);
@@ -2148,7 +2171,7 @@ namespace AZCL
         /// <summary>
         /// Searches the array backwards, starting at the specified index, for an element that matches the conditions defined by the predicate, returning the index of the last occurrence in that range.
         /// </summary><remarks>
-        /// <b>This method differs slightly from its System.Array.FindLastIndex counterpart:</b><br/>
+        /// <b>This method differs slightly from its System.Array counterpart:</b><br/>
         /// Whereas this method allows <paramref name="startIndex"/> to be -1 regardless of array length, the System.Array version
         /// allows <paramref name="startIndex"/> to be -1 if and only if the length of the <paramref name="array"/> is zero.<br/>
         /// This seemed oddly inconsistent with forward searching methods where going one step out of bounds (i.e. startIndex = array.Length)
@@ -2200,12 +2223,12 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(T[,] array, int startIndex, Predicate<T> match)
         {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
             if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if (match == null)
-                throw new ArgumentNullException(nameof(match));
 
             if (startIndex == -1)
                 return -1;
@@ -2246,12 +2269,12 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(T[,,] array, int startIndex, Predicate<T> match)
         {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
             if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if (match == null)
-                throw new ArgumentNullException(nameof(match));
 
             if (startIndex == -1)
                 return -1;
@@ -2321,15 +2344,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ArrayR2<T> array, int startIndex, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, match);
         }
 
         /// <summary>
@@ -2349,15 +2364,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ReadOnlyArrayR2<T> array, int startIndex, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, match);
         }
 
         /* wip
@@ -2378,15 +2385,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ArrayR3<T> array, int startIndex, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, match);
         }
         
         /// <summary>
@@ -2406,15 +2405,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ReadOnlyArrayR3<T> array, int startIndex, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, match);
         }
         */
 
@@ -2445,7 +2436,7 @@ namespace AZCL
             if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
 
-            int lastIndex = startIndex - count + 1;
+            int lastIndex = unchecked(startIndex + 1 - count);
 
             if ((count | lastIndex) < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
@@ -2483,7 +2474,7 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(array));
             if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if ((count | startIndex - count + 1) < 0)
+            if (unchecked(startIndex + 1 - count | count) < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (count == 0)
@@ -2536,7 +2527,7 @@ namespace AZCL
                 throw new ArgumentNullException(nameof(array));
             if (unchecked((uint)(startIndex + 1) > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(startIndex));
-            if ((count | startIndex - count + 1) < 0)
+            if (unchecked(startIndex + 1 - count | count) < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (count == 0)
@@ -2615,17 +2606,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ArrayR2<T> array, int startIndex, int count, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, count, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, count, match);
         }
 
         /// <summary>
@@ -2648,17 +2629,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ReadOnlyArrayR2<T> array, int startIndex, int count, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, count, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR2, startIndex, count, match);
         }
 
         /* wip
@@ -2682,17 +2653,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ArrayR3<T> array, int startIndex, int count, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, count, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, count, match);
         }
         
         /// <summary>
@@ -2715,17 +2676,7 @@ namespace AZCL
         /// </exception>
         public static int FindLastIndex<T>(ReadOnlyArrayR3<T> array, int startIndex, int count, Predicate<T> match)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != -1)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-                if (match == null)
-                    throw new ArgumentNullException(nameof(match));
-                return -1;
-            }
-            return FindLastIndex(array.Array, startIndex, count, match);
+            return FindLastIndex(array.Array ?? Empty<T>.ArrayR3, startIndex, count, match);
         }
         */
 
@@ -2923,13 +2874,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArray<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                return -1;
-            }
-            return Array.IndexOf<T>(array.Array, value, startIndex);
+            return Array.IndexOf<T>(array.Array ?? Empty<T>.Array, value, startIndex);
         }
 
         /// <summary>
@@ -2949,13 +2894,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ArrayR2<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
 
         /// <summary>
@@ -2975,13 +2914,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
 
         /* wip
@@ -3002,13 +2935,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ArrayR3<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
         
         /// <summary>
@@ -3028,13 +2955,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
         */
 
@@ -3120,16 +3041,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArray<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return Array.IndexOf<T>(array.Array, value, startIndex, count);
+            return Array.IndexOf<T>(array.Array ?? Empty<T>.Array, value, startIndex, count);
         }
 
         /// <summary>
@@ -3148,16 +3060,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ArrayR2<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
 
         /// <summary>
@@ -3176,16 +3079,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
 
         /* wip
@@ -3205,16 +3099,7 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ArrayR3<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
         
         /// <summary>
@@ -3233,243 +3118,453 @@ namespace AZCL
         /// </exception>
         public static int IndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.IndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
         */
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
         public static int LastIndexOf<T>(this T[] array, T value)
         {
             return Array.LastIndexOf<T>(array, value);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,] array, T value)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,,] array, T value)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
         public static int LastIndexOf<T>(this ReadOnlyArray<T> array, T value)
         {
             return array.Array == null ? -1 : Array.LastIndexOf<T>(array.Array, value);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
         public static int LastIndexOf<T>(this ArrayR2<T> array, T value)
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
         public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value)
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
 
         /* wip
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
         public static int LastIndexOf<T>(this ArrayR3<T> array, T value)
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
-
-
+        
+        /// <summary>
+        /// Searches the array backwards for the specified value, returning the index of the last occurrence in the array.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the array; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
         public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value)
         {
             return array.Array == null ? -1 : IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         }
         */
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><remarks>
+        /// This method performs an equality comparison by calling the <b>T.Equals</b> method on every element.
+        /// This means that if <typeparamref name="T"/> overrides the Equals method, that override is called.
+        /// <para/>
+        /// <b>This method differs slightly from its System.Array counterpart:</b><br/>
+        /// Whereas this method allows <paramref name="startIndex"/> to be -1 regardless of array length, the System.Array version
+        /// allows <paramref name="startIndex"/> to be -1 if and only if the length of the <paramref name="array"/> is zero.<br/>
+        /// This seemed oddly inconsistent with forward searching methods where going one step out of bounds (i.e. startIndex = array.Length)
+        /// is always permitted (regardless of array length). Since the cost of this oddity included a convoluted contract, a convoluted
+        /// documentation (not really since this oddity was in fact not documented!), and suboptimal usability, it was deemed costlier to
+        /// mimic this behavior than to allow what is arguably a small and rather obscure inconsistency with its System.Array counterpart.
+        /// <br/>
+        /// Also note that this method, unlike its counterpart, does not accept a startIndex of zero for zero-length arrays. This was another
+        /// oddity as not even the similar System.Array.FindLastIndex accepts anything other than a startIndex of -1 for zero-length arrays.
+        /// </remarks><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this T[] array, T value, int startIndex)
         {
-            return Array.LastIndexOf<T>(array, value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,] array, T value, int startIndex)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,,] array, T value, int startIndex)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArray<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-
-                return -1;
-            }
-            return Array.LastIndexOf<T>(array.Array, value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.Array, ref value, startIndex);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this ArrayR2<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
 
-
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex);
         }
 
         /* wip
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this ArrayR3<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
-
-
+        
+        /// <summary>
+        /// Searches the array backwards, starting at the specified index, for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex);
         }
         */
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this T[] array, T value, int startIndex, int count)
         {
-            return Array.LastIndexOf<T>(array, value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex, count);
         }
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,] array, T value, int startIndex, int count)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex, count);
         }
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this T[,,] array, T value, int startIndex, int count)
         {
             return IndexFinder<T>.instance.LastIndexOf(array, ref value, startIndex, count);
         }
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArray<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return Array.LastIndexOf<T>(array.Array, value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.Array, ref value, startIndex, count);
         }
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this ArrayR2<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
 
-
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR2, ref value, startIndex, count);
         }
 
         /* wip
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this ArrayR3<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
-
-
+        
+        /// <summary>
+        /// Searches the array, starting at the specified index and proceeding backwards over a range of <paramref name="count"/> elements,
+        /// for the specified value, returning the index of the last occurrence in that range.
+        /// </summary><returns>
+        /// The zero-based index of the last occurrence of <paramref name="value"/> in the searched range; or -1 if no equal value was found.
+        /// </returns>
+        /// <inheritdoc cref="LastIndexOf{T}(T[], T, int)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the backwards search (i.e. the highest index in the search range).</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
+        /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
+        /// </exception>
         public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex, int count)
         {
-            if (array.Array == null)
-            {
-                if (startIndex != 0)
-                    throw new ArgumentOutOfRangeException(nameof(startIndex));
-                if (count != 0)
-                    throw new ArgumentOutOfRangeException(nameof(count));
-
-                return -1;
-            }
-            return IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
+            return IndexFinder<T>.instance.LastIndexOf(array.Array ?? Empty<T>.ArrayR3, ref value, startIndex, count);
         }
         */
     }
