@@ -60,6 +60,10 @@ namespace AZCL
             return new ReadOnlyArrayR3<T>(array);
         }
 
+
+        /* Methods that only have array Rank 1 overloads: */
+        /* ********************************************** */
+
         /// <summary>
         /// Creates a System.Collections.ObjectModel.ReadOnlyCollection&lt;T&gt; wrapper for an array.
         /// </summary>
@@ -256,6 +260,102 @@ namespace AZCL
         {
             return array.Array == null ? -1 : Array.BinarySearch<T>(array.Array, index, length, value, comparer);
         }
+
+        // !!! There is a very important remark regarding sorting exceptions for .net 4.5 and up on MSDN !!!
+        /// <summary>
+        /// Sorts the array using either an IComparer&lt;T&gt; instance or the IComparable&lt;T&gt; implementation of each element in the array.
+        /// </summary><remarks>
+        /// If comparer is null, each element within the specified range of elements in array must implement the
+        /// IComparable&lt;T&gt; generic interface to be capable of comparisons with every other element in array.
+        /// <br/>If the sort is not successfully completed, the results are undefined.
+        /// </remarks>
+        /// <param name="array">The array to sort.</param>
+        /// <param name="comparer">The IComparer&lt;T&gt; instance to use when comparing elements; or null to use the IComparable&lt;T&gt; implementation of each element.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the <paramref name="comparer"/> caused an error during the sort.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="comparer"/> is null, and one or more elements in the array doesn't implement IComparable&lt;T&gt;.
+        /// </exception>
+        public static void Sort<T>(T[] array, IComparer<T> comparer = null)
+        {
+            Array.Sort<T>(array, comparer);
+        }
+
+        /// <summary>
+        /// Sorts the array using either an IComparer&lt;T&gt; instance or the IComparable&lt;T&gt; implementation of each element in the array.
+        /// </summary>
+        /// <inheritdoc cref="Sort{T}(T[], IComparer{T})" select="remarks"/>
+        /// <param name="array">The array to sort.</param>
+        /// <param name="comparer">The IComparer&lt;T&gt; instance to use when comparing elements; or null to use the IComparable&lt;T&gt; implementation of each element.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the <paramref name="comparer"/> caused an error during the sort.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="comparer"/> is null, and one or more elements in the array doesn't implement IComparable&lt;T&gt;.
+        /// </exception>
+        public static void Sort<T>(ReadOnlyArray<T> array, IComparer<T> comparer = null)
+        {
+            if (array.Array != null)
+                Array.Sort<T>(array.Array, comparer);
+        }
+
+        /// <summary>
+        /// Sorts the specified range of elements in the array using either an IComparer&lt;T&gt; instance or the IComparable&lt;T&gt; implementation of each element in the array.
+        /// </summary>
+        /// <inheritdoc cref="Sort{T}(T[], IComparer{T})" select="remarks"/>
+        /// <param name="array">The array to sort.</param>
+        /// <param name="index">The starting index of the range to sort.</param>
+        /// <param name="length">The number of elements in the range to sort.</param>
+        /// <param name="comparer">The IComparer&lt;T&gt; instance to use when comparing elements; or null to use the IComparable&lt;T&gt; implementation of each element.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> or <paramref name="length"/> is less than zero.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the <paramref name="comparer"/> caused an error during the sort.<br/>
+        /// Thrown if <paramref name="index"/> and <paramref name="length"/> don't specify a valid range in the array.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="comparer"/> is null, and one or more elements in the array doesn't implement IComparable&lt;T&gt;.
+        /// </exception>
+        public static void Sort<T>(T[] array, int index, int length, IComparer<T> comparer = null)
+        {
+            Array.Sort<T>(array, index, length, comparer);
+        }
+
+        /// <summary>
+        /// Sorts the specified range of elements in the array using either an IComparer&lt;T&gt; instance or the IComparable&lt;T&gt; implementation of each element in the array.
+        /// </summary>
+        /// <inheritdoc cref="Sort{T}(T[], IComparer{T})" select="remarks"/>
+        /// <param name="array">The array to sort.</param>
+        /// <param name="index">The starting index of the range to sort.</param>
+        /// <param name="length">The number of elements in the range to sort.</param>
+        /// <param name="comparer">The IComparer&lt;T&gt; instance to use when comparing elements; or null to use the IComparable&lt;T&gt; implementation of each element.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> or <paramref name="length"/> is less than zero.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the <paramref name="comparer"/> caused an error during the sort.<br/>
+        /// Thrown if <paramref name="index"/> and <paramref name="length"/> don't specify a valid range in the array.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <paramref name="comparer"/> is null, and one or more elements in the array doesn't implement IComparable&lt;T&gt;.
+        /// </exception>
+        public static void Sort<T>(ReadOnlyArray<T> array, int index, int length, IComparer<T> comparer = null)
+        {
+            if (array.Array != null)
+                Array.Sort<T>(array.Array, index, length, comparer);
+        }
+
+
+        /* Methods that have overloads for array Rank 1-3: */
+        /* *********************************************** */
 
         /// <summary>
         /// Clears an array by setting all values to default(T).
