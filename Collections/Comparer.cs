@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using SCG = System.Collections.Generic;
+using SCG = System.Collections.Generic; // alias
 
 namespace AZCL.Collections
 {
-    public abstract class Comparer<T> : SCG.Comparer<T> //TODO: doc
+    /// <summary>
+    /// Extends the System.Collections.Generic.Comparer&lt;<typeparamref name="T"/>&gt; class with additional static methods.
+    /// </summary><remarks>
+    /// Although perfectly serviceable as a base class for implementations of the IComparer&lt;T&gt; interface,
+    /// only static methods have been added so there is currently no real benefit over inheriting directly from
+    /// the System.Collections.Generic.Comparer&lt;T&gt; class; thus it is more recommended to do the latter.
+    /// <para/>
+    /// For more information see the System.Collections.Generic.Comparer&lt;T&gt; class.
+    /// </remarks>
+    /// <typeparam name="T">The type of objects to compare.</typeparam>
+    public abstract class Comparer<T> : SCG.Comparer<T>
     {
         /* Order: primary, secondary, tertiary, quaternary, quinary, senary, septenary, octonary, nonary, and denary. */
         /* ********************************************************************************************************** */
