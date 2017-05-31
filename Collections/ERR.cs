@@ -13,8 +13,10 @@ namespace AZCL.Collections
             START_PLUS_LENGTH = "Starting index + length exceeds the length of the array argument.",
 
             ARRAY_ARG_ABSENT = "Array argument / backing field is absent.",
+
+            PARAMS_CONTAINS_NULL = "One or more of the (params-)parameters are null.",
             
             BACKING_ARRAY_ABSENT = "Backing array is absent.";
-
+        
     }
 }

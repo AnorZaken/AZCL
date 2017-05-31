@@ -63,6 +63,7 @@
     <Compile Include="Collections\ArrayR3_T.Enumerator.cs" />
     <Compile Include="Collections\ArrayR3_T.cs" />
     <Compile Include="Collections\ArrayR2_T.cs" />
+    <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
     <Compile Include="Collections\ReadOnlyArrayR3_T.cs" />
