@@ -83,6 +83,7 @@
     <Compile Include="Meta\Evaluate.cs" />
     <Compile Include="Meta\IsAssignableFrom_T2.cs" />
     <Compile Include="Meta\IsComparable_T1.cs" />
+    <Compile Include="Meta\IsEnumCompatible.cs" />
     <Compile Include="Meta\IsEquatable_T1.cs" />
     <Compile Include="Meta\MaxValue.cs" />
     <Compile Include="Meta\MinValue.cs" />
