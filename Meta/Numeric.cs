@@ -175,5 +175,64 @@ namespace AZCL.Meta
         {
             return new MinValue(typeCode);
         }
+
+        // tries to convert an integral value of type TIn to an integral value of type TOut ...
+        // ... but only if the numerical value of the result would be identical to the numerical value of the input - including sign.
+        internal static bool TryConvertInteger<TIn, TOut>(TIn input, out TOut result) // TODO: doc and make public?
+            where TIn : IConvertible
+            where TOut : IConvertible
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+
+            result = default(TOut);
+
+            if (result == null)
+                return false;
+            
+            var niOut = new NumericInfo(result.GetTypeCode());
+            
+            if (niOut.IsInteger && niOut.FitsIntValue(input)) // (FitsIntValue: if 'input' (TIn) isn't an Integral type it simply returns false, but if TOut isn't numeric... it throws!)
+            {
+                try
+                {
+                    switch(niOut.TypeCode) // TODO: I dislike this switch and hate these double casts, but fixing it requires a lot of extra work, so maybe in the future :/
+                    {
+                        case TypeCode.SByte:
+                            result = (TOut)(object)input.ToSByte(null);
+                            return true;
+                        case TypeCode.Byte:
+                            result = (TOut)(object)input.ToByte(null);
+                            return true;
+                        case TypeCode.Int16:
+                            result = (TOut)(object)input.ToInt16(null);
+                            return true;
+                        case TypeCode.UInt16:
+                            result = (TOut)(object)input.ToUInt16(null);
+                            return true;
+                        case TypeCode.Int32:
+                            result = (TOut)(object)input.ToInt32(null);
+                            return true;
+                        case TypeCode.UInt32:
+                            result = (TOut)(object)input.ToUInt32(null);
+                            return true;
+                        case TypeCode.Int64:
+                            result = (TOut)(object)input.ToInt64(null);
+                            return true;
+                        case TypeCode.UInt64:
+                            result = (TOut)(object)input.ToUInt64(null);
+                            return true;
+                    }
+                }
+                catch
+                {
+#if DEBUG
+                    System.Diagnostics.Debug.Assert(false, "Unexpected cast failure"); // this should never happen!
+#endif
+                }
+            }
+
+            return false;
+        }
     }
 }
