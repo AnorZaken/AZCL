@@ -14,22 +14,20 @@ namespace AZCL.Collections
 
         /// <summary>
         /// Implicitly wraps a multi-rank array in a "Linq-able" <see cref="ArrayR2{T}"/> wrapper.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="array"/> is null.
-        /// </exception>
+        /// </summary><remarks>
+        /// If the array argument is null, the backing array of the Array wrapper will simply be absent.
+        /// </remarks>
         public static implicit operator ArrayR2<T>(T[,] array)
         {
-            return new ArrayR2<T>(array);
+            return array == null ? new ArrayR2<T>() : new ArrayR2<T>(array);
         }
 
         /// <summary>
         /// Implicitly unwraps an ArrayR2 instance.
         /// </summary>
-        /// <param name="array"></param>
         public static implicit operator T[,](ArrayR2<T> array)
         {
-            return array.array;
+            return array.Array;
         }
 
         /// <summary>
