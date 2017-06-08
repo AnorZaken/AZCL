@@ -12,7 +12,11 @@ namespace AZCL.Meta
     public static class Numeric
     {
         internal const string
-            ERR_TYPECODE = "TypeCode does not correspond to a numeric simple type.";
+            ERR_TYPECODE = "TypeCode does not correspond to a numeric simple type.",
+            ERR_MAX_OVERFLOW = "This MaxValue can not be represented in that type.",
+            ERR_MIN_OVERFLOW = "This MinValue can not be represented in that type.",
+            ERR_NOT_ISNUMERIC = "This operation cannot be performed on a NumericInfo instance on which " + nameof(NumericInfo.IsNumeric) + " is false.";
+
 
         /// <summary>
         /// Returns whether the TypeCode corresponds to one of the numeric simple types.

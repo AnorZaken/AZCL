@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AZCL.Bits;
 
@@ -15,9 +16,6 @@ namespace AZCL.Meta
         IComparable<int>, IComparable<uint>, IComparable<long>, IComparable<ulong>
     {
         private readonly byte tc5;
-
-        private const string
-            ERR_OVERFLOW = "This min-value can not be represented in that type.";
 
         /// <summary>
         /// Initializes a new MinValue instance for a numeric simple type.
@@ -86,7 +84,7 @@ namespace AZCL.Meta
                 if (FitsInt32)
                     return (tc5 & 1) - 1 & int.MinValue >> 24 - (tc5 + tc5 + (tc5 & 4) << 1); // hint: (tc5 & 1) is for signed / unsigned
                 else
-                    throw new OverflowException(ERR_OVERFLOW);
+                    throw new OverflowException(Numeric.ERR_MIN_OVERFLOW);
             }
         }
 
@@ -170,9 +168,14 @@ namespace AZCL.Meta
 
         /// <summary>
         /// Compares this MinValue to an sbyte value.
-        /// </summary>
+        /// </summary><returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared.
+        /// The return value has the following meanings:
+        /// <br/>Less than zero: This min-value is less than the other value.
+        /// <br/>Zero: This min-value equals the other value.
+        /// <br/>Greater than zero: This min-value is greater than the other value.
+        /// </returns>
         /// <param name="other">SByte value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(sbyte other)
         {
             //int i0 = -128 - tc5;      // tc5 is zero if TC is sbyte.
@@ -195,7 +198,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to a byte value.
         /// </summary>
         /// <param name="other">Byte value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(byte other)
         {
             //return (tc5 & 1) - 1 - other; // <-- wrong for tc5 == 9
@@ -206,7 +209,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to a signed short value.
         /// </summary>
         /// <param name="other">Int16 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(short other)
         {
             int min = (tc5 & 1) - (tc5 & 8 | 1) & int.MinValue >> 24 - tc5 - (1 - tc5 >> 1 & 6);
@@ -230,7 +233,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to an unsigned short value.
         /// </summary>
         /// <param name="other">UInt16 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ushort other)
         {
             return (tc5 & 1) - (tc5 & 8 | 1) - other;
@@ -240,7 +243,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to a signed int32 value.
         /// </summary>
         /// <param name="other">Int32 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(int other)
         {
             if ((tc5 & 9) == 0) // signed and NOT float/double/decimal
@@ -255,7 +258,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to an unsigned int32 value.
         /// </summary>
         /// <param name="other">UInt32 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(uint other)
         {
             return (tc5 & 1) - (tc5 & 8 | 1) - unchecked((int)(other & 3u | other >> 2)); //PS: shifting only 1 bit can cause overflow!
@@ -265,7 +268,7 @@ namespace AZCL.Meta
         /// Compares this MinValue to a signed int64 value.
         /// </summary>
         /// <param name="other">Int64 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(long other)
         {
             Union64 u64 = new Union64(other);
@@ -296,11 +299,37 @@ namespace AZCL.Meta
         /// Compares this MinValue to an unsigned int64 value.
         /// </summary>
         /// <param name="other">UInt64 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ulong other)
         {
             var u64 = new Union64(other);
             return CompareTo(u64.uint_0_3 | u64.uint_4_7); // because it's either zero or not.
+        }
+
+        /// <summary>
+        /// Compares this MinValue to an integral value of type <typeparamref name="TIntegral"/>.
+        /// </summary><remarks>
+        /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
+        /// </remarks><returns>
+        /// A nullable 32-bit signed integer that indicates the relative order of the objects being compared.
+        /// The return value has the following meanings:
+        /// <br/>Less than zero: This min-value is less than the other value.
+        /// <br/>Zero: This min-value equals the other value.
+        /// <br/>Greater than zero: This min-value is greater than the other value.
+        /// <br/>No Value: The type <typeparamref name="TIntegral"/> is not an Integral type.
+        /// </returns>
+        /// <param name="other">Integral value to compare against.</param>
+        /// <seealso cref="Numeric.IsInteger(TypeCode)"/>
+        public int? CompareToInt<TIntegral>(TIntegral other)
+        {
+            var conv = other as IConvertible;
+            if (conv == null || !Numeric.IsInteger(conv.GetTypeCode()))
+                return null;
+
+            if (Numeric.IsUnsigned(conv.GetTypeCode()))
+                return CompareTo(conv.ToUInt64(null));
+            else
+                return CompareTo(conv.ToInt64(null));
         }
     }
 }
