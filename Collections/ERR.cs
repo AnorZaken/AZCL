@@ -4,6 +4,7 @@ namespace AZCL.Collections
     // Shared error strings used in exceptions.
     internal static class ERR
     {
+        // this is just to keep it in an easy to find place for now, it should be made into resource strings eventually.
         internal const string
 
             AZCL_INTERNAL_ERROR = AZCL.ERR.AZCL_INTERNAL_ERROR,
