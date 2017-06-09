@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Reflection;
-#if DEBUG
 using System.Diagnostics;
-#endif
+using System.Reflection;
 using AZCL.Collections;
 
 /* An example implementation:
@@ -179,9 +177,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         {
             if (counter == values.Length)
             {
-#if DEBUG
                 Debug.Assert(false, ERR_COUNTER);
-#endif
                 throw new Exception(ERR_COUNTER);
             }
 
@@ -429,17 +425,26 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             // Verify requirement: Direct inheritance & Sealed.
             var tBase = t.BaseType;
             bool baseIsValid = tBase == typeof(Enumeration<TEnumeration>) || tBase.IsGenericType && tBase.GetGenericTypeDefinition() == typeof(Enumeration<,>);
-#if DEBUG
-            Debug.Assert(baseIsValid, Err_TName + ERR_BASE);
-            Debug.Assert(t.IsSealed, Err_TName + ERR_SEALED);
-            foreach (var ctor in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) // <-- Debug only! (For Release counting instantiations is sufficient.)
-                Debug.Assert(ctor.IsPrivate, ERR_CTOR);
-#endif
-            if (!baseIsValid)
-                throw new Exception(Err_TName + ERR_BASE);
-            if (!t.IsSealed)
-                throw new Exception(Err_TName + ERR_SEALED);
 
+            if (!baseIsValid)
+            {
+                Debug.Assert(false, Err_TName + ERR_BASE);
+                throw new Exception(Err_TName + ERR_BASE);
+            }
+            if (!t.IsSealed)
+            {
+                Debug.Assert(false, Err_TName + ERR_SEALED);
+                throw new Exception(Err_TName + ERR_SEALED);
+            }
+
+            VerifyCctorsPrivate(t);
+        }
+
+        [Conditional("DEBUG")] // Debug only: For Release counting instantiations is sufficient.
+        private static void VerifyCctorsPrivate(Type t)
+        {
+            foreach (var cctor in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+                Debug.Assert(cctor.IsPrivate, ERR_CTOR);
         }
 
         // this is NOT a copy!
@@ -470,6 +475,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 {
                     val = lastVal; // if this happens more than once it means that not all fields have initializers, but then TryInitializeName will fail below, so it will get caught.
                 }
+
                 if (!val.TryInitializeName(f.Name)) // TryInitializeName fails if name is already set, and since values.Length == fields.Length this ensures uniqueness!
                 {
                     err = Err_TName + "." + f.Name + ERR_FIELD_VALUE;
@@ -479,18 +485,11 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
 
             if (err != null)
             {
-#if DEBUG
                 Debug.Assert(false, err);
-#endif
                 throw new Exception(err);
             }
             
-            //System.Threading.Thread.MemoryBarrier(); // ensure the below write, indicating name initialization completed, isn't observable too soon.
             fields = null; // name initialization completed successfully.
-            //System.Threading.Thread.MemoryBarrier(); // ensure the above write, is released in a reasonably timely manner.
-            /* If all is working as intended the above code should be executing inside the lock of a type initializer making the barriers redundant,
-             * except perhaps in the case where there is a cyclic initialization dependency in a multi-threaded scenario? - But that would be a bug...
-             * I'm honestly conflicted about these barriers. Do they actually contribute anything in any meaningful / good way? */
         }
 
         internal static void TriggerInitialization()
@@ -498,13 +497,14 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             if (fields == null) // already initialized?
                 return;
 
-            System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(TEnumeration).TypeHandle); // <-- Plan A
+            System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(TEnumeration).TypeHandle);
 
             if (fields == null) // all good now?
                 return;
 
-            // Let's check that again...
+            // Uh-oh... Let's check that again...
             System.Threading.Thread.MemoryBarrier();
+            /*
             var f = fields;
             if (f == null)
                 return;
@@ -513,20 +513,19 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             f[0].GetValue(null); // <-- 'fields' is guaranteed to have at least one element if it's non-null. (See static ctor.)
 
             System.Threading.Thread.MemoryBarrier();
-
+            */
             if (fields != null) // This should never happen if field initialization requirements are met...
             {
                 if (values[values.Length - 1] == null)
                 {
                     // At least one field lacks initializer OR is initialized to the value of another field OR is initialized to null ...
                     // ... OR this method was called during type initialization (e.g. through TryParse, GetValuesInternal, or Values).
-#if DEBUG
                     Debug.Assert(false, Err_TName + ERR_FIELD_VALUE);
-#endif
                     throw new Exception(Err_TName + ERR_FIELD_VALUE);
                 }
                 else
                 {
+                    Debug.Assert(false, Err_TName + ERR_UNKNOWN);
                     throw new Exception(Err_TName + ERR_UNKNOWN); // This should never happen!
                 }
             }

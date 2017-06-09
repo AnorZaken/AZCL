@@ -206,13 +206,11 @@ namespace AZCL
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            if (!value.HasEnumValueImpl)
-            {
-                enumValue = default(TEnum);
-                return false;
-            }
+            if (value.HasEnumValueImpl && (typeof(TEnum).IsEnum || IsEnumCompatible<TEnum>()))
+                return value.TryGetEnumValue(out enumValue, allowConversion);
 
-            return (typeof(TEnum).IsEnum || IsEnumCompatible(out enumValue)) && value.TryGetEnumValue(out enumValue, allowConversion);
+            enumValue = default(TEnum);
+            return false;
         }
 
         /// <summary>
@@ -287,10 +285,10 @@ namespace AZCL
             => null;
 
         // the enum-compatible types are: bool, char, sbyte, byte, int16, uint16, int32, uint32, int64, and uint64.
-        internal static bool IsEnumCompatible<T>(out T val) // similar to AZCL.Meta.Evaluate.IsEnumCompatible but with constraints that make it more efficient.
+        internal static bool IsEnumCompatible<T>() // similar to AZCL.Meta.Evaluate.IsEnumCompatible but with constraints that make it more efficient.
             where T : struct, IConvertible
         {
-            val = default(T);
+            var val = default(T);
             return unchecked((uint)val.GetTypeCode() - 3u) < 10u;
         }
 

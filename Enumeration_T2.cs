@@ -209,15 +209,13 @@ namespace AZCL
             var tEnum = typeof(TEnum);
             if (!tEnum.IsEnum)
             {
-#if DEBUG
                 Debug.Assert(false, Err_TName + ERR_TENUM);
-#endif
                 throw new Exception(Err_TName + ERR_TENUM);
             }
-#if DEBUG
-            if (!Numeric.IsInteger(Type.GetTypeCode(tEnum))) // this is just so far reaching - don't bother checking in release.
-                Debug.Assert(false, Err_TName + ": Unknown System.Enum type - underlying type must be integral.");
-#endif
+
+            // this is excessive - don't do this in release.
+            Debug.Assert(IsEnumCompatible<TEnum>(), Err_TName + ": Unsupported System.Enum type - underlying type must be an integral type, char, or bool.");
+
             eqcTEnum = EqualityComparer<TEnum>.Default;
         }
         
@@ -287,9 +285,7 @@ namespace AZCL
                     // Verify requirement: Enum value uniqueness
                     if (ValueExists(values, v.EnumValue, i, eq))
                     {
-#if DEBUG
                         Debug.Assert(false, Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
-#endif
                         throw new Exception(Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
                     }
 
@@ -298,9 +294,7 @@ namespace AZCL
             }
             catch (ArgumentException e)
             {
-#if DEBUG
                 Debug.Assert(false, Err_TName + v.Name + ERR_ENUM_MISSING, e.Message);
-#endif
                 throw new Exception(Err_TName + v.Name + ERR_ENUM_MISSING, e);
             }
             catch (Exception e)
@@ -316,8 +310,8 @@ namespace AZCL
         // assumes names are initialized!
         private static void InitializeValues()
         {
-            bool isOP = true;
-            var eq = EqualityComparer<TEnum>.Default;
+            bool isOrdinalPaired = true;
+            var eq = eqcTEnum;
             var values = Values.Array;
             for (int i = 0; i < values.Length; ++i)
             {
@@ -325,9 +319,7 @@ namespace AZCL
                 TEnum v_enum;
                 if (!Enum.TryParse(v.Name, out v_enum))
                 {
-#if DEBUG
                     Debug.Assert(false, Err_TName + v.Name + ERR_ENUM_MISSING);
-#endif
                     throw new Exception(Err_TName + v.Name + ERR_ENUM_MISSING);
                 }
                 v.Value = v_enum;
@@ -335,16 +327,15 @@ namespace AZCL
                 // Verify requirement: Enum value uniqueness
                 if (ValueExists(values, v.Value, i, eq))
                 {
-#if DEBUG
                     Debug.Assert(false, Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
-#endif
                     throw new Exception(Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
                 }
 
-                isOP &= (ulong)i == ToUInt64(v.EnumValue); // i == Ordinal
+                isOrdinalPaired &= (ulong)i == ToUInt64(v.EnumValue); // i == Ordinal
             }
 
-            isOrdinalPaired = isOP;
+            if (isOrdinalPaired)
+                eqcTEnum = null;
         }
         */
     }
