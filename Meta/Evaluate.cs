@@ -57,5 +57,17 @@ namespace AZCL.Meta
         {
             return typeof(T).IsNullable(); // <-- AZCL extension.
         }
+
+        /// <summary>
+        /// Returns whether <typeparamref name="T"/> is an enum or enum compatible primitive type.
+        /// </summary><remarks>
+        /// The enum compatible types are: bool, char, sbyte, byte, short, ushort, int, uint, long, ulong,
+        /// and of course all user defined enum types (not including the actual System.Enum class!).
+        /// </remarks>
+        public static bool IsEnumCompatible<T>()
+        {
+            var tc = Type.GetTypeCode(typeof(T)); // if T is a user defined enum this will return the TypeCode of the underlying type.
+            return unchecked((uint)tc - 3u) < 10u;
+        }
     }
 }

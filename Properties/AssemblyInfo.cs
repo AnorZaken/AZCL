@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AZCL.Common")]
+[assembly: AssemblyTitle("AZCL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Högskolan i Skövde")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AZCL")]
-[assembly: AssemblyCopyright("Copyright © Högskolan i Skövde 2015")]
+[assembly: AssemblyCopyright("Copyright © Nicklas Damgren 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c9ee1ef0-9291-405d-aa77-b0cb43c023d6")]
+[assembly: Guid("0d0d544a-df45-49d7-8b71-4ba0c070606e")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

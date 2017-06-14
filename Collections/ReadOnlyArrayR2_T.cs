@@ -18,13 +18,12 @@ namespace AZCL.Collections
 
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="array"/> is null.
-        /// </exception>
+        /// </summary><remarks>
+        /// If the array argument is null, the backing array of the ReadOnlyArray will simply be absent.
+        /// </remarks>
         public static implicit operator ReadOnlyArrayR2<T>(T[,] array)
         {
-            return new ReadOnlyArrayR2<T>(array);
+            return array == null ? new ReadOnlyArrayR2<T>() : new ReadOnlyArrayR2<T>(array);
         }
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Creates a ReadOnlyArray wrapper for an array.
+        /// Creates a ReadOnlyArrayR2 wrapper for a rank 2 array.
         /// </summary>
         /// <param name="array">The array to wrap.</param>
         /// <exception cref="ArgumentNullException">
@@ -52,7 +51,7 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Creates a ReadOnlyArray wrapper for an array.
+        /// Creates a ReadOnlyArrayR2 wrapper from an ArrayR2 wrapper.
         /// </summary><remarks>
         /// If a backing array is absent, the backing array of the ReadOnlyArray will simply be absent too.
         /// </remarks>
@@ -127,7 +126,7 @@ namespace AZCL.Collections
             if (unchecked((uint)index >= (uint)Length))
                 throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
 
-            int leny = LengthY;
+            int leny = array.GetLength(1); // we know array is non null after the above check^
             // Fast DivRem:
             x = index / leny;
             y = index - x * leny;
@@ -234,6 +233,8 @@ namespace AZCL.Collections
         /// <summary>
         /// Gets the value at the specified position in the wrapped backing array.
         /// </summary>
+        /// <param name="x">First index of the element to get.</param>
+        /// <param name="y">Second index of the element to get.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using AZCL.Bits;
 
@@ -15,9 +16,6 @@ namespace AZCL.Meta
         IComparable<int>, IComparable<uint>, IComparable<long>, IComparable<ulong>
     {
         private readonly byte tc5;
-
-        private const string
-            ERR_OVERFLOW = "This max-value can not be represented in that type.";
 
         /// <summary>
         /// Initializes a new MaxValue instance for a numeric simple type.
@@ -85,7 +83,7 @@ namespace AZCL.Meta
             get
             {
                 if (tc5 > 4)
-                    throw new OverflowException(ERR_OVERFLOW);
+                    throw new OverflowException(Numeric.ERR_MAX_OVERFLOW);
 
                 int t6 = tc5 & 6;
                 return int.MaxValue >> 24 - (tc5 & 1) - (t6 + t6 + (t6 & 4) << 1);
@@ -114,7 +112,7 @@ namespace AZCL.Meta
             get
             {
                 if (tc5 > 5)
-                    throw new OverflowException(ERR_OVERFLOW);
+                    throw new OverflowException(Numeric.ERR_MAX_OVERFLOW);
 
                 int t6 = tc5 & 6;
                 return uint.MaxValue >> 25 - (tc5 & 1) - (t6 + t6 + (t6 & 4) << 1);
@@ -228,9 +226,14 @@ namespace AZCL.Meta
 
         /// <summary>
         /// Compares this MaxValue to an sbyte value.
-        /// </summary>
+        /// </summary><returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared.
+        /// The return value has the following meanings:
+        /// <br/>Less than zero: This max-value is less than the other value.
+        /// <br/>Zero: This max-value equals the other value.
+        /// <br/>Greater than zero: This max-value is greater than the other value.
+        /// </returns>
         /// <param name="other">SByte value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(sbyte other)
         {
             return sbyte.MaxValue - other + tc5;
@@ -240,7 +243,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to a byte value.
         /// </summary>
         /// <param name="other">Byte value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(byte other)
         {
             return (0xFffff >> 13 - tc5) - other;
@@ -250,7 +253,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to a signed short value.
         /// </summary>
         /// <param name="other">Int16 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(short other)
         {
             return (0xFffff >> 13 - tc5 - (1 - tc5 >> 1 & 6)) - other;
@@ -272,7 +275,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to an unsigned short value.
         /// </summary>
         /// <param name="other">UInt16 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ushort other)
         {
             return (0xFffff >> 13 - tc5 - (1 - tc5 >> 1 & 6)) - other;
@@ -282,7 +285,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to a signed int32 value.
         /// </summary>
         /// <param name="other">Int32 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(int other)
         {
             if (tc5 > 4)
@@ -296,7 +299,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to an unsigned int32 value.
         /// </summary>
         /// <param name="other">UInt32 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(uint other)
         {
             if (tc5 > 5)
@@ -312,7 +315,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to a signed int64 value.
         /// </summary>
         /// <param name="other">Int64 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(long other)
         {
             Union64 u64 = new Union64(other);
@@ -330,7 +333,7 @@ namespace AZCL.Meta
         /// Compares this MaxValue to an unsigned int64 value.
         /// </summary>
         /// <param name="other">UInt64 value to compare against.</param>
-        /// <inheritdoc cref="CompareTo(TypeCode)"/>
+        /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ulong other)
         {
             Union64 u64 = new Union64(other);
@@ -351,6 +354,32 @@ namespace AZCL.Meta
             }
 
             return tc5 - 6;
+        }
+
+        /// <summary>
+        /// Compares this MaxValue to an integral value of type <typeparamref name="TIntegral"/>.
+        /// </summary><remarks>
+        /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
+        /// </remarks><returns>
+        /// A nullable 32-bit signed integer that indicates the relative order of the objects being compared.
+        /// The return value has the following meanings:
+        /// <br/>Less than zero: This max-value is less than the other value.
+        /// <br/>Zero: This max-value equals the other value.
+        /// <br/>Greater than zero: This max-value is greater than the other value.
+        /// <br/>No Value: The type <typeparamref name="TIntegral"/> is not an Integral type.
+        /// </returns>
+        /// <param name="other">Integral value to compare against.</param>
+        /// <seealso cref="Numeric.IsInteger(TypeCode)"/>
+        public int? CompareToInt<TIntegral>(TIntegral other)
+        {
+            var conv = other as IConvertible;
+            if (conv == null || !Numeric.IsInteger(conv.GetTypeCode()))
+                return null;
+
+            if (Numeric.IsUnsigned(conv.GetTypeCode()))
+                return CompareTo(conv.ToUInt64(null));
+            else
+                return CompareTo(conv.ToInt64(null));
         }
     }
 }

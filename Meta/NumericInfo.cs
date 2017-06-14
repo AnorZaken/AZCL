@@ -124,5 +124,98 @@ namespace AZCL.Meta
         {
             get { return new MinValue(this.TypeCode); }
         }
+
+        internal bool FitsValue(sbyte value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return value > 0 || !IsIntUnsigned;
+        }
+
+        internal bool FitsValue(byte value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return tc != (int)TypeCode.SByte | value < sbyte.MaxValue;
+        }
+
+        internal bool FitsValue(short value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsValue(ushort value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsValue(int value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsValue(uint value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsValue(long value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsValue(ulong value) // TODO: doc and make public
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+
+            return Max.CompareTo(value) >= 0 && Min.CompareTo(value) <= 0;
+        }
+
+        internal bool FitsIntValue<TIntegral>(TIntegral value) // TODO: doc and make public?
+        {
+            if (!IsNumeric)
+                throw new InvalidOperationException(Numeric.ERR_NOT_ISNUMERIC);
+            
+            var conv = value as IConvertible;
+            if (conv == null)
+                return false;
+
+            var tcVal = conv.GetTypeCode();
+            if (!Numeric.IsInteger(tcVal))
+                return false;
+
+            // (check if TypeCodes are identical first before proceeding to more expensive operations)
+            if ((int)tcVal == tc)
+                return true;
+            
+            if (Numeric.IsUnsigned(tcVal))
+            {
+                ulong v64 = conv.ToUInt64(null);
+                return Max.CompareTo(v64) >= 0 && Min.CompareTo(v64) <= 0;
+            }
+            else
+            {
+                long v64 = conv.ToInt64(null);
+                return Max.CompareTo(v64) >= 0 && Min.CompareTo(v64) <= 0;
+            }
+        }
     }
 }

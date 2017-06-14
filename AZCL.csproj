@@ -12,6 +12,7 @@
     <AssemblyName>AZCL</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,9 +61,16 @@
     <Compile Include="ArrayHelper_Default.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
     <Compile Include="Bits\Rotate.cs" />
+    <Compile Include="Collections\ArrayR3_T.Enumerator.cs" />
+    <Compile Include="Collections\ArrayR3_T.cs" />
     <Compile Include="Collections\ArrayR2_T.cs" />
+    <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="Collections\ReadOnlyArrayR3_T.cs" />
+    <Compile Include="Enumeration.cs" />
+    <Compile Include="Enumeration_T.cs" />
+    <Compile Include="Enumeration_T2.cs" />
     <Compile Include="ERR.cs" />
     <Compile Include="Collections\Linqy.cs" />
     <Compile Include="Collections\ReadOnlyArrayR2_T.cs" />
@@ -71,12 +79,13 @@
     <Compile Include="Collections\ReadOnlyArray_T.Enumerator.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Collections\ArrayEnumerator_T.cs" />
-    <Compile Include="IndexFinder_T1.NonEquatable.cs" />
-    <Compile Include="IndexFinder_T1.Equatable.cs" />
+    <Compile Include="IndexFinderNonEquatable_T1.cs" />
+    <Compile Include="IndexFinderEquatable_T1.cs" />
     <Compile Include="IndexFinder_T1.cs" />
     <Compile Include="Meta\Evaluate.cs" />
     <Compile Include="Meta\IsAssignableFrom_T2.cs" />
     <Compile Include="Meta\IsComparable_T1.cs" />
+    <Compile Include="Meta\IsEnumCompatible.cs" />
     <Compile Include="Meta\IsEquatable_T1.cs" />
     <Compile Include="Meta\MaxValue.cs" />
     <Compile Include="Meta\MinValue.cs" />

@@ -910,6 +910,15 @@ namespace AZCL
             }
         }
 
+        // assumes non-null array!
+        internal static bool ExistsNull<T>(T[] array) where T : class
+        {
+            for (int i = 0; i < array.Length; ++i)
+                if (array[i] == null)
+                    return true;
+            return false;
+        }
+
         // -----
 
         // assumes valid arguments!

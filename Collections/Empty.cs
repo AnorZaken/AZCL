@@ -17,6 +17,16 @@ namespace AZCL.Collections
         public static readonly T[] Array = new T[0];
 
         /// <summary>
+        /// Empty (zero length) <typeparamref name="T"/>[,] array.
+        /// </summary>
+        public static readonly T[,] ArrayR2 = new T[0,0];
+
+        /// <summary>
+        /// Empty (zero length) <typeparamref name="T"/>[,,] array.
+        /// </summary>
+        public static readonly T[,,] ArrayR3 = new T[0,0,0];
+
+        /// <summary>
         /// Empty (read-only) ICollection&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static ICollection<T> ICollection
