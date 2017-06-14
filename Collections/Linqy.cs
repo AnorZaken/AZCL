@@ -35,5 +35,19 @@ namespace AZCL.Collections
             while (enumerator.MoveNext())
                 yield return enumerator.Current;
         }
+
+        public static IEnumerable<T> Skip<T>(this ArrayR3<T> array, int count)
+        {
+            var enumerator = new ArrayR3<T>.Enumerator(array.Array, count < 0 ? 0 : count);
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
+        }
+
+        public static IEnumerable<T> Skip<T>(this ReadOnlyArrayR3<T> array, int count)
+        {
+            var enumerator = new ArrayR3<T>.Enumerator(array.Array, count < 0 ? 0 : count);
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
+        }
     }
 }
