@@ -214,7 +214,7 @@ namespace AZCL
             }
 
             // this is excessive - don't do this in release.
-            Debug.Assert(IsEnumCompatible<TEnum>(), Err_TName + ": Unsupported System.Enum type - underlying type must be an integral type, char, or bool.");
+            Debug.Assert(IsEnumCompatible<TEnum>(), Err_TName + ": Unsupported System.Enum type - underlying type must be char, bool, or an integral type.");
 
             eqcTEnum = EqualityComparer<TEnum>.Default;
         }
@@ -229,7 +229,7 @@ namespace AZCL
         internal sealed override Type EnumValueType
             => typeof(TEnum);
 
-        // assumes TEnumX is either System.Enum or a valueType!
+        // TEnumX must either be System.Enum or a valueType.
         internal sealed override bool TryGetEnumValue<TEnumX>(out TEnumX enumValue, bool allowConversion) // (TEnumX : IConvertible)
         {
             if (EnumValue is TEnumX) // the System.Enum case will fall in here:
@@ -237,15 +237,20 @@ namespace AZCL
                 enumValue = (TEnumX)(object)EnumValue; // not sure how to get around this ugly double-cast... System.Enum is a bastard! :(
                 return true;
             }
-            else if (allowConversion)
-            {
-                // we *might* be able to perform some conversion magic even if the type is wrong ;)
-                return Numeric.TryConvertInteger(EnumValue, out enumValue);
-            }
             else
             {
-                enumValue = default(TEnumX);
-                return false;
+                AZAssert.Internal(Evaluate.IsEnumCompatible<TEnumX>(), "not enum compatible");
+
+                if (allowConversion)
+                {
+                    // we *might* be able to perform some conversion magic even if the type is wrong ;)
+                    return Numeric.TryConvertInteger(EnumValue, out enumValue);
+                }
+                else
+                {
+                    enumValue = default(TEnumX);
+                    return false;
+                }
             }
         }
 
@@ -259,6 +264,10 @@ namespace AZCL
 
         private static bool ValueExists(TEnumeration[] values, TEnum value, int count, EqualityComparer<TEnum> eq)
         {
+            AZAssert.NotNullInternal(values, nameof(values));
+            AZAssert.NotNullInternal(eq, nameof(eq));
+            AZAssert.BoundsInternal(values, count, nameof(count), true);
+
             for (int i = 0; i < count; ++i)
             {
                 if (eq.Equals(values[i].EnumValue, value))
@@ -266,10 +275,11 @@ namespace AZCL
             }
             return false;
         }
-
-        // assumes names are initialized!
+        
         private static void InitializeValues()
         {
+            AZAssert.Internal(IsNamesInitialized, "names not initialized");
+
             bool isOrdinalPaired = true;
             var eq = eqcTEnum;
             TEnumeration v = null;
@@ -307,9 +317,10 @@ namespace AZCL
         }
 
         /* Enum.TryParse doesn't exist in .net 3.5 :(
-        // assumes names are initialized!
         private static void InitializeValues()
         {
+            AZAssert.Internal(IsNamesInitialized, "names not initialized");
+
             bool isOrdinalPaired = true;
             var eq = eqcTEnum;
             var values = Values.Array;

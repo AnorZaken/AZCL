@@ -206,7 +206,7 @@ namespace AZCL
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            if (value.HasEnumValueImpl && (typeof(TEnum).IsEnum || IsEnumCompatible<TEnum>()))
+            if (value.HasEnumValueImpl && (IsEnumCompatible<TEnum>() || typeof(TEnum).IsEnum))
                 return value.TryGetEnumValue(out enumValue, allowConversion);
 
             enumValue = default(TEnum);
@@ -266,15 +266,17 @@ namespace AZCL
         {
             Ordinal = ordinal;
         }
-
-        // assumes name parameter gets a non-null argument!
+        
         internal bool TryInitializeName(string name)
         {
+            AZAssert.NotEmptyInternal(name, nameof(name));
+
             if (Name == null)
             {
                 Name = name;
                 return true;
             }
+
             return false;
         }
         
@@ -292,9 +294,11 @@ namespace AZCL
             return unchecked((uint)val.GetTypeCode() - 3u) < 10u;
         }
 
-        // assumes TEnumX is either the System.Enum class or an EnumCompatible primitive type (the latter of which includes user defined System.Enums)!!
+        // TEnumX must either be the System.Enum class or an EnumCompatible primitive type (the latter of which includes user defined System.Enums).
         internal virtual bool TryGetEnumValue<TEnumX>(out TEnumX enumValue, bool allowConversion) where TEnumX : IConvertible
         {
+            AZAssert.Internal(Meta.Evaluate.IsEnumCompatible<TEnumX>(), "not enum compatible");
+
             enumValue = default(TEnumX);
             return false;
         }

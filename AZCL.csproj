@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;AZCL_DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\AZCL.xml</DocumentationFile>
@@ -60,6 +60,7 @@
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="ArrayHelper_Default.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
+    <Compile Include="AZAssert.cs" />
     <Compile Include="Bits\Rotate.cs" />
     <Compile Include="Collections\ArrayR3_T.Enumerator.cs" />
     <Compile Include="Collections\ArrayR3_T.cs" />

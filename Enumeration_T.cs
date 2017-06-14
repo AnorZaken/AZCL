@@ -443,6 +443,8 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         [Conditional("DEBUG")] // Debug only: For Release counting instantiations is sufficient.
         private static void VerifyCctorsPrivate(Type t)
         {
+            AZAssert.NotNullInternal(t, nameof(t));
+
             foreach (var cctor in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 Debug.Assert(cctor.IsPrivate, ERR_CTOR);
         }
@@ -453,11 +455,13 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             TriggerInitialization();
             return values;
         }
-
-        // assumes both arrays are fully populated and of equal length.
+        
         // lastVal is the instance that is calling InitializeNames (from its ctor). (lastVal == values[values.Length - 1])
         private static void InitializeNames(TEnumeration lastVal, GetStaticFieldValue getFieldFunc)
         {
+            AZAssert.NotNullInternal(lastVal, nameof(lastVal));
+            AZAssert.NotNullInternal(fields, nameof(fields));
+
             string err = null;
             var t = typeof(TEnumeration);
             FieldInfo[] fieldArray = fields;
