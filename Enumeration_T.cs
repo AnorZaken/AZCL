@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using AZCL.Collections;
@@ -156,9 +157,10 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// Names for all instances are initialized during the constructor call for the initialization of the last (public static) TEnumeration field.
         /// </remarks>
         /// <exception cref="Exception">
-        /// Thrown if this operation causes the number of created instances to exceed the number of enumeration values declared for this enumeration type.
+        /// Thrown if this operation causes the number of created instances to exceed the number of public static <typeparamref name="TEnumeration"/> fields
+        /// declared in the <typeparamref name="TEnumeration"/> class. (If running a DEBUG build this will also trigger an assertion failure.)
         /// </exception>
-        /// <seealso cref="IsNamesInitialized"/>
+        /// <seealso cref="_IsInitialized"/>
         protected Enumeration() : this(null)
         { }
 
@@ -168,10 +170,11 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// <inheritdoc cref="Enumeration{TEnumeration}.Enumeration()" select="remarks"/>
         /// <param name="getFieldFunc">Provide this method in case you want to create a non-public Enumeration type for use in a low-trust environment.</param>
         /// <exception cref="Exception">
-        /// Thrown if this operation causes the number of created instances to exceed the number of enumeration values declared for this enumeration type.
+        /// Thrown if this operation causes the number of created instances to exceed the number of public static <typeparamref name="TEnumeration"/> fields
+        /// declared in the <typeparamref name="TEnumeration"/> class. (If running a DEBUG build this will also trigger an assertion failure.)
         /// </exception>
         /// <seealso cref="GetStaticFieldValue"/>
-        /// <seealso cref="IsNamesInitialized"/>
+        /// <seealso cref="_IsInitialized"/>
         protected Enumeration(GetStaticFieldValue getFieldFunc)
             : base(counter)
         {
@@ -185,7 +188,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             values[counter] = val;
 
             if (++counter == values.Length)
-                InitializeNames(val, getFieldFunc);
+                InitializeInfoAndNames(val, getFieldFunc);
         }
 
         /// <summary>
@@ -198,16 +201,131 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// </code>
         /// </remarks>
         protected delegate TEnumeration GetStaticFieldValue(FieldInfo field);
-        
+
+        /// <summary>
+        /// Next Enumeration value, in Ordinal order, or null if this is the last value.
+        /// </summary><remarks><note type="inheritinfo">
+        /// <b>Note To Inheritors:</b><br/>
+        /// If called during type initialization the next value might not be instantiated yet,
+        /// in which case this property can incorrectly return null even if this isn't the last value.
+        /// </note></remarks>
+        new public TEnumeration Next
+        {
+            get
+            {
+                int next = Ordinal + 1;
+                return next == values.Length ? null : values[next];
+            }
+        }
+
+        /// <summary>
+        /// Previous Enumeration value, in Ordinal order, or null if this is the first value.
+        /// </summary>
+        new public TEnumeration Prev
+            => Ordinal == 0 ? null : values[Ordinal - 1];
+
+        /// <summary>
+        /// EnumInfo instance that provides information about the Enumeration values of this Enumeration type.
+        /// </summary><remarks><note type="inheritinfo">
+        /// <b>Note To Inheritors:</b><br/>
+        /// This property is initially null. It is late initialized - meaning that only when type initialization has reached the point where all the
+        /// public static <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class have been initialized will
+        /// this property be initialized.
+        /// </note></remarks>
+        new public IEnumValues<TEnumeration> Values
+            => ev_instance;
+
         /// <summary>
         /// Number of enumeration values declared for this enumeration type.
-        /// </summary>
+        /// </summary><remarks>
+        /// This is the same as the number of public static <typeparamref name="TEnumeration"/> fields declared in the <typeparamref name="TEnumeration"/> class.
+        /// <br/>
+        /// <note type="inheritinfo">
+        /// <b>Note To Inheritors:</b><br/>
+        /// This property is safe to use during type initialization. It can thus be used in those special cases where <see cref="GetValues"/> would
+        /// throw and <see cref="Values"/> would return null. (See Note To Inheritors in the Remarks section of each of those properties respectively.)
+        /// </note>
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static int Count
             => values.Length;
 
         /// <summary>
+        /// <see cref="IEnumValues{TEnumeration}"/> instance that provides information about the Enumeration values of this Enumeration type.
+        /// </summary><remarks>
+        /// The leading underscore in the name of this property might be slightly confusing, but it is there to ensure that this property doesn't
+        /// mingle in with the public static <typeparamref name="TEnumeration"/> values declared in the <typeparamref name="TEnumeration"/> class.
+        /// <note type="inheritinfo">
+        /// <b>Note To Inheritors:</b><br/>
+        /// This property requires all <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class to have finished
+        /// initializing before it can return them, so if those fields are not initialized it will attempt to trigger their initialization.
+        /// However if this call executes during type initialization for <typeparamref name="TEnumeration"/>, either from the same thread or from another
+        /// thread with a circular initialization dependency*, then the attempt to perform initialization will return without having any effect.**
+        /// In such cases at least one of these fields could be observed as null***. Since this proves that <typeparamref name="TEnumeration"/> is
+        /// incorrectly implemented / in violation of the contract for types inheriting from Enumeration an Exception will be thrown****.
+        /// <br/><br/><i>
+        /// *If called from another thread, and assuming no circular dependency, the thread will simply block until initialization has finished, see
+        /// ECMA-335 (CIL Specification), part II, section 10.5.3.3.
+        /// <br/>
+        /// **Because type initialization is only allowed to occur once, see ECMA-335 (CIL Specification), part II, section 10.5.3.
+        /// <br/>
+        /// ***Any value observed is guaranteed to at least be default initialized, i.e. null, see ECMA-334 (C# Specification), section 17.4.5.
+        /// <br/>
+        ///****This exception will be swallowed by the type initializer and a TypeInitializationException will be thrown on access later, however if
+        /// running a debug build an Assertion message will also be displayed (prior to throwing) to help expose the flawed Enumeration implementation.
+        /// </i><br/><br/>
+        /// To avoid the risks mentioned above, all code that can execute during type initialization for the <typeparamref name="TEnumeration"/> class,
+        /// specifically before or during initialization of the public static <typeparamref name="TEnumeration"/> fields*, should avoid calling any code
+        /// outside the class if at all possible. To call outside code during initialization is to risk accidentally introducing a circular initialization
+        /// dependency.
+        /// <br/><br/><i>
+        /// *The code locations in question would be: the code inside the <typeparamref name="TEnumeration"/> instance constructors,
+        /// expressions called to provide arguments for those instance constructors, static field initializers that textually precede the last of the
+        /// public static fields of <typeparamref name="TEnumeration"/> type, as well as all code called from instance field initializers (because
+        /// instance field initializers are executed immediately before the call to the base class constructor, see ECMA-334 (C# Specification),
+        /// section 17.10.2).
+        /// </i><br/><br/>
+        /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
+        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class have already been initialized.
+        /// See also <see cref="_IsInitialized"/>.
+        /// </note>
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public static IEnumValues<TEnumeration> GetValues()
+        {
+            TriggerInitialization();
+            return ev_instance;
+        }
+
+        /// <summary>
+        /// Indicates whether this enumeration value is equal to another enumeration value.
+        /// </summary><returns>
+        /// True if these enumeration values are reference equal; otherwise false.
+        /// </returns>
+        /// <param name="other">An enumeration value to compare against.</param>
+        public bool Equals(TEnumeration other)
+            => ReferenceEquals(this, other);
+
+        /// <inheritdoc cref="Equals(TEnumeration)"/>
+        bool IEquatable<Enumeration<TEnumeration>>.Equals(Enumeration<TEnumeration> other)
+            => ReferenceEquals(this, other);
+
+        /// <summary>
+        /// Provides implicit downcasting.
+        /// </summary>
+        public static implicit operator TEnumeration(Enumeration<TEnumeration> value)
+        {
+            // An explicit cast is required here! (Otherwise it becomes circular / recursive and ends up causing a StackOverflow.)
+            return (TEnumeration)value;
+        }
+
+        /*
+        /// <summary>
         /// All enumeration values declared for this enumeration type, in ordinal / declaration order (wrapped in a readonly array).
         /// </summary><remarks>
+        /// The leading underscore in the name of this property might be slightly confusing, but it is there to ensure that this property doesn't
+        /// mingle in with the public static <typeparamref name="TEnumeration"/> values declared in the <typeparamref name="TEnumeration"/> class.
+        /// <para/>
         /// Use <see cref="ReadOnlyArray{T}.CopyBacking"/> if a non-readonly copy is required.
         /// <para/>
         /// <note type="inheritinfo">
@@ -241,11 +359,11 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// section 17.10.2).</i>
         /// <br/><br/>
         /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
-        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="IsNamesInitialized"/>.
+        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class have already been initialized.
+        /// See also <see cref="_IsInitialized"/>.
         /// </note>
         /// </remarks>
-        public static ReadOnlyArray<TEnumeration> Values
+        protected static ReadOnlyArray<TEnumeration> _Values
         {
             get
             {
@@ -253,29 +371,9 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 return values;
             }
         }
+        */
 
-        /// <summary>
-        /// Indicates whether this enumeration value is equal to another enumeration value.
-        /// </summary><returns>
-        /// True if these enumeration values are reference equal; otherwise false.
-        /// </returns>
-        /// <param name="other">An enumeration value to compare against.</param>
-        public bool Equals(TEnumeration other)
-            => ReferenceEquals(this, other);
-
-        /// <inheritdoc cref="Equals(TEnumeration)"/>
-        bool IEquatable<Enumeration<TEnumeration>>.Equals(Enumeration<TEnumeration> other)
-            => ReferenceEquals(this, other);
-
-        /// <summary>
-        /// Provides implicit downcasting.
-        /// </summary>
-        public static implicit operator TEnumeration(Enumeration<TEnumeration> value)
-        {
-            // An explicit cast is required here! (Otherwise it becomes circular / recursive and ends up causing a StackOverflow.)
-            return (TEnumeration)value;
-        }
-
+        /*
         /// <summary>
         /// Tries to find an enumeration value with the specified <paramref name="name"/> among the values defined for this enumeration type.
         /// </summary><remarks>
@@ -313,7 +411,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// <br/><br/>
         /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
         /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="IsNamesInitialized"/>.
+        /// See also <see cref="IsInitialized"/>.
         /// </note>
         /// </remarks><returns>
         /// Returns the <typeparamref name="TEnumeration"/> value with the specified name, if it exists; otherwise null.
@@ -331,7 +429,9 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             }
             return null;
         }
+        */
 
+        /*
         /// <summary>
         /// Tries to find an enumeration value with the specified <paramref name="ordinal"/> among the values defined for this enumeration type.
         /// </summary><remarks>
@@ -371,7 +471,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// <br/><br/>
         /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
         /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="IsNamesInitialized"/>.
+        /// See also <see cref="IsInitialized"/>.
         /// </note>
         /// </remarks><returns>
         /// Returns the <typeparamref name="TEnumeration"/> value with the specified ordinal, if it exists; otherwise null.
@@ -385,6 +485,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             TriggerInitialization();
             return values[ordinal];
         }
+        */
 
         // -----
 
@@ -397,14 +498,16 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// However all names are guaranteed to be initialized before entering a static constructor - assuming no field initializer was accidentally omitted.
         /// The easiest way to verify that all fields have an initializer is thus for the user defined enumeration type to assert this property in a static constructor.
         /// </remarks>
-        protected internal static bool IsNamesInitialized
-            => fields == null;
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        protected internal static bool _IsInitialized
+            => ev_instance != null;
 
         // -----
 
-        private static readonly TEnumeration[] values;
-        private static FieldInfo[] fields;
+        private static readonly TEnumeration[] values; // <-- early initialized.
+        private static FieldInfo[] fields; // <-- early initialized, late de-initialized.
         private static int counter; // <-- this grows during type initialization, until it reaches values.Length.
+        private static EnumValues<TEnumeration> ev_instance; // <-- late initialized (or early initialized if the Enumeration is empty).
 
         static Enumeration()
         {
@@ -413,13 +516,13 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             int len = f.Length;
             if (len == 0)
             {
-                fields = null;
                 values = Empty<TEnumeration>.Array;
+                ev_instance = new EnumValues<TEnumeration>(values);
             }
             else
             {
-                fields = f;
                 values = new TEnumeration[len];
+                fields = f;
             }
 
             // Verify requirement: Direct inheritance & Sealed.
@@ -428,13 +531,13 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
 
             if (!baseIsValid)
             {
-                Debug.Assert(false, Err_TName + ERR_BASE);
-                throw new Exception(Err_TName + ERR_BASE);
+                Debug.Assert(false, ErrPrefix + ERR_BASE);
+                throw new Exception(ErrPrefix + ERR_BASE);
             }
             if (!t.IsSealed)
             {
-                Debug.Assert(false, Err_TName + ERR_SEALED);
-                throw new Exception(Err_TName + ERR_SEALED);
+                Debug.Assert(false, ErrPrefix + ERR_SEALED);
+                throw new Exception(ErrPrefix + ERR_SEALED);
             }
 
             VerifyCctorsPrivate(t);
@@ -449,15 +552,29 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 Debug.Assert(cctor.IsPrivate, ERR_CTOR);
         }
 
+        // this is NOT a copy! this does NOT trigger full initialization!
+        internal static TEnumeration[] ValArrayInternal
+            => values;
+
         // this is NOT a copy!
-        internal static Enumeration[] GetValuesInternal()
+        internal sealed override Enumeration[] GetValuesInternal(bool triggerInitialization)
         {
-            TriggerInitialization();
+            if (triggerInitialization)
+                TriggerInitialization();
             return values;
         }
-        
+
+        internal sealed override IEnumValues EVInternal
+            => ev_instance;
+
+        internal virtual TEnumeration TryParse<TEnum>(TEnum enumValue, bool allowConversion = false)
+            where TEnum : struct, IConvertible
+        {
+            return null;
+        }
+
         // lastVal is the instance that is calling InitializeNames (from its ctor). (lastVal == values[values.Length - 1])
-        private static void InitializeNames(TEnumeration lastVal, GetStaticFieldValue getFieldFunc)
+        private static void InitializeInfoAndNames(TEnumeration lastVal, GetStaticFieldValue getFieldFunc)
         {
             AZAssert.NotNullInternal(lastVal, nameof(lastVal));
             AZAssert.NotNullInternal(fields, nameof(fields));
@@ -470,7 +587,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 var f = fieldArray[i];
                 if (!f.IsInitOnly || f.FieldType != t)
                 {
-                    err = Err_TName + "." + f.Name + ERR_FIELD_TYPE;
+                    err = ErrPrefix + "." + f.Name + ERR_FIELD_TYPE;
                     break;
                 }
 
@@ -482,7 +599,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
 
                 if (!val.TryInitializeName(f.Name)) // TryInitializeName fails if name is already set, and since values.Length == fields.Length this ensures uniqueness!
                 {
-                    err = Err_TName + "." + f.Name + ERR_FIELD_VALUE;
+                    err = ErrPrefix + "." + f.Name + ERR_FIELD_VALUE;
                     break;
                 }
             }
@@ -492,51 +609,46 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 Debug.Assert(false, err);
                 throw new Exception(err);
             }
-            
-            fields = null; // name initialization completed successfully.
+
+            fields = null; // fields array not needed anymore.
+
+            ev_instance = new EnumValues<TEnumeration>(values); // info init.
+            // late initialization completed successfully.
         }
 
-        internal static void TriggerInitialization()
+        private static void TriggerInitialization()
         {
-            if (fields == null) // already initialized?
+            if (_IsInitialized)
                 return;
 
             System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(TEnumeration).TypeHandle);
 
-            if (fields == null) // all good now?
+            if (_IsInitialized)
                 return;
 
-            // Uh-oh... Let's check that again...
+            // ...might as well give it a last desperate shot before throwing in the towel.
             System.Threading.Thread.MemoryBarrier();
-            /*
-            var f = fields;
-            if (f == null)
+
+            if (_IsInitialized)
                 return;
 
-            // Plan B: Accessing one static field should initialize all static fields. (ECMA-335, Class type definition, part I, section 8.9.5)
-            f[0].GetValue(null); // <-- 'fields' is guaranteed to have at least one element if it's non-null. (See static ctor.)
-
-            System.Threading.Thread.MemoryBarrier();
-            */
-            if (fields != null) // This should never happen if field initialization requirements are met...
+            // This code should be unreachable if all field initialization requirements are met...
+            if (values[values.Length - 1] == null)
             {
-                if (values[values.Length - 1] == null)
-                {
-                    // At least one field lacks initializer OR is initialized to the value of another field OR is initialized to null ...
-                    // ... OR this method was called during type initialization (e.g. through TryParse, GetValuesInternal, or Values).
-                    Debug.Assert(false, Err_TName + ERR_FIELD_VALUE);
-                    throw new Exception(Err_TName + ERR_FIELD_VALUE);
-                }
-                else
-                {
-                    Debug.Assert(false, Err_TName + ERR_UNKNOWN);
-                    throw new Exception(Err_TName + ERR_UNKNOWN); // This should never happen!
-                }
+                // At least one field lacks initializer OR is initialized to the value of another field OR is initialized to null ...
+                // ... OR this method was called during type initialization (in which case there exists a circular initialization dependency).
+                Debug.Assert(false, ErrPrefix + ERR_FIELD_VALUE);
+                throw new Exception(ErrPrefix + ERR_FIELD_VALUE);
+            }
+            else // This should never ever happen!
+            {
+                Debug.Assert(false, ErrPrefix + ERR_UNKNOWN);
+                throw new Exception(ErrPrefix + ERR_UNKNOWN);
             }
         }
 
         // Simple assembly name + simple type name. For prefixing error messages.
-        internal static string Err_TName
+        internal static string ErrPrefix
         {
             get
             {
@@ -555,7 +667,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             ERR_COUNTER = ": The required number of instances for this enumeration type has already been created. No further instantiation is allowed!",
             ERR_ENUM_MISSING = ": For each TEnumeration value / field there must exist a TEnum value with exactly the same name.",
             ERR_ENUM_UNIQUE = ": Every TEnum Value paired to an TEnumeration value must be (numerically) unique among all TEnum values paired to that specific TEnumeration type.",
-            ERR_UNKNOWN = ": Unknown enumeration initialization error.";
+            ERR_UNKNOWN = ": Enumeration initialization failed for mysterious unknown reasons. (Good luck!)";
     }
 }
 #pragma warning restore CS0660, CS0661

@@ -79,7 +79,7 @@ namespace AZCL
         /// <exception cref="Exception">
         /// Thrown if this operation causes the number of created instances to exceed the number of enumeration values declared for this enumeration type.
         /// </exception>
-        /// <seealso cref="Enumeration{TEnumeration}.IsNamesInitialized"/>
+        /// <seealso cref="Enumeration{TEnumeration}._IsInitialized"/>
         protected Enumeration() : this(null)
         { }
 
@@ -92,11 +92,11 @@ namespace AZCL
         /// Thrown if this operation causes the number of created instances to exceed the number of enumeration values declared for this enumeration type.
         /// </exception>
         /// <seealso cref="Enumeration{TEnumeration}.GetStaticFieldValue"/>
-        /// <seealso cref="Enumeration{TEnumeration}.IsNamesInitialized"/>
+        /// <seealso cref="Enumeration{TEnumeration}._IsInitialized"/>
         protected Enumeration(GetStaticFieldValue getFieldFunc)
             : base(getFieldFunc)
         {
-            if (IsNamesInitialized)
+            if (_IsInitialized)
                 InitializeValues();
         }
 
@@ -106,92 +106,6 @@ namespace AZCL
         /// The returned System.Enum value is guaranteed to have a name that exactly matches the name of this Enumeration value.
         /// </remarks>
         public TEnum EnumValue { get; private set; }
-
-        /// <summary>
-        /// Tries to find an enumeration value with the specified paired System.Enum <paramref name="enumValue"/> among the values defined for this enumeration type.
-        /// </summary><remarks>
-        /// This is an O(n) operation.
-        /// <para/>
-        /// <note type="inheritinfo">
-        /// <b>Note To Inheritors:</b><br/>
-        /// This method requires all <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class to have finished
-        /// initializing before it can search them, so if those fields are not initialized it will attempt to trigger their initialization.
-        /// However if this call executes during type initialization for <typeparamref name="TEnumeration"/>, either from the same thread or from another
-        /// thread with a circular initialization dependency*, then the attempt to perform initialization will return without having any effect.**
-        /// In such cases at least one of these fields could be observed as null***. Since this proves that <typeparamref name="TEnumeration"/> is
-        /// incorrectly implemented / in violation of the contract for types inheriting from Enumeration an Exception will be thrown****.
-        /// <br/><br/>
-        /// <i>*If called from another thread, and assuming no circular dependency, the thread will simply block until initialization has finished, see
-        /// ECMA-335 (CIL Specification), part II, section 10.5.3.3.</i>
-        /// <br/>
-        /// <i>**Because type initialization is only allowed to occur once, see ECMA-335 (CIL Specification), part II, section 10.5.3.</i>
-        /// <br/>
-        /// <i>***The value observed is guaranteed to be default initialized, i.e. null, see ECMA-334 (C# Specification), section 17.4.5.</i>
-        /// <br/>
-        /// <i>****This exception will be swallowed by the type initializer and a TypeInitializationException will be thrown on access later, however if
-        /// running a debug build an Assertion message will also be displayed prior to throwing to help expose the flawed Enumeration implementation.</i>
-        /// <br/><br/>
-        /// To avoid the risks mentioned above, all code that can execute during type initialization for the <typeparamref name="TEnumeration"/> class,
-        /// specifically before or during initialization of the public static <typeparamref name="TEnumeration"/> fields*, should avoid calling any code
-        /// outside the class if at all possible. To call outside code during initialization is to risk accidentally introducing a circular initialization
-        /// dependency.
-        /// <br/><br/>
-        /// <i>*The code locations in question would be: the code inside the <typeparamref name="TEnumeration"/> instance constructors,
-        /// expressions called to provide arguments for those instance constructors, static field initializers that textually precede the last of the
-        /// public static fields of <typeparamref name="TEnumeration"/> type, as well as all code called from instance field initializers (because
-        /// instance field initializers are executed immediately before the call to the base class constructor, see ECMA-334 (C# Specification),
-        /// section 17.10.2).</i>
-        /// <br/><br/>
-        /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
-        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="Enumeration{TEnumeration}.IsNamesInitialized"/>.
-        /// </note>
-        /// </remarks><returns>
-        /// Returns the <typeparamref name="TEnumeration"/> whose paired <see cref="EnumValue"/> matches the specified TEnum value, if it exists; otherwise null.
-        /// </returns>
-        /// <param name="enumValue">The paired System.Enum value of the enumeration value to find.</param>
-        public static TEnumeration TryParse(TEnum enumValue)
-        {
-            var values = Values.Array; // <-- triggers field initialization
-
-            var eq = eqcTEnum;
-            if (eq == null) // see IsOrdinalPaired
-            {
-                ulong ev_u64 = ToUInt64(enumValue);
-                if (ev_u64 < (ulong)values.Length)
-                    return values[(int)ev_u64];
-            }
-            else // perform an O(n) search:
-            {
-                for (int i = 0; i < values.Length; ++i)
-                {
-                    var v = values[i];
-                    if (eq.Equals(v.EnumValue, enumValue))
-                        return v;
-                }
-            }
-
-            return null;
-        }
-
-        /* feature creep!
-        /// <summary>
-        /// Returns whether there for this Enumeration type exists a pairing to the specified System.Enum <paramref name="enumValue"/>.
-        /// </summary><remarks>
-        /// This is an O(n) operation.
-        /// </remarks><returns>
-        /// True if the <typeparamref name="TEnumeration"/> type defines a value paired to the specified System.Enum value; otherwise false.
-        /// </returns>
-        /// <param name="enumValue">The System.Enum value for which to check for a pairing.</param>
-        public static bool Exists(TEnum enumValue)
-        {
-            var eq = eqcTEnum;
-            if (eq == null) // see IsOrdinalPaired
-                return ToUInt64(enumValue) < (ulong)Count;
-            else
-                return ValueExists(Values.Array, enumValue, Count, eq);
-        }
-        */
 
         bool IEquatable<Enumeration<TEnumeration, TEnum>>.Equals(Enumeration<TEnumeration, TEnum> other)
             => ReferenceEquals(this, other);
@@ -209,16 +123,16 @@ namespace AZCL
             var tEnum = typeof(TEnum);
             if (!tEnum.IsEnum)
             {
-                Debug.Assert(false, Err_TName + ERR_TENUM);
-                throw new Exception(Err_TName + ERR_TENUM);
+                Debug.Assert(false, ErrPrefix + ERR_TENUM);
+                throw new Exception(ErrPrefix + ERR_TENUM);
             }
 
             // this is excessive - don't do this in release.
-            Debug.Assert(IsEnumCompatible<TEnum>(), Err_TName + ": Unsupported System.Enum type - underlying type must be char, bool, or an integral type.");
+            Debug.Assert(IsEnumCompatible<TEnum>(), ErrPrefix + ": Unsupported System.Enum type - underlying type must be char, bool, or an integral type.");
 
             eqcTEnum = EqualityComparer<TEnum>.Default;
         }
-        
+
         // True if for all enumeration values their ordinal match the numerical value of the TEnum value they are paired with.
         private static bool IsOrdinalPaired
             => eqcTEnum == null;
@@ -230,7 +144,7 @@ namespace AZCL
             => typeof(TEnum);
 
         // TEnumX must either be System.Enum or a valueType.
-        internal sealed override bool TryGetEnumValue<TEnumX>(out TEnumX enumValue, bool allowConversion) // (TEnumX : IConvertible)
+        internal sealed override bool TryGetEnumValueInternal<TEnumX>(out TEnumX enumValue, bool allowConversion) // (TEnumX : IConvertible)
         {
             if (EnumValue is TEnumX) // the System.Enum case will fall in here:
             {
@@ -254,6 +168,50 @@ namespace AZCL
             }
         }
 
+        private TEnumeration TryParse(TEnum enumValue)
+        {
+            var values = ValArrayInternal;
+
+            var eq = eqcTEnum;
+            if (eq == null) // see IsOrdinalPaired
+            {
+                ulong ev_u64 = ToUInt64(enumValue);
+                if (ev_u64 < (ulong)values.Length)
+                    return values[(int)ev_u64];
+            }
+            else // perform an O(n) search:
+            {
+                for (int i = 0; i < values.Length; ++i)
+                {
+                    var v = values[i];
+                    if (eq.Equals(v.EnumValue, enumValue))
+                        return v;
+                }
+            }
+
+            return null;
+        }
+
+        internal sealed override TEnumeration TryParse<TEnum2>(TEnum2 enumValue, bool allowConversion = false)
+        {
+            if (IsEnumCompatible(enumValue))
+            {
+                if (enumValue is TEnum)
+                    return TryParse((TEnum)(object)enumValue);
+
+                TEnum eVal;
+                if (allowConversion && Numeric.TryConvertInteger(enumValue, out eVal))
+                    return TryParse(eVal);
+            }
+
+            return null;
+        }
+
+        internal sealed override Enumeration TryParseBasic<TEnum2>(TEnum2 enumValue, bool allowConversion = false)
+        {
+            return TryParse(enumValue, allowConversion);
+        }
+
         // needed because the Convert class, which all Enum types use to implement IConvertible, does bounds checks!
         private static ulong ToUInt64(TEnum enumValue)
         {
@@ -275,10 +233,10 @@ namespace AZCL
             }
             return false;
         }
-        
+
         private static void InitializeValues()
         {
-            AZAssert.Internal(IsNamesInitialized, "names not initialized");
+            AZAssert.Internal(_IsInitialized, "names not initialized");
 
             bool isOrdinalPaired = true;
             var eq = eqcTEnum;
@@ -286,7 +244,7 @@ namespace AZCL
             try
             {
                 var tEnum = typeof(TEnum);
-                var values = Values.Array;
+                var values = ValArrayInternal;
                 for (int i = 0; i < values.Length; ++i)
                 {
                     v = values[i];
@@ -295,8 +253,8 @@ namespace AZCL
                     // Verify requirement: Enum value uniqueness
                     if (ValueExists(values, v.EnumValue, i, eq))
                     {
-                        Debug.Assert(false, Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
-                        throw new Exception(Err_TName + "." + v.Name + ERR_ENUM_UNIQUE);
+                        Debug.Assert(false, ErrPrefix + "." + v.Name + ERR_ENUM_UNIQUE);
+                        throw new Exception(ErrPrefix + "." + v.Name + ERR_ENUM_UNIQUE);
                     }
 
                     isOrdinalPaired &= (ulong)i == ToUInt64(v.EnumValue); // i == Ordinal
@@ -304,12 +262,12 @@ namespace AZCL
             }
             catch (ArgumentException e)
             {
-                Debug.Assert(false, Err_TName + v.Name + ERR_ENUM_MISSING, e.Message);
-                throw new Exception(Err_TName + v.Name + ERR_ENUM_MISSING, e);
+                Debug.Assert(false, ErrPrefix + v.Name + ERR_ENUM_MISSING, e.Message);
+                throw new Exception(ErrPrefix + v.Name + ERR_ENUM_MISSING, e);
             }
             catch (Exception e)
             {
-                throw new Exception(Err_TName + ERR_BASE, e); // This should never happen!
+                throw new Exception(ErrPrefix + ERR_BASE, e); // This should never happen!
             }
 
             if (isOrdinalPaired)

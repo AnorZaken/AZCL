@@ -72,6 +72,7 @@
     <Compile Include="Enumeration.cs" />
     <Compile Include="Enumeration_T.cs" />
     <Compile Include="Enumeration_T2.cs" />
+    <Compile Include="EnumValues.cs" />
     <Compile Include="ERR.cs" />
     <Compile Include="Collections\ReadOnlyArrayR2_T.cs" />
     <Compile Include="Collections\ArrayR2_T.Enumerator.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="Collections\ReadOnlyArray_T.Enumerator.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Collections\ArrayEnumerator_T.cs" />
+    <Compile Include="IEnumValues_T.cs" />
+    <Compile Include="IEnumValues.cs" />
     <Compile Include="IndexFinderNonEquatable_T1.cs" />
     <Compile Include="IndexFinderEquatable_T1.cs" />
     <Compile Include="IndexFinder_T1.cs" />

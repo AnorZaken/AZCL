@@ -224,11 +224,9 @@ namespace AZCL.Meta
                             return true;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
-#if DEBUG
-                    System.Diagnostics.Debug.Assert(false, "Unexpected cast failure"); // this should never happen!
-#endif
+                    AZAssert.Internal(false, "Unexpected cast failure", e.Message); // this should never ever happen!
                 }
             }
 
