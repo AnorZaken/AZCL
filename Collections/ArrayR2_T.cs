@@ -121,13 +121,40 @@ namespace AZCL.Collections
             if (unchecked((uint)index >= (uint)Length))
                 throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
 
-            int leny = array.GetLength(1); // we know array is non null after the above check^
+            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
             // Fast DivRem:
             x = index / leny;
             y = index - x * leny;
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, tries to calculate the corresponding x and y item indexes.
+        /// </summary><returns>
+        /// False if the <paramref name="index"/> was out of bounds (or the backing array is absent); otherwise true.
+        /// </returns>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int)" select="remarks"/>
+        /// <param name="index">An enumeration index to calculate item indexes for.</param>
+        /// <param name="x">Resulting x index (or zero if the method failed).</param>
+        /// <param name="y">Resulting y index (or zero if the method failed).</param>
+        public bool TryCalculateIndexes(int index, out int x, out int y)
+        {
+            if (unchecked((uint)index >= (uint)Length))
+            {
+                x = y = 0;
+                return false;
+            }
+
+            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
+            // Fast DivRem:
+            x = index / leny;
+            y = index - x * leny;
+            // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
+            // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
+            // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+            return true;
         }
 
         /* Method CopyTo absent because it's for single dimensional arrays only as part of the ICollection interface. */
