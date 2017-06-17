@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace AZCL
 {
     /// <summary>
     /// Extensions for use on System.Type instances.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class TypeExtensions
     {
         // cached generic type definition

@@ -57,6 +57,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="ArrayExtensions_Copy.cs" />
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="ArrayHelper_Default.cs" />

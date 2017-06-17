@@ -1,9 +1,11 @@
-﻿
+﻿using System.ComponentModel;
+
 namespace AZCL
 {
     /// <summary>
     /// Extensions for use on Char values.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class CharExtensions
     {
         /// <summary>

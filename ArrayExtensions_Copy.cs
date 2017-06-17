@@ -2,9 +2,7 @@
 
 namespace AZCL
 {
-    /// <summary>
-    /// Extends [generic] array types with various methods.
-    /// </summary>
+    // XML summary is in ArrayExtensions.cs
     public static partial class ArrayExtensions
     {
         /// <summary>

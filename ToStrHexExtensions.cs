@@ -1,11 +1,11 @@
-﻿#if !DISABLE_EX_TOSTRHEX
-using System;
+﻿using System.ComponentModel;
 
 namespace AZCL
 {
     /// <summary>
     /// Extends all primitive integer types with the ToStrHex method.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ToStrHexExtensions
     {
         private const string PREFIX = "0x";
@@ -94,4 +94,3 @@ namespace AZCL
         }
     }
 }
-#endif

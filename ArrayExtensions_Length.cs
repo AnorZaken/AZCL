@@ -1,7 +1,7 @@
 ﻿
 namespace AZCL
 {
-    // XML summary is in ArrayExtensions_Copy.cs
+    // XML summary is in ArrayExtensions.cs
     public static partial class ArrayExtensions
     {
         /// <summary>
