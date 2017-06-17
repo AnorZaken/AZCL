@@ -114,16 +114,128 @@ using AZCL.Collections;
  */
 
 #pragma warning disable CS0660, CS0661
-namespace AZCL // TODO: write down the implementation contract details in a remarks paragraph!
+namespace AZCL
 {
     /// <summary>
     /// Represents a Java-style pure enumeration, providing static properties such as Count and Values
     /// (in addition to the base features of the non-generic <see cref="Enumeration"/> class).
     /// </summary><remarks>
+    /// <note type="inheritinfo">
     /// Inherit directly from this type if you do not need to pair values with an equivalent System.Enum type.
     /// Pairing with a System.Enum type is useful for example if you want to be able to switch on its values (since switch case
     /// statements only accept const values and literals). Switching without a System.Enum type is still possible (in C# 6) using the
     /// 'nameof' operator since it returns string literals - but switching on strings is not as efficient as switching on Enum values.
+    /// </note>
+    /// <note type="inheritinfo">
+    /// To inherit from this class, to create a pure Enumeration,type, there are several important but simple contract requirements.
+    /// <br/>
+    /// To simplify the description of the contract (by means of example) lets assume we are implementing an Enumeration class
+    /// called MyEnum and look at what requirements the MyEnum class must satisfy.
+    /// <br/>
+    /// First lets look at the contract for the MyEnum type declaration:
+    /// <list type="bullet">
+    ///     <item>The MyEnum class must inherit directly from the Enumeration&lt;&gt; class, i.e. Enumeration&lt;&gt; must be its base class.</item>
+    ///     <item>The MyEnum class must be sealed, preventing any other class from inheriting from MyEnum.</item>
+    ///     <item>The MyEnum class must specify itself as the generic type parameter to Enumeration&lt;&gt;.</item>
+    /// </list>
+    /// In other words the MyEnum class declaration should look something like this:
+    /// <code>
+    /// sealed class MyEnum : Enumeration&lt;MyEnum&gt;
+    /// {
+    ///     // ...
+    /// }
+    /// </code>
+    /// Second lets look at the contract details to follow when declaring Enumeration values inside the MyEnum class:
+    /// <list type="bullet">
+    ///     <item>All values defined for an Enumeration type must be declared as public static readonly.</item>
+    ///     <item>All values defined for an Enumeration type must be of the same type as the type they are declared in.</item>
+    ///     <item>All values defined for an Enumeration type must be initialized, either with initializers or in a static constructor.</item>
+    /// </list>
+    /// Again looking at the MyEnum example, our code should now either look something like this:
+    /// <code>
+    /// sealed class MyEnum : Enumeration&lt;MyEnum&gt;
+    /// {
+    ///     public static readonly MyEnum Foo = new MyEnum();
+    ///     public static readonly MyEnum Bar = new MyEnum();
+    ///     public static readonly MyEnum Bas = new MyEnum();
+    /// }
+    /// </code>
+    /// Or this:
+    /// <code>
+    /// sealed class MyEnum : Enumeration&lt;MyEnum&gt;
+    /// {
+    ///     public static readonly MyEnum Foo;
+    ///     public static readonly MyEnum Bar;
+    ///     public static readonly MyEnum Bas;
+    ///     
+    ///     static MyEnum()
+    ///     {
+    ///         Foo = new MyEnum();
+    ///         Bar = new MyEnum();
+    ///         Bas = new MyEnum();
+    ///     }
+    /// }
+    /// </code>
+    /// In the latter case it is important to note that the ordinal of each value is determined by the order of initialization.
+    /// In the former case the C# specification guarantees that initialization takes place in textual order, meaning Foo will
+    /// have ordinal 0, Bar will have ordinal 1, and Bas will have ordinal 2 (matching the default behavior of System.Enum types).
+    /// <br/>
+    /// <b>It is VERY important that all Enumeration values are statically initialized!</b>
+    /// Only once Count initializations have been performed, where Count is the number of public static MyEnum fields declared
+    /// inside the MyEnum class, will data such as the Name properties of the Enumeration values be initialized. This is referred
+    /// to throughout the Enumeration documentation as "Late initialization". Furthermore the above three contract requirements
+    /// are not asserted / evaluated until late initialization takes place. This could make a missing initialization error or
+    /// other breach of the three contract requirements for Enumeration value declaration potentially easy to miss.
+    /// <br/>
+    /// To mitigate the above risks the Enumeration class provides the protected property <see cref="_IsInitialized"/>.
+    /// It is recommended to assert this property in the Enumeration type's static constructor:
+    /// <code>
+    /// sealed class MyEnum : Enumeration&lt;MyEnum&gt;
+    /// {
+    ///     public static readonly MyEnum Foo = new MyEnum();
+    ///     public static readonly MyEnum Bar = new MyEnum();
+    ///     public static readonly MyEnum Bas = new MyEnum();
+    ///     
+    ///     static MyEnum()
+    ///     {
+    ///         Debug.Assert(_IsInitialized);
+    ///     }
+    /// }
+    /// </code>
+    /// Third lets look at the one and only usage invariant, again phrased with the MyEnum example in mind:
+    /// <list type="bullet">
+    ///     <item>
+    ///         Exactly Count instances of MyEnum can be created, where Count is the number of public static
+    ///         MyEnum fields declared inside the MyEnum class. Further instantiation is not allowed.
+    ///     </item>
+    /// </list>
+    /// Although it's not required, <b>it is STRONGLY recommended that all constructors be declared as private</b>.
+    /// This recommendation is partly due to how late initialization works, but more generally speaking it should never be possible
+    /// to instantiate a new value of a "pure" enumeration type. Assuming a properly initialized Enumeration type, attempting to
+    /// create further instances will throw an exception (and fail an assert in debug build) during construction.
+    /// Declaring all constructors private will prevent third party code from trying to instantiate your Enumeration type,
+    /// because chances are not every programmer using your code will read its documentation, and ideally they shouldn't need to.
+    /// <br/>
+    /// In conclusion, a properly implemented Enumeration type should ideally look something like this:
+    /// <code>
+    /// sealed class MyEnum : Enumeration&lt;MyEnum&gt;
+    /// {
+    ///     private MyEnum() { }
+    ///     
+    ///     public static readonly MyEnum Foo = new MyEnum();
+    ///     public static readonly MyEnum Bar = new MyEnum();
+    ///     public static readonly MyEnum Bas = new MyEnum();
+    ///     
+    ///     static MyEnum()
+    ///     {
+    ///         Debug.Assert(_IsInitialized);
+    ///     }
+    /// }
+    /// </code>
+    /// To recap the static and private constructors are optional but highly recommended.
+    /// <br/>
+    /// (For implementing a non-public Enumeration additionally see <see cref="Enumeration{TEnumeration}.GetStaticFieldValue"/>.) 
+    /// </note>
     /// <para/>
     /// The term "pure" comes from the fact that this enumeration type only allows the unique set of values defined in it at design time.
     /// Only this fixed set of values (and null) is allowed and no additional other values can exist or be created at runtime.
@@ -143,7 +255,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
     /// </typeparam>
     /// <seealso cref="Enumeration"/>
     /// <seealso cref="Enumeration{TEnumeration, TEnum}"/>
-    public class Enumeration<TEnumeration> // TODO: do some more tests, clearly document the contract for inheritors, and finally proofread all doc & code one last time.
+    public class Enumeration<TEnumeration> // TODO: do some more tests and finally proofread all doc & code one last time.
         : Enumeration, IEquatable<TEnumeration>, IEquatable<Enumeration<TEnumeration>>
         where TEnumeration : Enumeration<TEnumeration>
     {
@@ -161,21 +273,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         /// declared in the <typeparamref name="TEnumeration"/> class. (If running a DEBUG build this will also trigger an assertion failure.)
         /// </exception>
         /// <seealso cref="_IsInitialized"/>
-        protected Enumeration() : this(null)
-        { }
-
-        /// <summary>
-        /// Initializes the Ordinal and Name* of this enumeration value.
-        /// </summary>
-        /// <inheritdoc cref="Enumeration{TEnumeration}.Enumeration()" select="remarks"/>
-        /// <param name="getFieldFunc">Provide this method in case you want to create a non-public Enumeration type for use in a low-trust environment.</param>
-        /// <exception cref="Exception">
-        /// Thrown if this operation causes the number of created instances to exceed the number of public static <typeparamref name="TEnumeration"/> fields
-        /// declared in the <typeparamref name="TEnumeration"/> class. (If running a DEBUG build this will also trigger an assertion failure.)
-        /// </exception>
-        /// <seealso cref="GetStaticFieldValue"/>
-        /// <seealso cref="_IsInitialized"/>
-        protected Enumeration(GetStaticFieldValue getFieldFunc)
+        protected Enumeration()
             : base(counter)
         {
             if (counter == values.Length)
@@ -188,19 +286,21 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             values[counter] = val;
 
             if (++counter == values.Length)
-                InitializeInfoAndNames(val, getFieldFunc);
+                InitializeInfoAndNames(val);
         }
 
         /// <summary>
-        /// Provide this method in case you want to create a non-public Enumeration type for use in a low-trust environment. See Remarks.
+        /// Override this method in case you want to create a non-public Enumeration type for use in a low-trust or other restricted environment. See Remarks.
         /// </summary><remarks>
-        /// <b>This method should be implemented as a member of your <typeparamref name="TEnumeration"/> type to ensure sufficient access rights!</b>
         /// <br/>The code inside this method should be:
         /// <code>
         /// return (TEnumeration)field.GetValue(null);
         /// </code>
+        /// Even though this is the exact same code as in the default implementation of this method, it still needs to be overridden as a member of the
+        /// <typeparamref name="TEnumeration"/> class to ensure that the GetValue call is made with sufficient access rights to get the value of the field.
         /// </remarks>
-        protected delegate TEnumeration GetStaticFieldValue(FieldInfo field);
+        protected virtual TEnumeration GetStaticFieldValue(FieldInfo field)
+            => (TEnumeration)field.GetValue(null);
 
         /// <summary>
         /// Next Enumeration value, in Ordinal order, or null if this is the last value.
@@ -319,174 +419,6 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             return (TEnumeration)value;
         }
 
-        /*
-        /// <summary>
-        /// All enumeration values declared for this enumeration type, in ordinal / declaration order (wrapped in a readonly array).
-        /// </summary><remarks>
-        /// The leading underscore in the name of this property might be slightly confusing, but it is there to ensure that this property doesn't
-        /// mingle in with the public static <typeparamref name="TEnumeration"/> values declared in the <typeparamref name="TEnumeration"/> class.
-        /// <para/>
-        /// Use <see cref="ReadOnlyArray{T}.CopyBacking"/> if a non-readonly copy is required.
-        /// <para/>
-        /// <note type="inheritinfo">
-        /// <b>Note To Inheritors:</b><br/>
-        /// This property requires all <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class to have finished
-        /// initializing before it can return them, so if those fields are not initialized it will attempt to trigger their initialization.
-        /// However if this call executes during type initialization for <typeparamref name="TEnumeration"/>, either from the same thread or from another
-        /// thread with a circular initialization dependency*, then the attempt to perform initialization will return without having any effect.**
-        /// In such cases at least one of these fields could be observed as null***. Since this proves that <typeparamref name="TEnumeration"/> is
-        /// incorrectly implemented / in violation of the contract for types inheriting from Enumeration an Exception will be thrown****.
-        /// <br/><br/>
-        /// <i>*If called from another thread, and assuming no circular dependency, the thread will simply block until initialization has finished, see
-        /// ECMA-335 (CIL Specification), part II, section 10.5.3.3.</i>
-        /// <br/>
-        /// <i>**Because type initialization is only allowed to occur once, see ECMA-335 (CIL Specification), part II, section 10.5.3.</i>
-        /// <br/>
-        /// <i>***The value observed is guaranteed to be default initialized, i.e. null, see ECMA-334 (C# Specification), section 17.4.5.</i>
-        /// <br/>
-        /// <i>****This exception will be swallowed by the type initializer and a TypeInitializationException will be thrown on access later, however if
-        /// running a debug build an Assertion message will also be displayed prior to throwing to help expose the flawed Enumeration implementation.</i>
-        /// <br/><br/>
-        /// To avoid the risks mentioned above, all code that can execute during type initialization for the <typeparamref name="TEnumeration"/> class,
-        /// specifically before or during initialization of the public static <typeparamref name="TEnumeration"/> fields*, should avoid calling any code
-        /// outside the class if at all possible. To call outside code during initialization is to risk accidentally introducing a circular initialization
-        /// dependency.
-        /// <br/><br/>
-        /// <i>*The code locations in question would be: the code inside the <typeparamref name="TEnumeration"/> instance constructors,
-        /// expressions called to provide arguments for those instance constructors, static field initializers that textually precede the last of the
-        /// public static fields of <typeparamref name="TEnumeration"/> type, as well as all code called from instance field initializers (because
-        /// instance field initializers are executed immediately before the call to the base class constructor, see ECMA-334 (C# Specification),
-        /// section 17.10.2).</i>
-        /// <br/><br/>
-        /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
-        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class have already been initialized.
-        /// See also <see cref="_IsInitialized"/>.
-        /// </note>
-        /// </remarks>
-        protected static ReadOnlyArray<TEnumeration> _Values
-        {
-            get
-            {
-                TriggerInitialization();
-                return values;
-            }
-        }
-        */
-
-        /*
-        /// <summary>
-        /// Tries to find an enumeration value with the specified <paramref name="name"/> among the values defined for this enumeration type.
-        /// </summary><remarks>
-        /// This is an O(n) operation.
-        /// <para/>
-        /// <note type="inheritinfo">
-        /// <b>Note To Inheritors:</b><br/>
-        /// This method requires all <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class to have finished
-        /// initializing before it can search them, so if those fields are not initialized it will attempt to trigger their initialization.
-        /// However if this call executes during type initialization for <typeparamref name="TEnumeration"/>, either from the same thread or from another
-        /// thread with a circular initialization dependency*, then the attempt to perform initialization will return without having any effect.**
-        /// In such cases at least one of these fields could be observed as null***. Since this proves that <typeparamref name="TEnumeration"/> is
-        /// incorrectly implemented / in violation of the contract for types inheriting from Enumeration an Exception will be thrown****.
-        /// <br/><br/>
-        /// <i>*If called from another thread, and assuming no circular dependency, the thread will simply block until initialization has finished, see
-        /// ECMA-335 (CIL Specification), part II, section 10.5.3.3.</i>
-        /// <br/>
-        /// <i>**Because type initialization is only allowed to occur once, see ECMA-335 (CIL Specification), part II, section 10.5.3.</i>
-        /// <br/>
-        /// <i>***The value observed is guaranteed to be default initialized, i.e. null, see ECMA-334 (C# Specification), section 17.4.5.</i>
-        /// <br/>
-        /// <i>****This exception will be swallowed by the type initializer and a TypeInitializationException will be thrown on access later, however if
-        /// running a debug build an Assertion message will also be displayed prior to throwing to help expose the flawed Enumeration implementation.</i>
-        /// <br/><br/>
-        /// To avoid the risks mentioned above, all code that can execute during type initialization for the <typeparamref name="TEnumeration"/> class,
-        /// specifically before or during initialization of the public static <typeparamref name="TEnumeration"/> fields*, should avoid calling any code
-        /// outside the class if at all possible. To call outside code during initialization is to risk accidentally introducing a circular initialization
-        /// dependency.
-        /// <br/><br/>
-        /// <i>*The code locations in question would be: the code inside the <typeparamref name="TEnumeration"/> instance constructors,
-        /// expressions called to provide arguments for those instance constructors, static field initializers that textually precede the last of the
-        /// public static fields of <typeparamref name="TEnumeration"/> type, as well as all code called from instance field initializers (because
-        /// instance field initializers are executed immediately before the call to the base class constructor, see ECMA-334 (C# Specification),
-        /// section 17.10.2).</i>
-        /// <br/><br/>
-        /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
-        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="IsInitialized"/>.
-        /// </note>
-        /// </remarks><returns>
-        /// Returns the <typeparamref name="TEnumeration"/> value with the specified name, if it exists; otherwise null.
-        /// </returns>
-        /// <param name="name">The name of the enumeration value to find.</param>
-        public static TEnumeration TryParse(string name)
-        {
-            TriggerInitialization();
-            var vals = values;
-            for (int i = 0; i < vals.Length; ++i)
-            {
-                var v = vals[i];
-                if (v.Name == name)
-                    return v;
-            }
-            return null;
-        }
-        */
-
-        /*
-        /// <summary>
-        /// Tries to find an enumeration value with the specified <paramref name="ordinal"/> among the values defined for this enumeration type.
-        /// </summary><remarks>
-        /// This is an O(1) operation.
-        /// <para/>
-        /// <note type="inheritinfo">
-        /// <b>Note To Inheritors:</b><br/>
-        /// This method does not requires any of the public static <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/>
-        /// class to have finished initializing to simply check the bounds of the <paramref name="ordinal"/>, so if the ordinal is out of bounds it returns
-        /// null and that's it. To return an actual (non-null) value however this method requires all those <typeparamref name="TEnumeration"/> fields to
-        /// have finished initializing, so if they are not initialized it will then attempt to trigger their initialization.
-        /// However if this call executes during type initialization for <typeparamref name="TEnumeration"/>, either from the same thread or from another
-        /// thread with a circular initialization dependency*, then the attempt to perform initialization will return without having any effect.**
-        /// In such cases at least one of these fields could be observed as null***. Since this proves that <typeparamref name="TEnumeration"/> is
-        /// incorrectly implemented / in violation of the contract for types inheriting from Enumeration an Exception will be thrown****.
-        /// <br/><br/>
-        /// <i>*If called from another thread, and assuming no circular dependency, the thread will simply block until initialization has finished, see
-        /// ECMA-335 (CIL Specification), part II, section 10.5.3.3.</i>
-        /// <br/>
-        /// <i>**Because type initialization is only allowed to occur once, see ECMA-335 (CIL Specification), part II, section 10.5.3.</i>
-        /// <br/>
-        /// <i>***The value observed is guaranteed to be default initialized, i.e. null, see ECMA-334 (C# Specification), section 17.4.5.</i>
-        /// <br/>
-        /// <i>****This exception will be swallowed by the type initializer and a TypeInitializationException will be thrown on access later, however if
-        /// running a debug build an Assertion message will also be displayed prior to throwing to help expose the flawed Enumeration implementation.</i>
-        /// <br/><br/>
-        /// To avoid the risks mentioned above, all code that can execute during type initialization for the <typeparamref name="TEnumeration"/> class,
-        /// specifically before or during initialization of the public static <typeparamref name="TEnumeration"/> fields*, should avoid calling any code
-        /// outside the class if at all possible. To call outside code during initialization is to risk accidentally introducing a circular initialization
-        /// dependency.
-        /// <br/><br/>
-        /// <i>*The code locations in question would be: the code inside the <typeparamref name="TEnumeration"/> instance constructors,
-        /// expressions called to provide arguments for those instance constructors, static field initializers that textually precede the last of the
-        /// public static fields of <typeparamref name="TEnumeration"/> type, as well as all code called from instance field initializers (because
-        /// instance field initializers are executed immediately before the call to the base class constructor, see ECMA-334 (C# Specification),
-        /// section 17.10.2).</i>
-        /// <br/><br/>
-        /// Note that this method is safe to call from inside a static constructor in <typeparamref name="TEnumeration"/> assuming that all the
-        /// <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class has already been initialized.
-        /// See also <see cref="IsInitialized"/>.
-        /// </note>
-        /// </remarks><returns>
-        /// Returns the <typeparamref name="TEnumeration"/> value with the specified ordinal, if it exists; otherwise null.
-        /// </returns>
-        /// <param name="ordinal">The ordinal of the enumeration value to find.</param>
-        public static TEnumeration TryParse(int ordinal)
-        {
-            if (unchecked((uint)ordinal >= (uint)values.Length))
-                return null;
-            
-            TriggerInitialization();
-            return values[ordinal];
-        }
-        */
-
         // -----
 
         /// <summary>
@@ -540,9 +472,10 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                 throw new Exception(ErrPrefix + ERR_SEALED);
             }
 
-            VerifyCctorsPrivate(t);
+            //VerifyCctorsPrivate(t); // scraping this as a requirement because it's not technically needed (even though it is VERY HIGHLY recommended!)
         }
 
+        /*
         [Conditional("DEBUG")] // Debug only: For Release counting instantiations is sufficient.
         private static void VerifyCctorsPrivate(Type t)
         {
@@ -551,6 +484,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
             foreach (var cctor in t.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 Debug.Assert(cctor.IsPrivate, ERR_CTOR);
         }
+        */
 
         // this is NOT a copy! this does NOT trigger full initialization!
         internal static TEnumeration[] ValArrayInternal
@@ -574,7 +508,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
         }
 
         // lastVal is the instance that is calling InitializeNames (from its ctor). (lastVal == values[values.Length - 1])
-        private static void InitializeInfoAndNames(TEnumeration lastVal, GetStaticFieldValue getFieldFunc)
+        private static void InitializeInfoAndNames(TEnumeration lastVal)
         {
             AZAssert.NotNullInternal(lastVal, nameof(lastVal));
             AZAssert.NotNullInternal(fields, nameof(fields));
@@ -591,7 +525,7 @@ namespace AZCL // TODO: write down the implementation contract details in a rema
                     break;
                 }
 
-                var val = getFieldFunc == null ? (TEnumeration)f.GetValue(null) : getFieldFunc(f);
+                var val = lastVal.GetStaticFieldValue(f);
                 if (val == null) // we expect exactly one field to be null: the last field in textual order (i.e. the field that corresponds to the instance that is calling this method).
                 {
                     val = lastVal; // if this happens more than once it means that not all fields have initializers, but then TryInitializeName will fail below, so it will get caught.

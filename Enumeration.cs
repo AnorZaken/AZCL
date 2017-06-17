@@ -7,11 +7,13 @@ namespace AZCL
     /// Represents a Java-style pure enumeration, providing base features such as Ordinal, Name, and equality operators.
     /// </summary><remarks>
     /// This is the non-generic abstract base class of all pure enumeration types.
-    /// <b>Note that when creating your own enumeration you must inherit from either the <see cref="Enumeration{TEnumeration}"/> or
-    /// the <see cref="Enumeration{TEnumeration, TEnum}"/> class.</b>
-    /// (It is impossible to create Enumeration types that inherit directly from the non-generic enumeration type.)<br/>
-    /// See the Remarks for the two aforementioned classes to read about their contracts / implementation requirements. 
-    /// <para/>
+    /// <br/><note type="inheritinfo">
+    /// Note that when creating your own Enumeration you must inherit from either the <see cref="Enumeration{TEnumeration}"/> or
+    /// <see cref="Enumeration{TEnumeration, TEnum}"/> class.
+    /// It is impossible to create Enumeration types that inherit directly from this non-generic enumeration type.
+    /// <br/>
+    /// See the Remarks for the two aforementioned classes to read about their inheritors contracts / implementation requirements. 
+    /// </note><para/>
     /// The term "pure" comes from the fact that this enumeration type only allows the unique set of values defined in it at design time.
     /// Only this fixed set of values (and null) is allowed and no additional other values can exist or be created at runtime.
     /// <br/>
