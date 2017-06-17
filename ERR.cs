@@ -4,6 +4,7 @@ namespace AZCL
     // Shared error strings used in exceptions.
     internal static class ERR
     {
+        // this is just to keep it in an easy to find place for now, it should be made into resource strings eventually.
         internal const string
 
             POPULATE_INNER = "Inner array can't be populated because it's null.",

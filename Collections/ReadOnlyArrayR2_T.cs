@@ -18,13 +18,12 @@ namespace AZCL.Collections
 
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="array"/> is null.
-        /// </exception>
+        /// </summary><remarks>
+        /// If the array argument is null, the backing array of the ReadOnlyArray will simply be absent.
+        /// </remarks>
         public static implicit operator ReadOnlyArrayR2<T>(T[,] array)
         {
-            return new ReadOnlyArrayR2<T>(array);
+            return array == null ? new ReadOnlyArrayR2<T>() : new ReadOnlyArrayR2<T>(array);
         }
 
         /// <summary>

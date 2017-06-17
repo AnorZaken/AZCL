@@ -12,7 +12,11 @@ namespace AZCL.Meta
     public static class Numeric
     {
         internal const string
-            ERR_TYPECODE = "TypeCode does not correspond to a numeric simple type.";
+            ERR_TYPECODE = "TypeCode does not correspond to a numeric simple type.",
+            ERR_MAX_OVERFLOW = "This MaxValue can not be represented in that type.",
+            ERR_MIN_OVERFLOW = "This MinValue can not be represented in that type.",
+            ERR_NOT_ISNUMERIC = "This operation cannot be performed on a NumericInfo instance on which " + nameof(NumericInfo.IsNumeric) + " is false.";
+
 
         /// <summary>
         /// Returns whether the TypeCode corresponds to one of the numeric simple types.
@@ -170,6 +174,63 @@ namespace AZCL.Meta
         public static MinValue Min(TypeCode typeCode)
         {
             return new MinValue(typeCode);
+        }
+
+        // tries to convert an integral value of type TIn to an integral value of type TOut ...
+        // ... but only if the numerical value of the result would be identical to the numerical value of the input - including sign.
+        internal static bool TryConvertInteger<TIn, TOut>(TIn input, out TOut result) // TODO: doc and make public?
+            where TIn : IConvertible
+            where TOut : IConvertible
+        {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+
+            result = default(TOut);
+
+            if (result == null)
+                return false;
+            
+            var niOut = new NumericInfo(result.GetTypeCode());
+            
+            if (niOut.IsInteger && niOut.FitsIntValue(input)) // (FitsIntValue: if 'input' (TIn) isn't an Integral type it simply returns false, but if TOut isn't numeric... it throws!)
+            {
+                try
+                {
+                    switch(niOut.TypeCode) // TODO: I dislike this switch and hate these double casts, but fixing it requires a lot of extra work, so maybe in the future :/
+                    {
+                        case TypeCode.SByte:
+                            result = (TOut)(object)input.ToSByte(null);
+                            return true;
+                        case TypeCode.Byte:
+                            result = (TOut)(object)input.ToByte(null);
+                            return true;
+                        case TypeCode.Int16:
+                            result = (TOut)(object)input.ToInt16(null);
+                            return true;
+                        case TypeCode.UInt16:
+                            result = (TOut)(object)input.ToUInt16(null);
+                            return true;
+                        case TypeCode.Int32:
+                            result = (TOut)(object)input.ToInt32(null);
+                            return true;
+                        case TypeCode.UInt32:
+                            result = (TOut)(object)input.ToUInt32(null);
+                            return true;
+                        case TypeCode.Int64:
+                            result = (TOut)(object)input.ToInt64(null);
+                            return true;
+                        case TypeCode.UInt64:
+                            result = (TOut)(object)input.ToUInt64(null);
+                            return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    AZAssert.Internal(false, "Unexpected cast failure", e.Message); // this should never ever happen!
+                }
+            }
+
+            return false;
         }
     }
 }

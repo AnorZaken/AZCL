@@ -18,7 +18,25 @@ namespace AZCL
         /// </returns>
         public static bool IsNullable(this Type t)
         {
-            return t.IsGenericType && ReferenceEquals(tdef_Nullable, t.GetGenericTypeDefinition());
+            return t.IsGenericType && t.GetGenericTypeDefinition() == tdef_Nullable;
+        }
+
+        /// <summary>
+        /// Gets the type of the current object, or the declared type of the object if the object is null.
+        /// </summary><remarks>
+        /// This is the same as calling GetType() on the object when it isn't null,
+        /// and the closest you can get to the correct type information when it is.
+        /// </remarks><returns>
+        /// The runtime type of the current object, or the declared type (i.e. compile-time type) of the object if the object is null.
+        /// </returns>
+        /// <typeparam name="T">Declared type of the object.</typeparam>
+        /// <param name="obj">The object to get the type for.</param>
+        public static Type GetTypeOrDeclared<T>(this T obj)
+        {
+            if (obj == null)
+                return typeof(T);
+            else
+                return obj.GetType();
         }
     }
 }

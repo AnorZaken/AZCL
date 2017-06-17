@@ -829,18 +829,24 @@ namespace AZCL
         // creates a new array with same dimensions as source
         internal static T[,] New<T>(T[,] source)
         {
+            AZAssert.NotNullInternal(source, nameof(source));
+
             return new T[source.GetLength(0), source.GetLength(1)];
         }
 
         // creates a new array with same dimensions as source
         internal static T[,,] New<T>(T[,,] source)
         {
+            AZAssert.NotNullInternal(source, nameof(source));
+
             return new T[source.GetLength(0), source.GetLength(1), source.GetLength(2)];
         }
 
         // creates a new array with same shape as source
         internal static T[][] New<T>(T[][] source, int instancingDepth = 1)
         {
+            AZAssert.NotNullInternal(source, nameof(source));
+
             if (unchecked((uint)instancingDepth > 1u))
                 throw new ArgumentOutOfRangeException(nameof(instancingDepth));
 
@@ -856,6 +862,8 @@ namespace AZCL
         // creates a new array with same shape as source
         internal static T[][][] New<T>(T[][][] source, int instancingDepth = 1)
         {
+            AZAssert.NotNullInternal(source, nameof(source));
+
             if (unchecked((uint)instancingDepth > 1u))
                 throw new ArgumentOutOfRangeException(nameof(instancingDepth));
 
@@ -910,11 +918,46 @@ namespace AZCL
             }
         }
 
-        // -----
+        // output is not guaranteed to be within bounds!
+        internal static int CalculateCountUnbound<T>(T[,] array, int x, int y, bool inclusive)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.GEQZeroInternal(x, nameof(x));
+            AZAssert.GEQZeroInternal(y, nameof(y));
 
-        // assumes valid arguments!
+            int count = y + array.LengthY() * x;
+            return inclusive ? count : count - 1;
+        }
+
+        // output is not guaranteed to be within bounds!
+        internal static int CalculateCountUnbound<T>(T[,,] array, int x, int y, int z, bool inclusive)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.GEQZeroInternal(x, nameof(x));
+            AZAssert.GEQZeroInternal(y, nameof(y));
+
+            int temp = array.LengthZ();
+            temp = z + y * temp + x * temp * array.LengthY();
+            return inclusive ? temp : temp - 1;
+        }
+
+        internal static bool ExistsNull<T>(T[] array) where T : class
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+
+            for (int i = 0; i < array.Length; ++i)
+                if (array[i] == null)
+                    return true;
+            return false;
+        }
+
+        // -----
+        
         private static void ChunkCopy_Impl<T>(ref T[] source, T[] target)
         {
+            AZAssert.NotEmptyInternal(source, nameof(source));
+            AZAssert.NotNullInternal(target, nameof(target));
+
             int rem = target.Length; // (elements remaining)
             int has = source.Length; // (source has available)
             if (has >= rem)
@@ -928,10 +971,12 @@ namespace AZCL
                 source = target; // make target the new source (since it's larger)
             }
         }
-
-        // assumes valid arguments!
+        
         private static void RepeatRange_Impl(Array array, int has) // (array 'has' available)
         {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.BoundsInternal(array, has - 1, nameof(has), false); // -1 because has is a count AND is not allowed to be zero!
+
             int rem = array.Length - has; // (elements remaining)
             while (rem > has)
             {
@@ -941,10 +986,12 @@ namespace AZCL
             }
             System.Array.Copy(array, 0, array, has, rem); // copy final elements (less than 'has')
         }
-
-        // assumes valid arguments!
+        
         private static void SetRange_ForLoop<T>(T[,] array, ref T value, int count, int x = 0, int y = 0)
         {
+            AZAssert.NotEmptyInternal(array, nameof(array));
+            AZAssert.BoundsInternal(array, x, y, count);
+
             int leny = array.GetLength(1);
             for (int i = 0; i < count; ++i, ++y)
             {
@@ -956,10 +1003,12 @@ namespace AZCL
                 array[x, y] = value;
             }
         }
-
-        // assumes valid arguments!
+        
         private static void SetRange_ForLoop<T>(T[,,] array, ref T value, int count, int x = 0, int y = 0, int z = 0)
         {
+            AZAssert.NotEmptyInternal(array, nameof(array));
+            AZAssert.BoundsInternal(array, x, y, z, count);
+
             int leny = array.GetLength(1);
             int lenz = array.GetLength(2);
             for (int i = 0; i < count; ++i, ++z)
@@ -975,10 +1024,11 @@ namespace AZCL
                 array[x, y, z] = value;
             }
         }
-
-        // assumes valid arguments!*
+        
         private static bool Populate_FindNonEmptyInner<T>(T[][] array, out T[] inner, out int i) // 'i' will be the index of 'inner'
         {
+            AZAssert.NotNullInternal(array, nameof(array));
+
             for (i = 0; i < array.Length; ++i)
             {
                 inner = array[i];
@@ -993,10 +1043,11 @@ namespace AZCL
             inner = null;
             return false;
         }
-
-        // assumes valid arguments!*
+        
         private static bool Populate_FindNonEmptyInner<T>(T[][][] array, out T[] innermost, out int x, out int y) // 'x' and 'y' will be the indexes of 'innermost'
         {
+            AZAssert.NotNullInternal(array, nameof(array));
+
             for (x = 0; x < array.Length; ++x)
             {
                 T[][] inner = array[x];
@@ -1011,10 +1062,11 @@ namespace AZCL
             innermost = null;
             return false;
         }
-
-        // assumes valid arguments!*
+        
         private static void Populate_RepeatCopy<T>(T[][] array, ref T[] copysource, int i) // 'i' should be the index of the first inner target
         {
+            AZAssert.NotNullInternal(array, nameof(array));
+
             // use Array.Copy and 'copysource' to populate all remaining inner arrays
             for (; i < array.Length; ++i)
             {
@@ -1026,10 +1078,11 @@ namespace AZCL
                 ChunkCopy_Impl(ref copysource, copytarget);
             }
         }
-
-        // assumes valid arguments!*
+        
         private static void Populate_RepeatCopy<T>(T[][][] array, ref T[] copysource, int x, int y) // 'x' and 'y' should be the indexes of the first inner target
         {
+            AZAssert.NotNullInternal(array, nameof(array));
+
             // we know 'x' is valid, because that is the inner array where 'copysource' was found.
             // (this is not the case for 'y' which could be equal to the length of that inner array)
             do
