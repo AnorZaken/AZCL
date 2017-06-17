@@ -33,8 +33,7 @@ namespace AZCL.Collections
             {
                 return new Enumerator(array);
             }
-
-            /* wip
+            
             /// <summary>
             /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArrayR3{T}"/>.
             /// </summary><remarks>
@@ -44,7 +43,6 @@ namespace AZCL.Collections
             {
                 return new Enumerator(array);
             }
-            */
 
             /// <summary>
             /// Creates an <see cref="Enumerator"/> for the specified rank 3 array.
@@ -69,21 +67,17 @@ namespace AZCL.Collections
                 this.z = 0;
                 this.current = default(T);
             }
-
-            /* wip
+            
             /// <summary>
-            /// Creates an <see cref="Enumerator"/> for the rank 2 array wrapped in the <see cref="ReadOnlyArrayR3{T}"/> argument.
+            /// Creates an <see cref="Enumerator"/> for the rank 3 array wrapped in the <see cref="ReadOnlyArrayR3{T}"/> argument.
             /// </summary>
             public Enumerator(ReadOnlyArrayR3<T> array) : this(array.Array)
             { }
-            */
 
-            // throws if startIndex is negative! (but there is no upper bound though!)
+            // startIndex must non-negative, but there is no upper bound though!
             internal Enumerator(T[,,] array, int startIndex) : this(array)
             {
-                if (startIndex < 0)
-                    throw new Exception(ERR.AZCL_INTERNAL_ERROR);
-
+                AZAssert.GEQZeroInternal(startIndex, nameof(startIndex));
                 ArrayHelper.CalculateIndexesUnbound(array, startIndex, out x, out y, out z);
             }
 

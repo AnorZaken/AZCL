@@ -71,12 +71,10 @@ namespace AZCL.Collections
             public Enumerator(ReadOnlyArrayR2<T> array) : this(array.Array)
             { }
 
-            // throws if startIndex is negative! (but there is no upper bound though!)
+            // startIndex must non-negative, but there is no upper bound though!
             internal Enumerator(T[,] array, int startIndex) : this(array)
             {
-                if (startIndex < 0)
-                    throw new Exception(ERR.AZCL_INTERNAL_ERROR);
-
+                AZAssert.GEQZeroInternal(startIndex, nameof(startIndex));
                 ArrayHelper.CalculateIndexesUnbound(array, startIndex, out x, out y);
             }
 

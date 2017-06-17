@@ -158,10 +158,12 @@ namespace AZCL.Collections
     internal sealed class Comparer2<T> : SCG.Comparer<T>
     {
         private readonly IComparer<T> primary, secondary;
-
-        // assumes non-null references!!
+        
         internal Comparer2(IComparer<T> primary, IComparer<T> secondary)
         {
+            AZAssert.NotNullInternal(primary, nameof(primary));
+            AZAssert.NotNullInternal(secondary , nameof(secondary));
+
             this.primary = primary;
             this.secondary = secondary;
         }
@@ -176,10 +178,13 @@ namespace AZCL.Collections
     internal sealed class Comparer3<T> : SCG.Comparer<T>
     {
         private readonly IComparer<T> primary, secondary, tertiary;
-
-        // assumes non-null references!!
+        
         internal Comparer3(IComparer<T> primary, IComparer<T> secondary, IComparer<T> tertiary)
         {
+            AZAssert.NotNullInternal(primary, nameof(primary));
+            AZAssert.NotNullInternal(secondary, nameof(secondary));
+            AZAssert.NotNullInternal(tertiary, nameof(tertiary));
+
             this.primary = primary;
             this.secondary = secondary;
             this.tertiary = tertiary;
@@ -203,10 +208,14 @@ namespace AZCL.Collections
     internal sealed class Comparer4<T> : SCG.Comparer<T>
     {
         private readonly IComparer<T> primary, secondary, tertiary, quaternary;
-
-        // assumes non-null references!!
+        
         internal Comparer4(IComparer<T> primary, IComparer<T> secondary, IComparer<T> tertiary, IComparer<T> quaternary)
         {
+            AZAssert.NotNullInternal(primary, nameof(primary));
+            AZAssert.NotNullInternal(secondary, nameof(secondary));
+            AZAssert.NotNullInternal(tertiary, nameof(tertiary));
+            AZAssert.NotNullInternal(quaternary, nameof(quaternary));
+
             this.primary = primary;
             this.secondary = secondary;
             this.tertiary = tertiary;
@@ -235,10 +244,15 @@ namespace AZCL.Collections
     internal sealed class Comparer5<T> : SCG.Comparer<T>
     {
         private readonly IComparer<T> primary, secondary, tertiary, quaternary, quinary;
-
-        // assumes non-null references!!
+        
         internal Comparer5(IComparer<T> primary, IComparer<T> secondary, IComparer<T> tertiary, IComparer<T> quaternary, IComparer<T> quinary)
         {
+            AZAssert.NotNullInternal(primary, nameof(primary));
+            AZAssert.NotNullInternal(secondary, nameof(secondary));
+            AZAssert.NotNullInternal(tertiary, nameof(tertiary));
+            AZAssert.NotNullInternal(quaternary, nameof(quaternary));
+            AZAssert.NotNullInternal(quinary, nameof(quinary));
+
             this.primary = primary;
             this.secondary = secondary;
             this.tertiary = tertiary;
@@ -272,10 +286,12 @@ namespace AZCL.Collections
     internal sealed class ComparerN<T> : SCG.Comparer<T>
     {
         private readonly IComparer<T>[] comparers;
-
-        // assumes non-null array with non-null elements!!
+        
         internal ComparerN(IComparer<T>[] comparers)
         {
+            AZAssert.NotNullInternal(comparers, nameof(comparers));
+            AZAssert.Internal(!ArrayHelper.ExistsNull(comparers), "param is null");
+
             this.comparers = comparers;
         }
 
