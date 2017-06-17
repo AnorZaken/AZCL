@@ -1,11 +1,12 @@
-﻿#if !DISABLE_EX_TOSTRBINARY
-using System;
+﻿using System;
+using System.ComponentModel;
 
 namespace AZCL
 {
     /// <summary>
     /// Extends all primitive integer types with the ToStrBinary method.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class ToStrBinaryExtensions
     {
         private const string PREFIX = "0b";
@@ -102,4 +103,3 @@ namespace AZCL
         }
     }
 }
-#endif
