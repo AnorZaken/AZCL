@@ -31,6 +31,13 @@ namespace AZCL.Collections
             public Enumerator(ReadOnlyArray<T> array) : this(array.Array)
             { }
 
+            // startIndex must non-negative, but there is no upper bound though!
+            internal Enumerator(T[] array, int startIndex) : this(array)
+            {
+                AZAssert.GEQZeroInternal(startIndex, nameof(startIndex));
+                index = startIndex;
+            }
+
             /// <inheritdoc/>
             public T Current
             {

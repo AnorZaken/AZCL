@@ -17,6 +17,8 @@ namespace AZCL
 
             EXCLUDE_INNER = "Inner array found at the specified index(es) is null.",
 
+            SOURCE_EMPTY = "The source sequence is empty.",
+
 
             AZCL_INTERNAL_ERROR = "Seems AZCL encountered an internal error, sorry about that :(\n" // <-- 61 char (+newline)
             + "Please report it on AZCL's GitHub: https://github.com/AnorZaken/AZCL/issues"; // <-- 76 char (<80)

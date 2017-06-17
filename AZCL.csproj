@@ -70,13 +70,14 @@
     <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="Collections\LinqForArrayWrappers.cs" />
     <Compile Include="Collections\ReadOnlyArrayR3_T.cs" />
     <Compile Include="Enumeration.cs" />
     <Compile Include="Enumeration_T.cs" />
     <Compile Include="Enumeration_T2.cs" />
     <Compile Include="EnumValues.cs" />
     <Compile Include="ERR.cs" />
-    <Compile Include="Collections\Linqy.cs" />
+    <Compile Include="Collections\LinqExtensions.cs" />
     <Compile Include="Collections\ReadOnlyArrayR2_T.cs" />
     <Compile Include="Collections\ArrayR2_T.Enumerator.cs" />
     <Compile Include="Collections\Iter.cs" />

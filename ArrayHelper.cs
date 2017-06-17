@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AZCL.Collections;
 
 namespace AZCL
@@ -826,6 +827,133 @@ namespace AZCL
 
         // -----
 
+        // output is not guaranteed to be within bounds!
+        internal static int CalculateCountUnbound<T>(T[,] array, int x, int y, bool inclusive)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.GEQZeroInternal(x, nameof(x));
+            AZAssert.GEQZeroInternal(y, nameof(y));
+
+            int count = y + array.LengthY() * x;
+            return inclusive ? count : count - 1;
+        }
+
+        // output is not guaranteed to be within bounds!
+        internal static int CalculateCountUnbound<T>(T[,,] array, int x, int y, int z, bool inclusive)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.GEQZeroInternal(x, nameof(x));
+            AZAssert.GEQZeroInternal(y, nameof(y));
+
+            int temp = array.LengthZ();
+            temp = z + y * temp + x * temp * array.LengthY();
+            return inclusive ? temp : temp - 1;
+        }
+
+        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
+        internal static void CalculateIndexesUnbound<T>(T[,] array, int index, out int x, out int y)
+        {
+            int leny;
+            if (array == null || (leny = array.GetLength(1)) == 0)
+            {
+                x = index;
+                y = 0;
+            }
+            else
+            {
+                // Fast DivRem
+                x = index / leny;
+                y = index - x * leny;
+                // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
+                // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
+                // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+            }
+        }
+
+        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
+        internal static void CalculateIndexesUnbound<T>(T[,,] array, int index, out int x, out int y, out int z)
+        {
+            int leny, lenz;
+            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
+            {
+                x = index;
+                y = 0;
+                z = 0;
+            }
+            else
+            {
+                int lenm = leny * lenz;
+                int m;
+
+                x = index / lenm;     // Fast DivRem (div-part 1)
+                m = index - x * lenm; // Fast DivRem (mod-part 1)
+                y = m / lenz;     // Fast DivRem (div-part 2)
+                z = m - y * lenz; // Fast DivRem (mod-part 2)
+            }
+        }
+
+        internal static bool ExistsNull<T>(T[] array) where T : class
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+
+            for (int i = 0; i < array.Length; ++i)
+                if (array[i] == null)
+                    return true;
+            return false;
+        }
+
+        // treats null as an empty array!
+        internal static T Last<T>(T[,] arrayOrNull)
+        {
+            if (arrayOrNull == null)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            if (lenx == 0 | leny == 0)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            return arrayOrNull[lenx - 1, leny - 1];
+        }
+
+        // treats null as an empty array!
+        internal static T Last<T>(T[,,] arrayOrNull)
+        {
+            if (arrayOrNull == null)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            int lenz = arrayOrNull.GetLength(2);
+            if (lenx == 0 | leny == 0 | lenz == 0)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            return arrayOrNull[lenx - 1, leny - 1, lenz - 1];
+        }
+
+        // treats null as an empty array!
+        internal static T LastOrDefault<T>(T[,] arrayOrNull)
+        {
+            if (arrayOrNull != null)
+            {
+                int lenx = arrayOrNull.GetLength(0);
+                int leny = arrayOrNull.GetLength(1);
+                if (lenx != 0 & leny != 0)
+                    return arrayOrNull[lenx - 1, leny - 1];
+            }
+            return default(T);
+        }
+
+        // treats null as an empty array!
+        internal static T LastOrDefault<T>(T[,,] arrayOrNull)
+        {
+            if (arrayOrNull != null)
+            {
+                int lenx = arrayOrNull.GetLength(0);
+                int leny = arrayOrNull.GetLength(1);
+                int lenz = arrayOrNull.GetLength(2);
+                if (lenx != 0 & leny != 0 & lenz != 0)
+                    return arrayOrNull[lenx - 1, leny - 1, lenz - 1];
+            }
+            return default(T);
+        }
+
         // creates a new array with same dimensions as source
         internal static T[,] New<T>(T[,] source)
         {
@@ -876,83 +1004,114 @@ namespace AZCL
             return arr;
         }
 
-        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
-        internal static void CalculateIndexesUnbound<T>(T[,] array, int index, out int x, out int y)
+        // treats null as an empty array!
+        internal static IEnumerable<T> Reverse<T>(T[,] arrayOrNull)
         {
-            int leny;
-            if (array == null || (leny = array.GetLength(1)) == 0)
+            if (arrayOrNull != null)
             {
-                x = index;
-                y = 0;
-            }
-            else
-            {
-                // Fast DivRem
-                x = index / leny;
-                y = index - x * leny;
-                // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
-                // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
-                // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+                int xmax = arrayOrNull.GetLength(0) - 1;
+                int ymax = arrayOrNull.GetLength(1) - 1;
+                for (int x = xmax; x >= 0; --x)
+                    for (int y = ymax; y >= 0; --y)
+                        yield return arrayOrNull[x, y];
             }
         }
 
-        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
-        internal static void CalculateIndexesUnbound<T>(T[,,] array, int index, out int x, out int y, out int z)
+        // treats null as an empty array!
+        internal static IEnumerable<T> Reverse<T>(T[,,] arrayOrNull)
         {
-            int leny, lenz;
-            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
+            if (arrayOrNull != null)
             {
-                x = index;
-                y = 0;
-                z = 0;
-            }
-            else
-            {
-                int lenm = leny * lenz;
-                int m;
-
-                x = index / lenm;     // Fast DivRem (div-part 1)
-                m = index - x * lenm; // Fast DivRem (mod-part 1)
-                y = m / lenz;     // Fast DivRem (div-part 2)
-                z = m - y * lenz; // Fast DivRem (mod-part 2)
+                int xmax = arrayOrNull.GetLength(0) - 1;
+                int ymax = arrayOrNull.GetLength(1) - 1;
+                int zmax = arrayOrNull.GetLength(2) - 1;
+                for (int x = xmax; x >= 0; --x)
+                    for (int y = ymax; y >= 0; --y)
+                        for (int z = zmax; z >= 0; --z)
+                            yield return arrayOrNull[x, y, z];
             }
         }
 
-        // output is not guaranteed to be within bounds!
-        internal static int CalculateCountUnbound<T>(T[,] array, int x, int y, bool inclusive)
+        // treats null as an empty array!
+        internal static T[] ToArray<T>(T[,] arrayOrNull)
         {
-            AZAssert.NotNullInternal(array, nameof(array));
-            AZAssert.GEQZeroInternal(x, nameof(x));
-            AZAssert.GEQZeroInternal(y, nameof(y));
+            int i;
+            if (arrayOrNull == null || (i = arrayOrNull.Length) == 0)
+                return Empty<T>.Array;
 
-            int count = y + array.LengthY() * x;
-            return inclusive ? count : count - 1;
+            var arr = new T[i];
+            i = 0;
+
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    arr[i] = arrayOrNull[x, y];
+
+            return arr;
         }
 
-        // output is not guaranteed to be within bounds!
-        internal static int CalculateCountUnbound<T>(T[,,] array, int x, int y, int z, bool inclusive)
+        // treats null as an empty array!
+        internal static T[] ToArray<T>(T[,,] arrayOrNull)
         {
-            AZAssert.NotNullInternal(array, nameof(array));
-            AZAssert.GEQZeroInternal(x, nameof(x));
-            AZAssert.GEQZeroInternal(y, nameof(y));
+            int i;
+            if (arrayOrNull == null || (i = arrayOrNull.Length) == 0)
+                return Empty<T>.Array;
 
-            int temp = array.LengthZ();
-            temp = z + y * temp + x * temp * array.LengthY();
-            return inclusive ? temp : temp - 1;
+            var arr = new T[i];
+            i = 0;
+
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            int lenz = arrayOrNull.GetLength(2);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        arr[i] = arrayOrNull[x, y, z];
+
+            return arr;
         }
 
-        internal static bool ExistsNull<T>(T[] array) where T : class
+        // treats null as an empty array!
+        internal static List<T> ToList<T>(T[,] arrayOrNull)
         {
-            AZAssert.NotNullInternal(array, nameof(array));
+            int len;
+            if (arrayOrNull == null || (len = arrayOrNull.Length) == 0)
+                return new List<T>(0);
 
-            for (int i = 0; i < array.Length; ++i)
-                if (array[i] == null)
-                    return true;
-            return false;
+            var list = new List<T>(len);
+
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    list.Add(arrayOrNull[x, y]);
+
+            return list;
+        }
+
+        // treats null as an empty array!
+        internal static List<T> ToList<T>(T[,,] arrayOrNull)
+        {
+            int len;
+            if (arrayOrNull == null || (len = arrayOrNull.Length) == 0)
+                return new List<T>(0);
+
+            var list = new List<T>(len);
+
+            int lenx = arrayOrNull.GetLength(0);
+            int leny = arrayOrNull.GetLength(1);
+            int lenz = arrayOrNull.GetLength(2);
+            for (int x = 0; x < lenx; ++x)
+                for (int y = 0; y < leny; ++y)
+                    for (int z = 0; z < lenz; ++z)
+                        list.Add(arrayOrNull[x, y, z]);
+
+            return list;
         }
 
         // -----
-        
+
         private static void ChunkCopy_Impl<T>(ref T[] source, T[] target)
         {
             AZAssert.NotEmptyInternal(source, nameof(source));

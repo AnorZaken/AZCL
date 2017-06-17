@@ -348,5 +348,11 @@ namespace AZCL.Collections
         {
             return array == null ? "<ArrayR2:{}>" : ("<ArrayR2:" + array.ToString() + ">");
         }
+
+        internal T GetValueOrDefault(int index)
+        {
+            int x, y;
+            return TryCalculateIndexes(index, out x, out y) ? array[x, y] : default(T);
+        }
     }
 }
