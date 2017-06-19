@@ -70,7 +70,9 @@
     <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="Collections\Iter.Indexes.cs" />
     <Compile Include="Collections\LinqForArrayWrappers.cs" />
+    <Compile Include="Collections\LinqForMultiRankArrays.cs" />
     <Compile Include="Collections\ReadOnlyArrayR3_T.cs" />
     <Compile Include="Enumeration.cs" />
     <Compile Include="Enumeration_T.cs" />

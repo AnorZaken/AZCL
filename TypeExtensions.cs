@@ -19,9 +19,7 @@ namespace AZCL
         /// definition of Nullable&lt;&gt;); otherwise false.
         /// </returns>
         public static bool IsNullable(this Type t)
-        {
-            return t.IsGenericType && t.GetGenericTypeDefinition() == tdef_Nullable;
-        }
+            => t.IsGenericType && t.GetGenericTypeDefinition() == tdef_Nullable;
 
         /// <summary>
         /// Gets the type of the current object, or the declared type of the object if the object is null.
@@ -34,11 +32,6 @@ namespace AZCL
         /// <typeparam name="T">Declared type of the object.</typeparam>
         /// <param name="obj">The object to get the type for.</param>
         public static Type GetTypeOrDeclared<T>(this T obj)
-        {
-            if (obj == null)
-                return typeof(T);
-            else
-                return obj.GetType();
-        }
+            => obj?.GetType() ?? typeof(T);
     }
 }

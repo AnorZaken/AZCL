@@ -9,14 +9,30 @@ namespace AZCL.Collections
     /// sense that iterators are used to (automatically) generate enumerators, and this class provides methods to
     /// create enumerators (with automatic type inference). Hence the name.
     /// </remarks>
-    public static class Iter
+    public static partial class Iter // TODO: copy doc so intellisense works
     {
         /// <summary>
         /// Creates an enumerator (of <typeparamref name="T"/>) for a rank 2 array.
         /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="array"/> is null.
+        /// </exception>
         public static ArrayR2<T>.Enumerator Create<T>(T[,] array)
         {
+            if (array == null) throw new ArgumentNullException(nameof(array));
             return new ArrayR2<T>.Enumerator(array);
+        }
+
+        /// <summary>
+        /// Creates an enumerator (of <typeparamref name="T"/>) for a rank 3 array.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="array"/> is null.
+        /// </exception>
+        public static ArrayR3<T>.Enumerator Create<T>(T[,,] array)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            return new ArrayR3<T>.Enumerator(array);
         }
 
         // ----

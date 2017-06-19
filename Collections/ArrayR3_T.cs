@@ -7,6 +7,12 @@ namespace AZCL.Collections
     /// Thin wrapper for rank 3 arrays to implement IEnumerable&lt;<typeparamref name="T"/>&gt; and thus become "Linq-able" and usable in foreach loops.
     /// </summary><remarks>
     /// The wrapped array is exposed through the <see cref="ArrayR3{T}.Array"/> property.
+    /// <para>
+    /// Default initialized instances of this struct and will behave as if wrapping an empty array.
+    /// See <see cref="ArrayR3{T}.IsAbsent"/>.
+    /// </para>
+    /// <inheritdoc cref="ArrayR2{T}" select="para[@id='wrapperSize']"/>
+    /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
     /// </remarks>
     public partial struct ArrayR3<T> : IEquatable<ArrayR3<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: implement for better Linq performance?
     {

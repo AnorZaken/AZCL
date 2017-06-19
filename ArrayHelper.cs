@@ -26,9 +26,9 @@ namespace AZCL
         /// Wraps a multi-rank array in an <see cref="ArrayR2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary><remarks>
         /// Unfortunately multi-rank arrays in C# only implements IEnumerable and not IEnumerable&lt;<typeparamref name="T"/>&gt;.
-        /// To solve this AZCL implements its own enumerators for multi-rank arrays (up to rank 3) and provides associated wrappers for use in foreach loops.
+        /// To solve this AZCL implements its own enumerators for multi-rank arrays (up to rank 10) and provides specialized wrappers (up to rank 3) for use with Linq and in foreach loops.
         /// <br/>
-        /// Example: given "T[,] arr;" for some type T it can be used as "foreach(T elem in arr.AsLinqable())".
+        /// Example: given an array <c>T[,] arr;</c> for some type <c>T</c> it can be used as <c>foreach(T elem in arr.AsLinqable())</c>".
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
@@ -38,9 +38,8 @@ namespace AZCL
             return new ArrayR2<T>(array);
         }
 
-        /* wip
         /// <summary>
-        /// Wraps a multi-rank array in an <see cref="ArrayR2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
+        /// Wraps a multi-rank array in an <see cref="ArrayR3{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary>
         /// <inheritdoc cref="AsLinqable{T}(T[,])" select="remarks"/>
         /// <exception cref="ArgumentNullException">
@@ -50,7 +49,8 @@ namespace AZCL
         {
             return new ArrayR3<T>(array);
         }
-        */
+
+        // ---
 
         /// <summary>
         /// Converts a range of elements from an array of one type to an array of another type.
@@ -892,6 +892,15 @@ namespace AZCL
             }
         }
 
+        // (the point is to try to avoid calling this slow method if possible)
+        internal static IEnumerable<TResult> CastIter<TResult>(System.Collections.IEnumerable source)
+        {
+            AZAssert.NotNullInternal(source, nameof(source));
+
+            foreach (var element in source)
+                yield return (TResult)element;
+        }
+
         internal static bool ExistsNull<T>(T[] array) where T : class
         {
             AZAssert.NotNullInternal(array, nameof(array));
@@ -900,6 +909,27 @@ namespace AZCL
                 if (array[i] == null)
                     return true;
             return false;
+        }
+
+        internal static int[] GetLengths(Array array)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+
+            var lenghts = new int[array.Rank];
+            for (int i = 0; i < lenghts.Length; ++i)
+                lenghts[i] = array.GetLength(i);
+            return lenghts;
+        }
+
+        // ! resulting indexes are NOT guaranteed to be valid for use in an indexer! (i.e. if one of the lengths are 0) !
+        internal static int[] GetUpperBounds(Array array)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+
+            var lenghts = new int[array.Rank];
+            for (int i = 0; i < lenghts.Length; ++i)
+                lenghts[i] = array.GetLength(i) - 1;
+            return lenghts;
         }
 
         // treats null as an empty array!
@@ -1030,6 +1060,20 @@ namespace AZCL
                         for (int z = zmax; z >= 0; --z)
                             yield return arrayOrNull[x, y, z];
             }
+        }
+
+        internal static IEnumerable<TSource> Skip<TSource>(TSource[,] arrayOrNull, int count)
+        {
+            var enumerator = new ArrayR2<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
+        }
+
+        internal static IEnumerable<TSource> Skip<TSource>(TSource[,,] arrayOrNull, int count)
+        {
+            var enumerator = new ArrayR3<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
+            while (enumerator.MoveNext())
+                yield return enumerator.Current;
         }
 
         // treats null as an empty array!

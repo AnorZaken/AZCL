@@ -16,7 +16,9 @@ namespace AZCL.Collections
     {
         /// <summary>
         /// A standard struct implementation of an IEnumerator&lt;<typeparamref name="T"/>&gt; for rank 3 arrays.
-        /// </summary>
+        /// </summary><remarks>
+        /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
         public struct Enumerator : IEnumerator<T>
         {
             private int x, y, z, lenx, leny, lenz;

@@ -6,10 +6,12 @@ namespace AZCL.Collections
     /// <summary>
     /// A read-only struct wrapper for generic arrays.
     /// </summary><remarks>
-    /// Instances of this struct are valid even when default initialized. See <see cref="ReadOnlyArrayR2{T}.IsAbsent"/>.
-    /// <para/>
-    /// This struct contains only a single field: a reference to the backing array.
-    /// Thus its size will match that of a reference meaning that instances can be passed around as arguments without performance penalty.
+    /// <para>
+    /// Default initialized instances of this struct and will behave as if wrapping an empty array.
+    /// See <see cref="ReadOnlyArrayR2{T}.IsAbsent"/>.
+    /// </para>
+    /// <inheritdoc cref="ArrayR2{T}" select="para[@id='wrapperSize']"/>
+    /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
     /// </remarks>
     /// <typeparam name="T">The type of the elements of the array.</typeparam>
     public partial struct ReadOnlyArrayR2<T> : IEquatable<ReadOnlyArrayR2<T>>, IEquatable<Array>, IEnumerable<T>

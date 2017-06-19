@@ -16,7 +16,13 @@ namespace AZCL.Collections
     {
         /// <summary>
         /// A standard struct implementation of an IEnumerator&lt;<typeparamref name="T"/>&gt; for rank 2 arrays.
-        /// </summary>
+        /// </summary><remarks>
+        /// <para id="enumerationOrder">
+        /// When enumerating over multi-dimensional arrays elements are traversed such that the indices of the
+        /// rightmost dimension are increased first, then the next left dimension, and so on to the left.
+        /// <br/>(See C# Language Specification - Version 4.0 paragraph 8.8.4)
+        /// </para>
+        /// </remarks>
         public struct Enumerator : IEnumerator<T>
         {
             private int x, y, lenx, leny;

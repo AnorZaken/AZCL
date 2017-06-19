@@ -6,9 +6,9 @@ using System.Linq;
 namespace AZCL.Collections
 {
     /// <summary>
-    /// Provides source wrapper optimized versions of certain Linq extensions. (See Remarks for a complete list.) 
+    /// Provides array wrapper optimized versions of certain Linq extensions. (See Remarks for a complete list.) 
     /// </summary><remarks>
-    /// Optimized extensions are provided for all AZCL source wrappers:
+    /// Optimized extensions are provided for all AZCL array wrappers:
     /// <list type="nobullet">
     ///     <item><see cref="ArrayR2{T}"/></item>
     ///     <item><see cref="ArrayR3{T}"/></item>
@@ -34,49 +34,38 @@ namespace AZCL.Collections
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal static class LinqForArrayWrappers // TODO: make public when deemed ready.
     {
-        // TODO:
-        // Concat ? ...requires some effort: needs to return a type that implements ICollection so that when chained with other calls e.g. ToArray() it still performs well.
-        // OrderBy & OrderByDescending ? ...even more effort.
-
         /* Unfortunately these Cast extensions cannot exactly match the Linq equivalent. :( */
 
         public static IEnumerable<TResult> Cast<TResult, TSource>(ArrayR2<TSource> source)
         {
             var array = source.Array;
             var typed = array as TResult[,];
-            return typed == null ? CastIter<TResult>(array) : new ArrayR2<TResult>(typed);
+            return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ArrayR2<TResult>(typed);
         }
 
         public static IEnumerable<TResult> Cast<TResult, TSource>(ArrayR3<TSource> source)
         {
             var array = source.Array;
             var typed = array as TResult[,,];
-            return typed == null ? CastIter<TResult>(array) : new ArrayR3<TResult>(typed);
+            return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ArrayR3<TResult>(typed);
         }
 
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArrayR2<TSource> source)
         {
             var array = source.Array;
             var typed = array as TResult[,];
-            return typed == null ? CastIter<TResult>(array) : new ReadOnlyArrayR2<TResult>(typed);
+            return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ReadOnlyArrayR2<TResult>(typed);
         }
 
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArrayR3<TSource> source)
         {
             var array = source.Array;
             var typed = array as TResult[,,];
-            return typed == null ? CastIter<TResult>(array) : new ReadOnlyArrayR3<TResult>(typed);
+            return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ReadOnlyArrayR3<TResult>(typed);
         }
 
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArray<TSource> source)
-            => (source.Array ?? Empty<TSource>.Array).Cast<TResult>();
-
-        // (the point is to avoid having to call this if possible)
-        internal static IEnumerable<TResult> CastIter<TResult>(System.Collections.IEnumerable source)
-        {
-            foreach (var element in source)
-                yield return (TResult)element;
-        }
+            => source.Array?.Cast<TResult>() ?? Empty<TResult>.IEnumerable;
 
         // ---
 
@@ -251,39 +240,19 @@ namespace AZCL.Collections
         // ---
 
         public static IEnumerable<TSource> Skip<TSource>(this ArrayR2<TSource> source, int count)
-        {
-            var enumerator = new ArrayR2<TSource>.Enumerator(source.Array, count < 0 ? 0 : count);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            => ArrayHelper.Skip(source.Array, count);
 
         public static IEnumerable<TSource> Skip<TSource>(this ArrayR3<TSource> source, int count)
-        {
-            var enumerator = new ArrayR3<TSource>.Enumerator(source.Array, count < 0 ? 0 : count);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            => ArrayHelper.Skip(source.Array, count);
 
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArrayR2<TSource> source, int count)
-        {
-            var enumerator = new ArrayR2<TSource>.Enumerator(source.Array, count < 0 ? 0 : count);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            => ArrayHelper.Skip(source.Array, count);
 
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArrayR3<TSource> source, int count)
-        {
-            var enumerator = new ArrayR3<TSource>.Enumerator(source.Array, count < 0 ? 0 : count);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            => ArrayHelper.Skip(source.Array, count);
 
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArray<TSource> source, int count)
-        {
-            var enumerator = new ReadOnlyArray<TSource>.Enumerator(source.Array, count < 0 ? 0 : count);
-            while (enumerator.MoveNext())
-                yield return enumerator.Current;
-        }
+            => (source.Array ?? Empty<TSource>.Array).Skip(count);
 
         // ---
 

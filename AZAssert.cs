@@ -25,6 +25,12 @@ namespace AZCL
         }
 
         [Conditional("AZCL_DEBUG")]
+        internal static void BoundsInternal(int i, int length, string iname, bool allowEqual)
+        {
+            Debug.Assert(unchecked(allowEqual ? (uint)i <= (uint)length : (uint)i < (uint)length), iname + " out of bounds");
+        }
+
+        [Conditional("AZCL_DEBUG")]
         internal static void BoundsInternal(Array arr, int i, string iname, bool allowEqual)
         {
             Debug.Assert(arr != null);
