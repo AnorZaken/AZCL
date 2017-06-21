@@ -34,10 +34,8 @@ namespace AZCL
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
         public static ArrayR2<T> AsLinqable<T>(this T[,] array)
-        {
-            return new ArrayR2<T>(array);
-        }
-
+            => new ArrayR2<T>(array);
+        
         /// <summary>
         /// Wraps a multi-rank array in an <see cref="ArrayR3{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary>
@@ -46,10 +44,8 @@ namespace AZCL
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
         public static ArrayR3<T> AsLinqable<T>(this T[,,] array)
-        {
-            return new ArrayR3<T>(array);
-        }
-
+            => new ArrayR3<T>(array);
+        
         // ---
 
         /// <summary>
@@ -173,9 +169,7 @@ namespace AZCL
         /// </exception>
         public static void CreateJaggedInner<T>(this T[][] array, int innerLength)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             for (int i = 0; i < array.Length; ++i)
             {
                 if (array[i] != null)
@@ -233,9 +227,7 @@ namespace AZCL
         /// </exception>
         public static void CreateJaggedInner<T>(this T[][][] array, int secondLength, int innermostLength)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             for (int i = 0; i < array.Length; ++i)
             {
                 if (array[i] != null)
@@ -251,19 +243,15 @@ namespace AZCL
         /// True if the array is null or empty, otherwise false.
         /// </returns>
         public static bool IsNullOrEmpty(Array array)
-        {
-            return array == null || array.Length == 0;
-        }
-
+            => array == null || array.Length == 0;
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the total number of elements in all
         /// the dimensions of the array, or 0 if the array is null.
         /// </summary>
         public static int LengthOrZero<T>(Array array)
-        {
-            return array == null ? 0 : array.Length;
-        }
-
+            => array == null ? 0 : array.Length;
+        
         /// <summary>
         /// Fills an array with new instances of T.
         /// </summary><remarks>
@@ -277,9 +265,7 @@ namespace AZCL
         /// <seealso cref="Clear{T}(T[])"/>
         public static void Populate<T>(this T[] array) where T : new()
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             for (int i = 0; i < array.Length; ++i)
                 array[i] = new T();
         }
@@ -297,9 +283,7 @@ namespace AZCL
         /// <seealso cref="Clear{T}(T[,])"/>
         public static void Populate<T>(this T[,] array) where T : new()
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             int lenx = array.GetLength(0);
             int leny = array.GetLength(1);
             for (int x = 0; x < lenx; ++x)
@@ -320,9 +304,7 @@ namespace AZCL
         /// <seealso cref="Clear{T}(T[,,])"/>
         public static void Populate<T>(this T[,,] array) where T : new()
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             int lenx = array.GetLength(0);
             int leny = array.GetLength(1);
             int lenz = array.GetLength(2);
@@ -348,9 +330,7 @@ namespace AZCL
         /// <seealso cref="ClearInner{T}(T[][])"/>
         public static void Populate<T>(this T[][] array) where T : new()
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             for (int i = 0; i < array.Length; ++i)
             {
                 var arr = array[i];
@@ -376,9 +356,7 @@ namespace AZCL
         /// <seealso cref="ClearInner{T}(T[][][])"/>
         public static void Populate<T>(this T[][][] array) where T : new()
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
+            NullCheck(array);
             for (int i = 0; i < array.Length; ++i)
             {
                 var arr = array[i];
@@ -401,10 +379,7 @@ namespace AZCL
             const int HALFLIMIT = 100;
             const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
 
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-
-            int len = array.Length;
+            int len = NullCheck(array).Length;
             if (len < THRESHOLD) // few elements: for-loops are faster
             {
                 for (int i = 0; i < len; ++i)
@@ -430,11 +405,8 @@ namespace AZCL
         {
             const int HALFLIMIT = 90;
             const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
-
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
             
-            if (array.Length < THRESHOLD) // few elements: for-loops are faster
+            if (NullCheck(array).Length < THRESHOLD) // few elements: for-loops are faster
             {
                 int lenx = array.GetLength(0);
                 int leny = array.GetLength(1);
@@ -461,11 +433,8 @@ namespace AZCL
         {
             const int HALFLIMIT = 90;
             const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
-
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
             
-            if (array.Length < THRESHOLD) // few elements: for-loops are faster
+            if (NullCheck(array).Length < THRESHOLD) // few elements: for-loops are faster
             {
                 int lenx = array.GetLength(0);
                 int leny = array.GetLength(1);
@@ -495,12 +464,10 @@ namespace AZCL
         /// </exception>
         public static void Populate<T>(this T[][] array, T value)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
+            NullCheck(array);
 
             int i;
             T[] copysource;
-
             // find an inner array that has a non-zero length
             if (!Populate_FindNonEmptyInner(array, out copysource, out i))
                 return; // <-- array is T[0][] so there is nothing to populate
@@ -525,12 +492,10 @@ namespace AZCL
         /// </exception>
         public static void Populate<T>(this T[][][] array, T value)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
+            NullCheck(array);
 
             int x, y;
             T[] copysource;
-
             // find an inner array that has a non-zero length
             if (!Populate_FindNonEmptyInner(array, out copysource, out x, out y))
                 return; // <-- array is T[0][] so there is nothing to populate
@@ -856,8 +821,7 @@ namespace AZCL
             int leny;
             if (array == null || (leny = array.GetLength(1)) == 0)
             {
-                x = index;
-                y = 0;
+                x = y = int.MaxValue - 1; // (There is a special reason we do it this way - see references)
             }
             else
             {
@@ -876,19 +840,15 @@ namespace AZCL
             int leny, lenz;
             if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
             {
-                x = index;
-                y = 0;
-                z = 0;
+                x = y = z = int.MaxValue - 1; // (There is a special reason we do it this way - see references)
             }
             else
             {
-                int lenm = leny * lenz;
-                int m;
 
-                x = index / lenm;     // Fast DivRem (div-part 1)
-                m = index - x * lenm; // Fast DivRem (mod-part 1)
-                y = m / lenz;     // Fast DivRem (div-part 2)
-                z = m - y * lenz; // Fast DivRem (mod-part 2)
+                y = index / lenz; // <-- (not bound by its length *yet*)
+                z = index - y * lenz;
+                x = y / leny;
+                y = y - x * leny;
             }
         }
 
@@ -988,7 +948,6 @@ namespace AZCL
         internal static T[,] New<T>(T[,] source)
         {
             AZAssert.NotNullInternal(source, nameof(source));
-
             return new T[source.GetLength(0), source.GetLength(1)];
         }
 
@@ -996,7 +955,6 @@ namespace AZCL
         internal static T[,,] New<T>(T[,,] source)
         {
             AZAssert.NotNullInternal(source, nameof(source));
-
             return new T[source.GetLength(0), source.GetLength(1), source.GetLength(2)];
         }
 
@@ -1173,6 +1131,13 @@ namespace AZCL
                 RepeatRange_Impl(target, has); // copy as much as target has onto itself repeatedly until all remaining elements copied to
                 source = target; // make target the new source (since it's larger)
             }
+        }
+
+        // for use in expressions (where the argument is called "array")
+        private static T NullCheck<T>(T array)
+        {
+            if (array == null) throw new ArgumentNullException(nameof(array));
+            return array;
         }
         
         private static void RepeatRange_Impl(Array array, int has) // (array 'has' available)

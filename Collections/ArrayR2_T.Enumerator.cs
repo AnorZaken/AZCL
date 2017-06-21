@@ -36,20 +36,16 @@ namespace AZCL.Collections
             /// Thrown if <paramref name="array"/> is null.
             /// </exception>
             public static implicit operator Enumerator(T[,] array)
-            {
-                return new Enumerator(array);
-            }
-
+                => new Enumerator(array);
+            
             /// <summary>
             /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArrayR2{T}"/>.
             /// </summary><remarks>
             /// This operator does not throw, even if the <see cref="ReadOnlyArrayR2{T}"/> argument was default initialized.
             /// </remarks>
             public static implicit operator Enumerator(ReadOnlyArrayR2<T> array)
-            {
-                return new Enumerator(array);
-            }
-
+                => new Enumerator(array);
+            
             /// <summary>
             /// Creates an <see cref="Enumerator"/> for the specified rank 2 array.
             /// </summary>
@@ -85,10 +81,7 @@ namespace AZCL.Collections
             }
 
             /// <inheritdoc/>
-            public T Current
-            {
-                get { return current; }
-            }
+            public T Current => current;
 
             object System.Collections.IEnumerator.Current
             {

@@ -24,18 +24,14 @@ namespace AZCL.Collections
         /// If the array argument is null, the backing array of the Array wrapper will simply be absent.
         /// </remarks>
         public static implicit operator ArrayR3<T>(T[,,] array)
-        {
-            return array == null ? new ArrayR3<T>() : new ArrayR3<T>(array);
-        }
-
+            => array == null ? new ArrayR3<T>() : new ArrayR3<T>(array);
+        
         /// <summary>
         /// Implicitly unwraps an ArrayR3 instance.
         /// </summary>
         public static implicit operator T[,,](ArrayR3<T> array)
-        {
-            return array.Array;
-        }
-
+            => array.Array;
+        
         /// <summary>
         /// Creates an ArrayR3 wrapper for a rank 3 array.
         /// </summary>
@@ -101,10 +97,7 @@ namespace AZCL.Collections
         /// <summary>
         /// The backing array being wrapped. Or null if this wrapper was default initialized / backing array is absent.
         /// </summary>
-        public T[,,] Array
-        {
-            get { return array; }
-        }
+        public T[,,] Array => array;
 
         /// <summary>
         /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z item indexes.
@@ -125,6 +118,7 @@ namespace AZCL.Collections
         /// (Note especially that if the backing array <see cref="IsAbsent"/> the <see cref="Length"/> property will be zero.)
         /// </exception>
         /// <seealso cref="GetValue1D(int)"/>
+        /// <seealso cref="TryCalculateIndexes(int, out int, out int, out int)"/>
         public void CalculateIndexes(int index, out int x, out int y, out int z)
         {
             if (unchecked((uint)index >= (uint)Length))
@@ -132,13 +126,11 @@ namespace AZCL.Collections
             
             int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
             int lenz = array.GetLength(2);
-            int lenm = leny * lenz;
-            int m;
-
-            x = index / lenm;     // Fast DivRem (div-part 1)
-            m = index - x * lenm; // Fast DivRem (mod-part 1)
-            y = m / lenz;     // Fast DivRem (div-part 2)
-            z = m - y * lenz; // Fast DivRem (mod-part 2)
+            
+            y = index / lenz; // <-- (not bound by its length *yet*)
+            z = index - y * lenz;
+            x = y / leny;
+            y = y - x * leny;
 
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
@@ -148,7 +140,7 @@ namespace AZCL.Collections
         /// <summary>
         /// Given a one-dimensional enumeration index, tries to calculate the corresponding x, y, and z item indexes.
         /// </summary><returns>
-        /// False if the <paramref name="index"/> was out of bounds (or the backing array is absent); otherwise true.
+        /// False if the resulting indexes are out of bounds (or the backing array is absent); otherwise true.
         /// </returns>
         /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
         /// <param name="index">An enumeration index to calculate item indexes for.</param>
@@ -157,27 +149,23 @@ namespace AZCL.Collections
         /// <param name="z">Resulting z index.</param>
         public bool TryCalculateIndexes(int index, out int x, out int y, out int z)
         {
-            if (unchecked((uint)index >= (uint)Length))
+            int leny, lenz;
+            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
             {
-                x = y = z = 0;
+                x = y = z = -1;
                 return false;
             }
 
-            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
-            int lenz = array.GetLength(2);
-            int lenm = leny * lenz;
-            int m;
+            y = index / lenz; // <-- (not bound by its length *yet*)
+            z = index - y * lenz;
+            x = y / leny;
+            y = y - x * leny;
 
-            x = index / lenm;     // Fast DivRem (div-part 1)
-            m = index - x * lenm; // Fast DivRem (mod-part 1)
-            y = m / lenz;     // Fast DivRem (div-part 2)
-            z = m - y * lenz; // Fast DivRem (mod-part 2)
+            return unchecked((uint)x < (uint)array.GetLength(0));
 
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
-
-            return true;
         }
 
         /* Method CopyTo absent because it's for single dimensional arrays only as part of the ICollection interface. */
@@ -192,7 +180,7 @@ namespace AZCL.Collections
         /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
-            return obj != null && (object.ReferenceEquals(this.array, obj) || obj is ArrayR3<T> && Equals((ArrayR3<T>)obj));
+            return obj != null && (ReferenceEquals(this.array, obj) || obj is ArrayR3<T> && Equals((ArrayR3<T>)obj));
         }
 
         /// <summary>
@@ -202,10 +190,8 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Another instance to compare against.</param>
         public bool Equals(ArrayR3<T> other)
-        {
-            return object.ReferenceEquals(this.array, other.array);
-        }
-
+            => ReferenceEquals(this.array, other.array);
+        
         /// <summary>
         /// Indicates whether the backing array of this wrapper and a specified array are reference equal.
         /// </summary><returns>
@@ -214,36 +200,26 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Array to compare against the backing array of this wrapper.</param>
         public bool Equals(Array other)
-        {
-            return array != null & object.ReferenceEquals(this.array, other);
-        }
-
+            => array != null & ReferenceEquals(this.array, other);
+        
         /// <summary>
         /// Get an enumerator that can iterate through the collection.
         /// </summary><remarks>
         /// This is the method that a foreach statement would call. (The C# compiler employs duck-typing for foreach loops.)
         /// </remarks>
         public Enumerator GetEnumerator()
-        {
-            return new Enumerator(array);
-        }
+            => new Enumerator(array);
         
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            return array == null ? Empty<T>.GetEnumerator() : new Enumerator(array);
-        }
-
+            => array == null ? Empty<T>.GetEnumerator() : new Enumerator(array);
+        
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return array?.GetEnumerator() ?? Empty<T>.GetEnumerator();
-        }
-
+            => array?.GetEnumerator() ?? Empty<T>.GetEnumerator();
+        
         /// <inheritdoc/>
         public override int GetHashCode()
-        {
-            return array == null ? 0 : array.GetHashCode();
-        }
-
+            => array == null ? 0 : array.GetHashCode();
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the specified dimension of the Array.
         /// </summary><returns>
@@ -271,9 +247,7 @@ namespace AZCL.Collections
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
         public T GetValue(int x, int y, int z)
-        {
-            return this[x, y, z];
-        }
+            => this[x, y, z];
 
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
@@ -298,9 +272,7 @@ namespace AZCL.Collections
         /// Default instances are still valid and behave as if the backing was an empty array.
         /// </remarks>
         public bool IsAbsent
-        {
-            get { return array == null; }
-        }
+            => array == null;
 
         /// <summary>
         /// Gets a 32-bit integer that represents the total number of elements in all
@@ -309,9 +281,7 @@ namespace AZCL.Collections
         /// Will be zero if this wrapper was default constructed / backing array is absent.
         /// </remarks>
         public int Length
-        {
-            get { return array == null ? 0 : array.Length; }
-        }
+            => array == null ? 0 : array.Length;
 
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the first dimension of the Array.
@@ -320,9 +290,7 @@ namespace AZCL.Collections
         /// This is the same as calling <see cref="GetLength(int)"/> with 0 as argument for the dimension parameter.
         /// </remarks>
         public int LengthX
-        {
-            get { return array == null ? 0 : array.GetLength(0); }
-        }
+            => array == null ? 0 : array.GetLength(0);
 
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the second dimension of the Array.
@@ -331,9 +299,7 @@ namespace AZCL.Collections
         /// This is the same as calling <see cref="GetLength(int)"/> with 1 as argument for the dimension parameter.
         /// </remarks>
         public int LengthY
-        {
-            get { return array == null ? 0 : array.GetLength(1); }
-        }
+            => array == null ? 0 : array.GetLength(1);
 
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the third dimension of the Array.
@@ -342,9 +308,7 @@ namespace AZCL.Collections
         /// This is the same as calling <see cref="GetLength(int)"/> with 2 as argument for the dimension parameter.
         /// </remarks>
         public int LengthZ
-        {
-            get { return array == null ? 0 : array.GetLength(2); }
-        }
+            => array == null ? 0 : array.GetLength(2);
 
         /// <summary>
         /// Sets the element at the specified position in the backing array to the specified <paramref name="value"/>.
@@ -381,9 +345,7 @@ namespace AZCL.Collections
 
         /// <inheritdoc/>
         public override string ToString()
-        {
-            return array == null ? "<ArrayR3:{}>" : ("<ArrayR3:" + array.ToString() + ">");
-        }
+            => array == null ? "<ArrayR3:{}>" : ("<ArrayR3:" + array.ToString() + ">");
 
         internal T GetValueOrDefault(int index)
         {

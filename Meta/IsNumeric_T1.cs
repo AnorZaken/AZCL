@@ -12,8 +12,6 @@ namespace AZCL.Meta
         /// The numeric simple types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.
         /// </remarks>
         public static bool Value
-        {
-            get { return Numeric<T>.info.IsNumeric; }
-        }
+            => Numeric<T>.info.IsNumeric;
     }
 }

@@ -122,8 +122,7 @@ namespace AZCL
         /// This property is initially null. It is late initialized - meaning that only when type initialization has reached the point where all the
         /// public static Enumeration fields inside the Enumeration class have been initialized will this property be initialized.
         /// </note></remarks>
-        public IEnumValues Values
-            => EVInternal;
+        public IEnumValues Values => EVInternal;
 
         /// <summary>
         /// Next Enumeration value, in Ordinal order, or null if this is the last value.
@@ -251,31 +250,25 @@ namespace AZCL
         /// <summary>
         /// Returns the hash code for this enumeration value.
         /// </summary>
-        public sealed override int GetHashCode()
-            => Ordinal;
+        public sealed override int GetHashCode() => Ordinal;
 
         /// <summary>
         /// Returns the name of this enumeration value.
         /// </summary>
-        public sealed override string ToString()
-            => Name;
+        public sealed override string ToString() => Name;
 
         /// <summary>
         /// Indicates whether two enumeration values are equal.
         /// </summary>
         public static bool operator ==(Enumeration left, Enumeration right)
-        {
-            return ReferenceEquals(left, right);
-        }
-
+            => ReferenceEquals(left, right);
+        
         /// <summary>
         /// Indicates whether two enumeration values are unequal.
         /// </summary>
         public static bool operator !=(Enumeration left, Enumeration right)
-        {
-            return !ReferenceEquals(left, right);
-        }
-
+            => !ReferenceEquals(left, right);
+        
         // -----
 
         // Must be internal to ensures that no external classes can inherit directly from this type.
@@ -301,19 +294,15 @@ namespace AZCL
 
         internal abstract IEnumValues EVInternal { get; }
 
-        internal virtual bool HasEnumValueImpl
-            => false;
+        internal virtual bool HasEnumValueImpl => false;
 
-        internal virtual Type EnumValueType
-            => null;
+        internal virtual Type EnumValueType => null;
 
         // the enum-compatible types are: bool, char, sbyte, byte, int16, uint16, int32, uint32, int64, and uint64.
         internal static bool IsEnumCompatible<T>(T val = default(T)) // similar to AZCL.Meta.Evaluate.IsEnumCompatible but with constraints that make it more efficient.
             where T : struct, IConvertible
-        {
-            return unchecked((uint)val.GetTypeCode() - 3u) < 10u;
-        }
-
+            => unchecked((uint)val.GetTypeCode() - 3u) < 10u;
+        
         // TEnumX must either be the System.Enum class or an EnumCompatible primitive type (the latter of which includes user defined System.Enums).
         internal virtual bool TryGetEnumValueInternal<TEnumX>(out TEnumX enumValue, bool allowConversion) where TEnumX : IConvertible
         {
@@ -325,8 +314,6 @@ namespace AZCL
 
         internal virtual Enumeration TryParseBasic<TEnum>(TEnum enumValue, bool allowConversion = false)
             where TEnum : struct, IConvertible
-        {
-            return null;
-        }
+            => null;
     }
 }

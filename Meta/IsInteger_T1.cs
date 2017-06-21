@@ -12,8 +12,6 @@ namespace AZCL.Meta
         /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public static bool Value
-        {
-            get { return Numeric<T>.info.IsInteger; }
-        }
+            => Numeric<T>.info.IsInteger;
     }
 }

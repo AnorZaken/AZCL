@@ -41,19 +41,15 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
         public static implicit operator ArrayEnumeratorReadOnly<T>(T[] array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(array);
+        
         /// <summary>
         /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from a <see cref="ReadOnlyArray{T}"/>.
         /// </summary><remarks>
         /// This operator does not throw, even if the <see cref="ReadOnlyArray{T}"/> argument was default initialized.
         /// </remarks>
         public static implicit operator ArrayEnumeratorReadOnly<T>(ReadOnlyArray<T> array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array);
-        }
+            => new ArrayEnumeratorReadOnly<T>(array);
 #else
         /// <summary>
         /// Creates an <see cref="ArrayEnumerator{T}"/> from an array.
@@ -62,9 +58,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
         public static implicit operator ArrayEnumerator<T>(T[] array)
-        {
-            return new ArrayEnumerator<T>(array);
-        }
+            => new ArrayEnumerator<T>(array);
 
         /// <summary>
         /// Creates an <see cref="ArrayEnumeratorReadOnly{T}"/> from an <see cref="ArrayEnumerator{T}"/>.
@@ -72,9 +66,7 @@ namespace AZCL.Collections
         /// This cast retains the current position of the <paramref name="mutable"/> enumerator (such as it is at cast time)!
         /// </remarks>
         public static implicit operator ArrayEnumeratorReadOnly<T>(ArrayEnumerator<T> mutable)
-        {
-            return new ArrayEnumeratorReadOnly<T>(mutable.array, mutable.startInclusive, mutable.endInclusive, mutable.index);
-        }
+            => new ArrayEnumeratorReadOnly<T>(mutable.array, mutable.startInclusive, mutable.endInclusive, mutable.index);
 #endif
 
         // The T[] ctors are identical except for "a ArrayEnumeratorReadOnly" vs "an ArrayEnumerator" in their summaries,
@@ -354,9 +346,7 @@ namespace AZCL.Collections
         /// Reference to the source array (or null if default constructed).
         /// </summary>
         public T[] Source
-        {
-            get { return array; }
-        }
+            => array;
 
         /// <summary>
         /// The current index relative to the source, i.e. <see cref="StartIndex"/> + <see cref="CurrentIndex"/>.
@@ -364,9 +354,7 @@ namespace AZCL.Collections
         /// This value will be -1 if the enumerator was default constructed.
         /// </remarks>
         public int CurrentSourceIndex
-        {
-            get { return array == null ? -1 : index; }
-        }
+            => array == null ? -1 : index;
 
         /// <summary>
         /// The enumerators start index relative to the source.
@@ -374,9 +362,7 @@ namespace AZCL.Collections
         /// This is a readonly value. It will be zero by default unless a different value was specified in the constructor.
         /// </remarks>
         public int StartIndex
-        {
-            get { return startInclusive; }
-        }
+            => startInclusive;
 #endif
         /// <summary>
         /// The current element index of the enumerator, relative to the source start index (optionally specified in the constructor).
@@ -385,9 +371,7 @@ namespace AZCL.Collections
         /// The same is true if the source is null.
         /// </remarks>
         public int CurrentIndex
-        {
-            get { return array == null ? -1 : index - startInclusive; }
-        }
+            => array == null ? -1 : index - startInclusive;
 
         /// <summary>
         /// True if this enumerator instance was default initialized / constructed (source is null).
@@ -395,9 +379,7 @@ namespace AZCL.Collections
         /// Default instances are still valid and as is thus expected they behave as empty enumerators.
         /// </remarks>
         public bool IsAbsent
-        {
-            get { return array == null; }
-        }
+            => array == null;
 
         /// <summary>
         /// The length of the element range of the enumerator.
@@ -405,14 +387,10 @@ namespace AZCL.Collections
         /// This is always less than or equal to the length of the source array, or zero if the source array is null.
         /// </remarks>
         public int Length
-        {
-            get { return array == null ? 0 : LengthFast; }
-        }
+            => array == null ? 0 : LengthFast;
 
         private int LengthFast
-        {
-            get { return endInclusive - startInclusive + 1; }
-        }
+            => endInclusive - startInclusive + 1;
 
         /// <summary>
         /// Creates an array copy of the source elements covered by the enumerators range.
@@ -502,7 +480,7 @@ namespace AZCL.Collections
             set
             {
                 if (array == null)
-                    throw new InvalidOperationException(ERR.SOURCE_NULL);
+                    throw new InvalidOperationException(ERR.BACKING_ARRAY_ABSENT);
                 if (index == -1)
                     throw new InvalidOperationException(ERR.CURRENT_INVALID);
                 array[index] = value;

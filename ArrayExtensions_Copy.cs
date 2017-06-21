@@ -762,10 +762,8 @@ namespace AZCL
         /// Thrown if the inner array found at <paramref name="source"/>[<paramref name="excludeX"/>] or <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] is null.
         /// </exception>
         public static T[][][] CopyExcluding<T>(this T[][][] source, int excludeX, int excludeY, int excludeZ)
-        {
-            return CopyExcluding(source, excludeX, excludeY, excludeZ, copyDepth: 2);
-        }
-
+            => CopyExcluding(source, excludeX, excludeY, excludeZ, copyDepth: 2);
+        
         /// <summary>
         /// Creates a copy of this jagged array but with the element found at <paramref name="source"/>[<paramref name="excludeX"/>][<paramref name="excludeY"/>] excluded.
         /// </summary><remarks>

@@ -30,33 +30,25 @@ namespace AZCL.Collections
         /// Empty (read-only) ICollection&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static ICollection<T> ICollection
-        {
-            get { return Array; }
-        }
+            => Array;
 
         /// <summary>
         /// Empty IEnumerable&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static IEnumerable<T> IEnumerable
-        {
-            get { return Array; } // System.SZArrayHelper caches enumerators for empty arrays.
-        }
-
+            => Array; // System.SZArrayHelper caches enumerators for empty arrays.
+        
         /// <summary>
         /// Get an empty IEnumerator&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static IEnumerator<T> GetEnumerator()
-        {
-            return IEnumerable.GetEnumerator();
-        }
+            => IEnumerable.GetEnumerator();
 
         /// <summary>
         /// Empty IList&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static IList<T> IList
-        {
-            get { return Array; }
-        }
+            => Array;
 
         /// <summary>
         /// Empty System.Collections.ObjectMode.ReadOnlyCollection&lt;<typeparamref name="T"/>&gt;.

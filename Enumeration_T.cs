@@ -332,8 +332,7 @@ namespace AZCL
         /// public static <typeparamref name="TEnumeration"/> fields inside the <typeparamref name="TEnumeration"/> class have been initialized will
         /// this property be initialized.
         /// </note></remarks>
-        new public IEnumValues<TEnumeration> Values
-            => ev_instance;
+        new public IEnumValues<TEnumeration> Values => ev_instance;
 
         /// <summary>
         /// Number of enumeration values declared for this enumeration type.
@@ -487,8 +486,7 @@ namespace AZCL
         */
 
         // this is NOT a copy! this does NOT trigger full initialization!
-        internal static TEnumeration[] ValArrayInternal
-            => values;
+        internal static TEnumeration[] ValArrayInternal => values;
 
         // this is NOT a copy!
         internal sealed override Enumeration[] GetValuesInternal(bool triggerInitialization)
@@ -498,14 +496,11 @@ namespace AZCL
             return values;
         }
 
-        internal sealed override IEnumValues EVInternal
-            => ev_instance;
+        internal sealed override IEnumValues EVInternal => ev_instance;
 
         internal virtual TEnumeration TryParse<TEnum>(TEnum enumValue, bool allowConversion = false)
             where TEnum : struct, IConvertible
-        {
-            return null;
-        }
+            => null;
 
         // lastVal is the instance that is calling InitializeNames (from its ctor). (lastVal == values[values.Length - 1])
         private static void InitializeInfoAndNames(TEnumeration lastVal)

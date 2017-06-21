@@ -23,9 +23,7 @@ namespace AZCL.Collections
         /// If the array argument is null, the backing array of the ReadOnlyArray will simply be absent.
         /// </remarks>
         public static implicit operator ReadOnlyArray<T>(T[] array)
-        {
-            return array == null ? new ReadOnlyArray<T>() : new ReadOnlyArray<T>(array);
-        }
+            => array == null ? new ReadOnlyArray<T>() : new ReadOnlyArray<T>(array);
         
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
@@ -42,10 +40,7 @@ namespace AZCL.Collections
         }
 
         // used in various casts / ctors / extensions
-        internal T[] Array
-        {
-            get { return array; }
-        }
+        internal T[] Array => array;
 
         /// <summary>
         /// Gets the value at the specified position in the wrapped backing array.
@@ -110,7 +105,7 @@ namespace AZCL.Collections
         /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
-            return obj != null && (object.ReferenceEquals(this.array, obj) || obj is ReadOnlyArray<T> && Equals((ReadOnlyArray<T>)obj));
+            return obj != null && (ReferenceEquals(this.array, obj) || obj is ReadOnlyArray<T> && Equals((ReadOnlyArray<T>)obj));
         }
 
         /// <summary>
@@ -120,10 +115,8 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Another instance to compare against.</param>
         public bool Equals(ReadOnlyArray<T> other)
-        {
-            return object.ReferenceEquals(this.array, other.array);
-        }
-
+            => ReferenceEquals(this.array, other.array);
+        
         /// <summary>
         /// Indicates whether the backing array of this wrapper and a specified array are reference equal.
         /// </summary><returns>
@@ -132,19 +125,15 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Array to compare against the backing array of this wrapper.</param>
         public bool Equals(Array other)
-        {
-            return array != null & object.ReferenceEquals(this.array, other);
-        }
-
+            => array != null & ReferenceEquals(this.array, other);
+        
         /// <summary>
         /// Get an enumerator that can iterate through the collection.
         /// </summary><remarks>
         /// This is the method that a foreach statement would call. (The C# compiler employs duck-typing for foreach loops.)
         /// </remarks>
         public Enumerator GetEnumerator()
-        {
-            return new Enumerator(array);
-        }
+            => new Enumerator(array);
         
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -153,16 +142,12 @@ namespace AZCL.Collections
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return (array ?? Empty<T>.Array).GetEnumerator();
-        }
-
+            => (array ?? Empty<T>.Array).GetEnumerator();
+        
         /// <inheritdoc/>
         public override int GetHashCode()
-        {
-            return array == null ? 0 : array.GetHashCode();
-        }
-
+            => array == null ? 0 : array.GetHashCode();
+        
         /// <summary>
         /// Gets the value at the specified position in the wrapped backing array.
         /// </summary>
@@ -170,9 +155,7 @@ namespace AZCL.Collections
         /// Thrown if the index is less than zero, or larger than or equal to <see cref="Length"/>.
         /// </exception>
         public T GetValue(int index)
-        {
-            return this[index];
-        }
+            => this[index];
 
         /// <summary>
         /// True if this instance was default initialized / constructed (backing array is absent).
@@ -180,9 +163,7 @@ namespace AZCL.Collections
         /// Default instances are still valid and behave as if the backing was an empty array.
         /// </remarks>
         public bool IsAbsent
-        {
-            get { return array == null; }
-        }
+            => array == null;
 
         /// <summary>
         /// Gets a 32-bit integer that represents the total number of elements in all
@@ -191,17 +172,12 @@ namespace AZCL.Collections
         /// Will be zero if this wrapper was default constructed / backing array is absent.
         /// </remarks>
         public int Length
-        {
-            get { return array == null ? 0 : array.Length; }
-        }
+            => array == null ? 0 : array.Length;
 
         /// <inheritdoc/>
         public override string ToString()
-        {
-            return array == null ? "<ReadOnlyArray:{}>" : ("<ReadOnlyArray:" + array.ToString() + ">");
-        }
+            => array == null ? "<ReadOnlyArray:{}>" : ("<ReadOnlyArray:" + array.ToString() + ">");
 
-        
         /*
         internal ReadOnlyArrayEnumerator<T> GetReadOnlyArrayEnumerator(int start, int length)
         {
