@@ -9,14 +9,37 @@ namespace AZCL.Collections
     /// Provides a few alternative Linq extension equivalents that specifically target multi-rank arrays.
     /// </summary><remarks>
     /// The provided extensions are optimizations for cases where the standard Linq alternatives perform
-    /// suboptimally on multi-rank arrays.
-    /// (Aside from performance the observable behavior should be in every way identical.)
-    /// The following methods have been specialized: AsEnumerable, Cast, and Reverse.
+    /// suboptimally* on multi-rank arrays - as well as special cases where existing Linq methods doesn't
+    /// work at all and would perform poorly even if they did (because multi-rank arrays doesn't implement
+    /// <c>IEnumerable&lt;T&gt;)</c>.<br/>
+    /// Note that aside from performance the observable behavior should be in every way identical.
+    /// <para/>
+    /// The following extensions have been specialized:
+    /// <list type="nobullet">
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.AsEnumerable">AsEnumerable</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Cast">Cast</see>*</item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Count">Count**</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAt">ElementAt</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAtOrDefault">ElementAtOrDefault</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Last">Last</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.LastOrDefault">LastOrDefault</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Reverse">Reverse</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Skip">Skip</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ToArray">ToArray</see></item>
+    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ToList">ToList</see></item>
+    /// </list>
+    /// <i>*Some of the Cast extensions are slightly different from their Linq equivalents in that they require two generic type parameters instead of just one.</i>
+    /// <br/>
+    /// <i>**Using this extension will generate an Obsolete warning saying that the <c>Length</c> property should be used instead.
+    /// This extension is also marked as not EditorBrowsable to avoid showing up in intellisense.</i>
+    /// <para/>
+    /// Note that in most cases the returned <c>IEnumerable&lt;T&gt;</c> doesn't implement <c>ICollection</c>.
+    /// (This might be added in a future version.)
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class LinqForMultiRankArrays
     {
-        // for use in expressions
+        // for use in expressions (where the argument is called "source")
         private static T NullCheck<T>(T source)
         {
             if (source == null) new ArgumentNullException(nameof(source));
@@ -368,9 +391,29 @@ namespace AZCL.Collections
         /// <summary>
         /// Dummy cast to make sure no unnecessary casts are accidentally performed! (Marked as Obsolete!)
         /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <c>source</c> is null.
+        /// </exception>
         [Obsolete("Redundant cast detected. Remove it unless what you actually wanted was AsEnumerable - if so then replace it with AsEnumerable.")]
         public static IEnumerable<TResult> Cast<TResult>(this IEnumerable<TResult> source)
-            => source;
+            => NullCheck(source);
+
+        // ---
+
+        /// <summary>
+        /// Returns the length of the specified array. (Marked as Obsolete! Use Array.Length property instead!)
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <c>source</c> is null.
+        /// </exception>
+        [Obsolete("Count extension used on an array - use Length property instead!")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static int Count(this Array source)
+            => NullCheck(source).Length;
+
+        // ---
+
+        // ElementAt - TODO
 
         // ---
 
