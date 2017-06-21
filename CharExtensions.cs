@@ -12,9 +12,7 @@ namespace AZCL
         /// True if the char value is less than or equal to '\u007f'.
         /// </summary>
         public static bool IsAscii(this char c)
-        {
-            return c <= '\u007f';
-        }
+            => c <= '\u007f';
 
         /// <summary>
         /// True if the char value is less than or equal to '\u00ff'.
@@ -22,9 +20,7 @@ namespace AZCL
         /// Also known as ASCII + Latin-1 Supplement.
         /// </remarks>
         public static bool IsLatin1(this char c)
-        {
-            return c <= '\u00ff';
-        }
+            => c <= '\u00ff';
 
         /// <summary>
         /// True if the char is a whitespace in the ASCII + Latin-1 Supplement character set.
@@ -42,8 +38,6 @@ namespace AZCL
         /// <br/>U+00a0 = &lt;Zs&gt; NO-BREAK SPACE
         /// </remarks>
         public static bool IsLatin1WhiteSpace(this char c)
-        {
-            return IsLatin1(c) && (c == '\u0020' || (c >= '\u0009' && c <= '\u000d') || c == '\u0085' || c == '\u00a0');
-        }
+            => IsLatin1(c) && (c == '\u0020' || (c >= '\u0009' && c <= '\u000d') || c == '\u0085' || c == '\u00a0');
     }
 }

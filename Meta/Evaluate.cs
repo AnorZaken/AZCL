@@ -8,26 +8,20 @@ namespace AZCL.Meta
         /// Returns whether <typeparamref name="TTarget"/> is assignable from <typeparamref name="TFrom"/>
         /// </summary>
         public static bool IsAssignableFrom<TTarget, TFrom>()
-        {
-            return typeof(TTarget).IsAssignableFrom(typeof(TFrom));
-        }
-
+            => typeof(TTarget).IsAssignableFrom(typeof(TFrom));
+        
         /// <summary>
         /// Returns whether <typeparamref name="T"/> : IComparable&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static bool IsComparable<T>()
-        {
-            return IsAssignableFrom<IComparable<T>, T>();
-        }
-
+            => IsAssignableFrom<IComparable<T>, T>();
+        
         /// <summary>
         /// Returns whether <typeparamref name="T"/> : IEquatable&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
         public static bool IsEquatable<T>()
-        {
-            return IsAssignableFrom<IEquatable<T>, T>();
-        }
-
+            => IsAssignableFrom<IEquatable<T>, T>();
+        
         /// <summary>
         /// Returns whether <typeparamref name="T"/> is an integral simple type.
         /// </summary><remarks>
@@ -54,10 +48,8 @@ namespace AZCL.Meta
         /// Returns whether <typeparamref name="T"/> is a Nullable&lt;?&gt;.
         /// </summary>
         public static bool IsNullable<T>()
-        {
-            return typeof(T).IsNullable(); // <-- AZCL extension.
-        }
-
+            => typeof(T).IsNullable(); // <-- AZCL extension.
+        
         /// <summary>
         /// Returns whether <typeparamref name="T"/> is an enum or enum compatible primitive type.
         /// </summary><remarks>

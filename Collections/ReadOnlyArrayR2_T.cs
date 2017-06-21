@@ -24,20 +24,16 @@ namespace AZCL.Collections
         /// If the array argument is null, the backing array of the ReadOnlyArray will simply be absent.
         /// </remarks>
         public static implicit operator ReadOnlyArrayR2<T>(T[,] array)
-        {
-            return array == null ? new ReadOnlyArrayR2<T>() : new ReadOnlyArrayR2<T>(array);
-        }
-
+            => array == null ? new ReadOnlyArrayR2<T>() : new ReadOnlyArrayR2<T>(array);
+        
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
         /// </summary><remarks>
         /// If a backing array is absent, the backing array of the ReadOnlyArray will simply be absent too.
         /// </remarks>
         public static implicit operator ReadOnlyArrayR2<T>(ArrayR2<T> array)
-        {
-            return new ReadOnlyArrayR2<T>(array);
-        }
-
+            => new ReadOnlyArrayR2<T>(array);
+        
         /// <summary>
         /// Creates a ReadOnlyArrayR2 wrapper for a rank 2 array.
         /// </summary>
@@ -66,10 +62,7 @@ namespace AZCL.Collections
         }
 
         // used in various casts / ctors / extensions
-        internal T[,] Array
-        {
-            get { return array; }
-        }
+        internal T[,] Array => array;
 
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
@@ -190,7 +183,7 @@ namespace AZCL.Collections
         /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
-            return obj != null && (object.ReferenceEquals(this.array, obj) || obj is ReadOnlyArrayR2<T> && Equals((ReadOnlyArrayR2<T>)obj));
+            return obj != null && (ReferenceEquals(this.array, obj) || obj is ReadOnlyArrayR2<T> && Equals((ReadOnlyArrayR2<T>)obj));
         }
 
         /// <summary>
@@ -200,9 +193,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Another instance to compare against.</param>
         public bool Equals(ReadOnlyArrayR2<T> other)
-        {
-            return object.ReferenceEquals(this.array, other.array);
-        }
+            => ReferenceEquals(this.array, other.array);
 
         /// <summary>
         /// Indicates whether the backing array of this wrapper and a specified array are reference equal.
@@ -212,36 +203,26 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="other">Array to compare against the backing array of this wrapper.</param>
         public bool Equals(Array other)
-        {
-            return array != null & object.ReferenceEquals(this.array, other);
-        }
-
+            => array != null & ReferenceEquals(this.array, other);
+        
         /// <summary>
         /// Get an enumerator that can iterate through the collection.
         /// </summary><remarks>
         /// This is the method that a foreach statement would call. (The C# compiler employs duck-typing for foreach loops.)
         /// </remarks>
         public ArrayR2<T>.Enumerator GetEnumerator()
-        {
-            return new ArrayR2<T>.Enumerator(array);
-        }
+            => new ArrayR2<T>.Enumerator(array);
         
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            return array == null ? Empty<T>.GetEnumerator() : new ArrayR2<T>.Enumerator(array);
-        }
-
+            => array == null ? Empty<T>.GetEnumerator() : new ArrayR2<T>.Enumerator(array);
+        
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return array?.GetEnumerator() ?? Empty<T>.GetEnumerator();
-        }
-
+            => array?.GetEnumerator() ?? Empty<T>.GetEnumerator();
+        
         /// <inheritdoc/>
         public override int GetHashCode()
-        {
-            return array == null ? 0 : array.GetHashCode();
-        }
-
+            => array == null ? 0 : array.GetHashCode();
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the specified dimension of the Array.
         /// </summary><returns>
@@ -268,10 +249,8 @@ namespace AZCL.Collections
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
         public T GetValue(int x, int y)
-        {
-            return this[x, y];
-        }
-
+            => this[x, y];
+        
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
         /// </summary>
@@ -295,10 +274,8 @@ namespace AZCL.Collections
         /// Default instances are still valid and behave as if the backing was an empty array.
         /// </remarks>
         public bool IsAbsent
-        {
-            get { return array == null; }
-        }
-
+            => array == null;
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the total number of elements in all
         /// the dimensions of the wrapped backing array.
@@ -306,9 +283,7 @@ namespace AZCL.Collections
         /// Will be zero if this wrapper was default constructed / backing array is absent.
         /// </remarks>
         public int Length
-        {
-            get { return array == null ? 0 : array.Length; }
-        }
+            => array == null ? 0 : array.Length;
 
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the first dimension of the Array.
@@ -317,9 +292,7 @@ namespace AZCL.Collections
         /// This is the same as calling <see cref="GetLength(int)"/> with 0 as argument for the dimension parameter.
         /// </remarks>
         public int LengthX
-        {
-            get { return array == null ? 0 : array.GetLength(0); }
-        }
+            => array == null ? 0 : array.GetLength(0);
 
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the second dimension of the Array.
@@ -328,15 +301,11 @@ namespace AZCL.Collections
         /// This is the same as calling <see cref="GetLength(int)"/> with 1 as argument for the dimension parameter.
         /// </remarks>
         public int LengthY
-        {
-            get { return array == null ? 0 : array.GetLength(1); }
-        }
+            => array == null ? 0 : array.GetLength(1);
 
         /// <inheritdoc/>
         public override string ToString()
-        {
-            return array == null ? "<ReadOnlyArrayR2:{}>" : ("<ReadOnlyArrayR2:" + array.ToString() + ">");
-        }
+            => array == null ? "<ReadOnlyArrayR2:{}>" : ("<ReadOnlyArrayR2:" + array.ToString() + ">");
 
         internal T GetValueOrDefault(int index)
         {

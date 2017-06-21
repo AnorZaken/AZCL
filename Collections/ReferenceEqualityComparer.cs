@@ -28,9 +28,7 @@ namespace AZCL.Collections
 
         /// <inheritdoc/>
         public int GetHashCode(object obj)
-        {
-            return RuntimeHelpers.GetHashCode(obj);
-        }
+            => RuntimeHelpers.GetHashCode(obj);
     }
 
     /// <summary>
@@ -51,15 +49,11 @@ namespace AZCL.Collections
         { }
 
         bool IEqualityComparer<T>.Equals(T x, T y)
-        {
-            return Equals(x, y);
-        }
-
+            => Equals(x, y);
+        
         int IEqualityComparer<T>.GetHashCode(T obj)
-        {
-            return RuntimeHelpers.GetHashCode(obj);
-        }
-
+            => RuntimeHelpers.GetHashCode(obj);
+        
         /// <inheritdoc/>
         public new bool Equals(object x, object y)
         {
@@ -68,8 +62,6 @@ namespace AZCL.Collections
 
         /// <inheritdoc/>
         public int GetHashCode(object obj)
-        {
-            return RuntimeHelpers.GetHashCode(obj);
-        }
+            => RuntimeHelpers.GetHashCode(obj);
     }
 }

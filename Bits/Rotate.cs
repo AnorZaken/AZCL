@@ -162,10 +162,8 @@ namespace AZCL.Bits
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
         public static sbyte Right(sbyte value, int rotation)
-        {
-            return Left(value, -rotation);
-        }
-
+            => Left(value, -rotation);
+        
         /// <summary>
         /// Bit rotates <paramref name="value"/> to the right (high towards low).
         /// </summary><remarks>
@@ -174,10 +172,8 @@ namespace AZCL.Bits
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
         public static sbyte Right(byte value, int rotation)
-        {
-            return Left(value, -rotation);
-        }
-
+            => Left(value, -rotation);
+        
         /// <summary>
         /// Bit rotates <paramref name="value"/> to the right (high towards low).
         /// </summary><remarks>
@@ -186,10 +182,8 @@ namespace AZCL.Bits
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
         public static short Right(short value, int rotation)
-        {
-            return Left(value, -rotation);
-        }
-
+            => Left(value, -rotation);
+        
         /// <summary>
         /// Bit rotates <paramref name="value"/> to the right (high towards low).
         /// </summary><remarks>
@@ -198,10 +192,8 @@ namespace AZCL.Bits
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
         public static ushort Right(ushort value, int rotation)
-        {
-            return Left(value, -rotation);
-        }
-
+            => Left(value, -rotation);
+        
         /// <summary>
         /// Bit rotates <paramref name="value"/> to the right (high towards low).
         /// </summary><remarks>

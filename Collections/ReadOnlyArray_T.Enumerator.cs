@@ -39,10 +39,7 @@ namespace AZCL.Collections
             }
 
             /// <inheritdoc/>
-            public T Current
-            {
-                get { return current; }
-            }
+            public T Current => current;
 
             object System.Collections.IEnumerator.Current
             {

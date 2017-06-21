@@ -310,8 +310,7 @@ namespace AZCL
         private static bool IsOrdinalPaired
             => eqcTEnum == null;
 
-        internal sealed override bool HasEnumValueImpl
-            => true;
+        internal sealed override bool HasEnumValueImpl => true;
 
         internal sealed override Type EnumValueType
             => typeof(TEnum);
@@ -381,10 +380,8 @@ namespace AZCL
         }
 
         internal sealed override Enumeration TryParseBasic<TEnum2>(TEnum2 enumValue, bool allowConversion = false)
-        {
-            return TryParse(enumValue, allowConversion);
-        }
-
+            => TryParse(enumValue, allowConversion);
+        
         // needed because the Convert class, which all Enum types use to implement IConvertible, does bounds checks!
         private static ulong ToUInt64(TEnum enumValue)
         {

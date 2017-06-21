@@ -39,9 +39,7 @@ namespace AZCL.Meta
         /// TypeCode of the represented type.
         /// </summary>
         public TypeCode TypeCode
-        {
-            get { return (TypeCode)(tc5 + 5); }
-        }
+            => (TypeCode)(tc5 + 5);
 
         /// <summary>
         /// Indicates whether this MinValue is of an integral type.
@@ -49,26 +47,20 @@ namespace AZCL.Meta
         /// The integral types are sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public bool IsInteger
-        {
-            get { return tc5 < 8; }
-        }
+            => tc5 < 8;
 
         /// <summary>
         /// Indicates whether this MinValue is of an unsigned integral type.
         /// </summary>
         public bool IsUnsigned
-        {
-            get { return (tc5 < 8) & ((tc5 & 1) == 0); } // (is actually < 7 - but 7 is an odd number anyway so w/e)
-        }
-
+            => (tc5 < 8) & ((tc5 & 1) == 0); // (is actually < 7 - but 7 is an odd number anyway so w/e)
+        
         /// <summary>
         /// Indicates whether this MinValue fits inside a 32-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt32"/>
         public bool FitsInt32
-        {
-            get { return tc5 < 6 | tc5 == 7; }
-        }
+            => tc5 < 6 | tc5 == 7;
 
         /// <summary>
         /// This MinValue as an Int32. (Throwing!)
@@ -93,9 +85,7 @@ namespace AZCL.Meta
         /// </summary>
         /// <seealso cref="AsInt64"/>
         public bool FitsInt64
-        {
-            get { return tc5 < 8; }
-        }
+            => tc5 < 8;
 
         /// <summary>
         /// This MinValue as an Int64. (Throwing!)
@@ -105,9 +95,7 @@ namespace AZCL.Meta
         /// </exception>
         /// <seealso cref="FitsInt64"/>
         public long AsInt64
-        {
-            get { return tc5 == 6 ? long.MinValue : AsInt32; }
-        }
+            => tc5 == 6 ? long.MinValue : AsInt32;
 
         /// <summary>
         /// Compares this MinValue to the MinValue of a numeric simple type.
@@ -162,9 +150,7 @@ namespace AZCL.Meta
         /// <param name="other">MinValue to compare against.</param>
         /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(MinValue other)
-        {
-            return CompareTo(other.TypeCode);
-        }
+            => CompareTo(other.TypeCode);
 
         /// <summary>
         /// Compares this MinValue to an sbyte value.
@@ -200,11 +186,8 @@ namespace AZCL.Meta
         /// <param name="other">Byte value to compare against.</param>
         /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(byte other)
-        {
-            //return (tc5 & 1) - 1 - other; // <-- wrong for tc5 == 9
-            return (tc5 & 1) - (tc5 & 8 | 1) - other;
-        }
-
+            => (tc5 & 1) - (tc5 & 8 | 1) - other;
+        
         /// <summary>
         /// Compares this MinValue to a signed short value.
         /// </summary>
@@ -235,9 +218,7 @@ namespace AZCL.Meta
         /// <param name="other">UInt16 value to compare against.</param>
         /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ushort other)
-        {
-            return (tc5 & 1) - (tc5 & 8 | 1) - other;
-        }
+            => (tc5 & 1) - (tc5 & 8 | 1) - other;
 
         /// <summary>
         /// Compares this MinValue to a signed int32 value.
@@ -260,10 +241,8 @@ namespace AZCL.Meta
         /// <param name="other">UInt32 value to compare against.</param>
         /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(uint other)
-        {
-            return (tc5 & 1) - (tc5 & 8 | 1) - unchecked((int)(other & 3u | other >> 2)); //PS: shifting only 1 bit can cause overflow!
-        }
-
+            => (tc5 & 1) - (tc5 & 8 | 1) - unchecked((int)(other & 3u | other >> 2)); //PS: shifting only 1 bit can cause overflow!
+        
         /// <summary>
         /// Compares this MinValue to a signed int64 value.
         /// </summary>

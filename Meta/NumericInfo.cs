@@ -22,10 +22,7 @@ namespace AZCL.Meta
         /// <summary>
         /// System.TypeCode of the represented type.
         /// </summary>
-        public TypeCode TypeCode
-        {
-            get { return (TypeCode)tc; }
-        }
+        public TypeCode TypeCode => (TypeCode)tc;
 
         /// <summary>
         /// Indicates whether the represented type is a numeric simple type.
@@ -33,9 +30,7 @@ namespace AZCL.Meta
         /// The numeric simple types are: sbyte, byte, short, ushort, int, uint, long, ulong, float, double, and decimal.
         /// </remarks>
         public bool IsNumeric
-        {
-            get { return unchecked(tc - 5u) <= 10u; }
-        }
+            => unchecked(tc - 5u) <= 10u;
 
         /// <summary>
         /// Indicates whether the represented type is an integral type.
@@ -43,9 +38,7 @@ namespace AZCL.Meta
         /// The integral types are: sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public bool IsInteger
-        {
-            get { return unchecked(tc - 5u) < 8u; }
-        }
+            => unchecked(tc - 5u) < 8u;
 
         /// <summary>
         /// Indicates whether the represented type is a signed integral type.
@@ -53,9 +46,7 @@ namespace AZCL.Meta
         /// The signed integral types are: sbyte, short, int, and long.
         /// </remarks>
         public bool IsIntSigned
-        {
-            get { return (tc - 5 & 9) == 0; }
-        }
+            => (tc - 5 & 9) == 0;
 
         /// <summary>
         /// Indicates whether the represented type is an unsigned integral type.
@@ -63,9 +54,7 @@ namespace AZCL.Meta
         /// The unsigned integral types are: byte, ushort, uint, and ulong.
         /// </remarks>
         public bool IsIntUnsigned
-        {
-            get { return (tc - 5 & 9) == 1; }
-        }
+            => (tc - 5 & 9) == 1;
 
         /// <summary>
         /// Indicates whether the represented type is a floating-point type.
@@ -73,9 +62,7 @@ namespace AZCL.Meta
         /// The floating-point types are: float and double.
         /// </remarks>
         public bool IsFloat
-        {
-            get { return (tc - 5 & -2) == 8; }
-        }
+            => (tc - 5 & -2) == 8;
 
         /// <summary>
         /// Size of the represented type in bytes, or -1 if the represented type is not a numeric simple type.
@@ -99,9 +86,7 @@ namespace AZCL.Meta
         /// This is true if the type is sbyte, byte, short, ushort, or int.
         /// </remarks>
         public bool FitsInt32
-        {
-            get { return unchecked(tc - 5u) <= 4u; }
-        }
+            => unchecked(tc - 5u) <= 4u;
 
         /// <summary>
         /// Gets a <see cref="MaxValue"/> instance of the represented type.
@@ -110,9 +95,7 @@ namespace AZCL.Meta
         /// Thrown if the represented type isn't a numeric simple type.
         /// </exception>
         public MaxValue Max
-        {
-            get { return new MaxValue(this.TypeCode); }
-        }
+            => new MaxValue(this.TypeCode);
 
         /// <summary>
         /// Gets a <see cref="MinValue"/> instance of the represented type.
@@ -121,9 +104,7 @@ namespace AZCL.Meta
         /// Thrown if the represented type isn't a numeric simple type.
         /// </exception>
         public MinValue Min
-        {
-            get { return new MinValue(this.TypeCode); }
-        }
+            => new MinValue(this.TypeCode);
 
         internal bool FitsValue(sbyte value) // TODO: doc and make public
         {

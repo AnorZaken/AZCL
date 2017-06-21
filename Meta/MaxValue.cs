@@ -39,9 +39,7 @@ namespace AZCL.Meta
         /// TypeCode of the represented type.
         /// </summary>
         public TypeCode TypeCode
-        {
-            get { return (TypeCode)(tc5 + 5); }
-        }
+            => (TypeCode)(tc5 + 5);
 
         /// <summary>
         /// Indicates whether this MaxValue is of an integral type.
@@ -49,27 +47,21 @@ namespace AZCL.Meta
         /// The integral types are sbyte, byte, short, ushort, int, uint, long, and ulong.
         /// </remarks>
         public bool IsIntegral
-        {
-            get { return tc5 < 8; }
-        }
+            => tc5 < 8;
 
         /// <summary>
         /// Indicates whether this MaxValue is of an unsigned integral type.
         /// </summary>
         public bool IsUnsigned
-        {
-            get { return (tc5 < 8) & ((tc5 & 1) == 0); } // (is actually < 7 - but 7 is an odd number anyway so w/e)
-        }
-
+            => (tc5 < 8) & ((tc5 & 1) == 0); // (is actually < 7 - but 7 is an odd number anyway so w/e)
+        
         /// <summary>
         /// Indicates whether this MaxValue fits inside a 32-bit signed integer.
         /// </summary>
         /// <seealso cref="AsInt32"/>
         /// <seealso cref="FitsUInt32"/>
         public bool FitsInt32
-        {
-            get { return tc5 <= 4; }
-        }
+            => tc5 <= 4;
 
         /// <summary>
         /// This MaxValue as an Int32. (Throwing!)
@@ -96,9 +88,7 @@ namespace AZCL.Meta
         /// <seealso cref="AsUInt32"/>
         /// <seealso cref="FitsInt32"/>
         public bool FitsUInt32
-        {
-            get { return tc5 <= 5; }
-        }
+            => tc5 <= 5;
 
         /// <summary>
         /// This MaxValue as an UInt32. (Throwing!)
@@ -131,9 +121,7 @@ namespace AZCL.Meta
         /// <seealso cref="AsInt64"/>
         /// <seealso cref="FitsUInt64"/>
         public bool FitsInt64
-        {
-            get { return tc5 <= 6; }
-        }
+            => tc5 <= 6;
 
         /// <summary>
         /// This MaxValue as an Int64. (Throwing!)
@@ -143,12 +131,7 @@ namespace AZCL.Meta
         /// </exception>
         /// <seealso cref="FitsInt64"/>
         public long AsInt64
-        {
-            get
-            {
-                return tc5 == 6 ? long.MaxValue : AsUInt32;
-            }
-        }
+            => tc5 == 6 ? long.MaxValue : AsUInt32;
 
         /// <summary>
         /// Indicates whether this MaxValue fits inside a 64-bit unsigned integer.
@@ -156,9 +139,7 @@ namespace AZCL.Meta
         /// <seealso cref="AsUInt64"/>
         /// <seealso cref="FitsInt64"/>
         public bool FitsUInt64
-        {
-            get { return tc5 < 8; }
-        }
+            => tc5 < 8;
 
         /// <summary>
         /// This MaxValue as an UInt64. (Throwing!)
@@ -168,12 +149,7 @@ namespace AZCL.Meta
         /// </exception>
         /// <seealso cref="FitsUInt64"/>
         public ulong AsUInt64
-        {
-            get
-            {
-                return tc5 == 6 | tc5 == 7 ? ulong.MaxValue >> (~tc5 & 1) : AsUInt32;
-            }
-        }
+            => tc5 == 6 | tc5 == 7 ? ulong.MaxValue >> (~tc5 & 1) : AsUInt32;
 
         /// <summary>
         /// Compares this MaxValue to the MaxValue of a numeric simple type.
@@ -220,9 +196,7 @@ namespace AZCL.Meta
         /// <param name="other">MaxValue to compare against.</param>
         /// <inheritdoc cref="CompareTo(TypeCode)"/>
         public int CompareTo(MaxValue other)
-        {
-            return CompareTo(other.TypeCode);
-        }
+            => CompareTo(other.TypeCode);
 
         /// <summary>
         /// Compares this MaxValue to an sbyte value.
@@ -235,9 +209,7 @@ namespace AZCL.Meta
         /// </returns>
         /// <param name="other">SByte value to compare against.</param>
         public int CompareTo(sbyte other)
-        {
-            return sbyte.MaxValue - other + tc5;
-        }
+            => sbyte.MaxValue - other + tc5;
 
         /// <summary>
         /// Compares this MaxValue to a byte value.
@@ -245,9 +217,7 @@ namespace AZCL.Meta
         /// <param name="other">Byte value to compare against.</param>
         /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(byte other)
-        {
-            return (0xFffff >> 13 - tc5) - other;
-        }
+            => (0xFffff >> 13 - tc5) - other;
 
         /// <summary>
         /// Compares this MaxValue to a signed short value.
@@ -277,9 +247,7 @@ namespace AZCL.Meta
         /// <param name="other">UInt16 value to compare against.</param>
         /// <inheritdoc cref="CompareTo(sbyte)"/>
         public int CompareTo(ushort other)
-        {
-            return (0xFffff >> 13 - tc5 - (1 - tc5 >> 1 & 6)) - other;
-        }
+            => (0xFffff >> 13 - tc5 - (1 - tc5 >> 1 & 6)) - other;
 
         /// <summary>
         /// Compares this MaxValue to a signed int32 value.

@@ -39,78 +39,54 @@ namespace AZCL.Collections
 
         /// <inheritdoc cref="ArrayEnumerator{T}.ArrayEnumerator(T[])"/>
         public static ArrayEnumerator<T> Create<T>(T[] array)
-        {
-            return new ArrayEnumerator<T>(array);
-        }
-
+            => new ArrayEnumerator<T>(array);
+        
         /// <inheritdoc cref="ArrayEnumerator{T}.ArrayEnumerator(T[], int)"/>
         public static ArrayEnumerator<T> Create<T>(T[] array, int length)
-        {
-            return new ArrayEnumerator<T>(array, length);
-        }
-
+            => new ArrayEnumerator<T>(array, length);
+        
         /// <inheritdoc cref="ArrayEnumerator{T}.ArrayEnumerator(int, T[])"/>
         public static ArrayEnumerator<T> Create<T>(int start, T[] array)
-        {
-            return new ArrayEnumerator<T>(start, array);
-        }
-
+            => new ArrayEnumerator<T>(start, array);
+        
         /// <inheritdoc cref="ArrayEnumerator{T}.ArrayEnumerator(int, T[], int)"/>
         public static ArrayEnumerator<T> Create<T>(int start, T[] array, int length)
-        {
-            return new ArrayEnumerator<T>(start, array, length);
-        }
-
+            => new ArrayEnumerator<T>(start, array, length);
+        
         // ----
 
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(T[])"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(T[] array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(array);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(T[], int)"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(T[] array, int length)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array, length);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(array, length);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, T[])"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, T[] array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(start, array);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(start, array);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, T[], int)"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, T[] array, int length)
-        {
-            return new ArrayEnumeratorReadOnly<T>(start, array, length);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(start, array, length);
+        
         // ----
 
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(ReadOnlyArray{T})"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(ReadOnlyArray<T> array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(array);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(ReadOnlyArray{T}, int)"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(ReadOnlyArray<T> array, int length)
-        {
-            return new ArrayEnumeratorReadOnly<T>(array, length);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(array, length);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, ReadOnlyArray{T})"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array)
-        {
-            return new ArrayEnumeratorReadOnly<T>(start, array);
-        }
-
+            => new ArrayEnumeratorReadOnly<T>(start, array);
+        
         /// <inheritdoc cref="ArrayEnumeratorReadOnly{T}.ArrayEnumeratorReadOnly(int, ReadOnlyArray{T}, int)"/>
         public static ArrayEnumeratorReadOnly<T> CreateReadOnly<T>(int start, ReadOnlyArray<T> array, int length)
-        {
-            return new ArrayEnumeratorReadOnly<T>(start, array, length);
-        }
+            => new ArrayEnumeratorReadOnly<T>(start, array, length);
     }
 }
