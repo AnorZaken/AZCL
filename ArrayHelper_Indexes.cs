@@ -89,6 +89,9 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
         /// <seealso cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}"/>
         public static int[] CalculateIndexes(Array array, int index)
         {
