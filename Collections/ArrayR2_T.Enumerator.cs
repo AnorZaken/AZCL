@@ -20,7 +20,7 @@ namespace AZCL.Collections
         /// <para id="enumerationOrder">
         /// When enumerating over multi-dimensional arrays elements are traversed such that the indices of the
         /// rightmost dimension are increased first, then the next left dimension, and so on to the left.
-        /// <br/>(See C# Language Specification - Version 4.0 paragraph 8.8.4)
+        /// <br/><i>(See C# Language Specification - Version 4.0 paragraph 8.8.4)</i>
         /// </para>
         /// </remarks>
         public struct Enumerator : IEnumerator<T>
@@ -54,17 +54,17 @@ namespace AZCL.Collections
                 this.source = array;
                 if (array == null || array.Length == 0) // <-- The Length check is important! (Because "... = new T[42,0];" is legal.)
                 {
-                    this.lenx = 0;
-                    this.leny = 0;
+                    lenx = 0;
+                    leny = 0;
                 }
                 else
                 {
-                    this.lenx = array.GetLength(0);
-                    this.leny = array.GetLength(1);
+                    lenx = array.GetLength(0);
+                    leny = array.GetLength(1);
                 }
-                this.x = 0;
-                this.y = 0;
-                this.current = default(T);
+                x = 0;
+                y = 0;
+                current = default(T);
             }
 
             /// <summary>
@@ -74,10 +74,28 @@ namespace AZCL.Collections
             { }
 
             // startIndex must non-negative, but there is no upper bound though!
-            internal Enumerator(T[,] array, int startIndex) : this(array)
+            internal Enumerator(T[,] array, int startIndex)
             {
                 AZAssert.GEQZeroInternal(startIndex, nameof(startIndex));
-                ArrayHelper.CalculateIndexesUnbound(array, startIndex, out x, out y);
+
+                this.source = array;
+                if (array == null || array.Length == 0) // <-- The Length check is important! (Because "... = new T[42,0];" is legal.)
+                {
+                    lenx = 0;
+                    leny = 0;
+
+                    x = 0;
+                    y = 0;
+                }
+                else
+                {
+                    lenx = array.GetLength(0);
+                    leny = array.GetLength(1);
+
+                    x = startIndex / leny;
+                    y = startIndex - x * leny;
+                }
+                current = default(T);
             }
 
             /// <inheritdoc/>
