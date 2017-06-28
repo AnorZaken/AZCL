@@ -413,7 +413,188 @@ namespace AZCL.Collections
 
         // ---
 
-        // ElementAt - TODO
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,] array, int index)
+        {
+            int x, y;
+            ArrayHelper.CalculateIndexes(array, index, out x, out y); // <-- handles the exceptions
+            return array[x, y];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,] array, int index)
+        {
+            int x, y, z;
+            ArrayHelper.CalculateIndexes(array, index, out x, out y, out z); // <-- handles the exceptions
+            return array[x, y, z];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,] array, int index)
+        {
+            int x, y, z, w;
+            ArrayHelper.CalculateIndexes(array, index, out x, out y, out z, out w); // <-- handles the exceptions
+            return array[x, y, z, w];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,] array, int index) //5
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,,] array, int index) //6
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4], i[5]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,,,] array, int index) //7
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,,,,] array, int index) //8
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,,,,,] array, int index) //9
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        public static TSource ElementAt<TSource>(this TSource[,,,,,,,,,] array, int index) //10
+        {
+            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]];
+        }
 
         // ---
 
