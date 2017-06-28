@@ -50,20 +50,20 @@ namespace AZCL.Collections
                 this.source = array;
                 if (array == null || array.Length == 0) // <-- The Length check is important! (Because "... = new T[42,0,0];" is legal.)
                 {
-                    this.lenx = 0;
-                    this.leny = 0;
-                    this.lenz = 0;
+                    lenx = 0;
+                    leny = 0;
+                    lenz = 0;
                 }
                 else
                 {
-                    this.lenx = array.GetLength(0);
-                    this.leny = array.GetLength(1);
-                    this.lenz = array.GetLength(2);
+                    lenx = array.GetLength(0);
+                    leny = array.GetLength(1);
+                    lenz = array.GetLength(2);
                 }
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.current = default(T);
+                x = 0;
+                y = 0;
+                z = 0;
+                current = default(T);
             }
             
             /// <summary>
@@ -73,10 +73,33 @@ namespace AZCL.Collections
             { }
 
             // startIndex must non-negative, but there is no upper bound though!
-            internal Enumerator(T[,,] array, int startIndex) : this(array)
+            internal Enumerator(T[,,] array, int startIndex)
             {
                 AZAssert.GEQZeroInternal(startIndex, nameof(startIndex));
-                ArrayHelper.CalculateIndexesUnbound(array, startIndex, out x, out y, out z);
+
+                this.source = array;
+                if (array == null || array.Length == 0) // <-- The Length check is important! (Because "... = new T[42,0,0];" is legal.)
+                {
+                    lenx = 0;
+                    leny = 0;
+                    lenz = 0;
+
+                    x = 0;
+                    y = 0;
+                    z = 0;
+                }
+                else
+                {
+                    lenx = array.GetLength(0);
+                    leny = array.GetLength(1);
+                    lenz = array.GetLength(2);
+                    
+                    y = startIndex / lenz;     // (unbound)
+                    z = startIndex - y * lenz; // (bound z)
+                    x = y / leny;         // (unbound)
+                    y = y - x * leny;     // (bound y)
+                }
+                current = default(T);
             }
 
             /// <inheritdoc/>

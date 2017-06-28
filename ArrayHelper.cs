@@ -792,66 +792,6 @@ namespace AZCL
 
         // -----
 
-        // output is not guaranteed to be within bounds!
-        internal static int CalculateCountUnbound<T>(T[,] array, int x, int y, bool inclusive)
-        {
-            AZAssert.NotNullInternal(array, nameof(array));
-            AZAssert.GEQZeroInternal(x, nameof(x));
-            AZAssert.GEQZeroInternal(y, nameof(y));
-
-            int count = y + array.LengthY() * x;
-            return inclusive ? count : count - 1;
-        }
-
-        // output is not guaranteed to be within bounds!
-        internal static int CalculateCountUnbound<T>(T[,,] array, int x, int y, int z, bool inclusive)
-        {
-            AZAssert.NotNullInternal(array, nameof(array));
-            AZAssert.GEQZeroInternal(x, nameof(x));
-            AZAssert.GEQZeroInternal(y, nameof(y));
-
-            int temp = array.LengthZ();
-            temp = z + y * temp + x * temp * array.LengthY();
-            return inclusive ? temp : temp - 1;
-        }
-
-        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
-        internal static void CalculateIndexesUnbound<T>(T[,] array, int index, out int x, out int y)
-        {
-            int leny;
-            if (array == null || (leny = array.GetLength(1)) == 0)
-            {
-                x = y = int.MaxValue - 1; // (There is a special reason we do it this way - see references)
-            }
-            else
-            {
-                // Fast DivRem
-                x = index / leny;
-                y = index - x * leny;
-                // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
-                // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
-                // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
-            }
-        }
-
-        // all inputs "valid" but likewise output is not guaranteed to be "sane"!
-        internal static void CalculateIndexesUnbound<T>(T[,,] array, int index, out int x, out int y, out int z)
-        {
-            int leny, lenz;
-            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
-            {
-                x = y = z = int.MaxValue - 1; // (There is a special reason we do it this way - see references)
-            }
-            else
-            {
-
-                y = index / lenz; // <-- (not bound by its length *yet*)
-                z = index - y * lenz;
-                x = y / leny;
-                y = y - x * leny;
-            }
-        }
-
         // (the point is to try to avoid calling this slow method if possible)
         internal static IEnumerable<TResult> CastIter<TResult>(System.Collections.IEnumerable source)
         {
