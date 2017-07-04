@@ -50,15 +50,15 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, z, and w element indexes.
+        /// Given a one-dimensional enumeration index, calculates the corresponding w, x, y, and z element indexes.
         /// </summary>
         /// <inheritdoc cref="CalculateIndexes{T}(T[,], int, out int, out int)" select="remarks"/>
         /// <param name="array">The array whose dimensions to calculate indexes for.</param>
         /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="w">Resulting w index.</param>
         /// <param name="x">Resulting x index.</param>
         /// <param name="y">Resulting y index.</param>
         /// <param name="z">Resulting z index.</param>
-        /// <param name="w">Resulting w index.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
@@ -66,9 +66,9 @@ namespace AZCL
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,], int)"/>
-        public static void CalculateIndexes<T>(T[,,,] array, int index, out int x, out int y, out int z, out int w)
+        public static void CalculateIndexes<T>(T[,,,] array, int index, out int w, out int x, out int y, out int z)
         {
-            if (!TryCalculateIndexes(array, index, out x, out y, out z, out w))
+            if (!TryCalculateIndexes(array, index, out w, out x, out y, out z))
                 throw new ArgumentOutOfRangeException(paramName: nameof(index));
         }
 
@@ -175,39 +175,39 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, z, and w element indexes.
+        /// Given a one-dimensional enumeration index, calculates the corresponding w, x, y, and z element indexes.
         /// </summary>
         /// <inheritdoc cref="TryCalculateIndexes{T}(T[,], int, out int, out int)" select="remarks|returns"/>
         /// <param name="array">The array whose dimensions to calculate indexes for.</param>
         /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="w">Resulting w index.</param>
         /// <param name="x">Resulting x index.</param>
         /// <param name="y">Resulting y index.</param>
         /// <param name="z">Resulting z index.</param>
-        /// <param name="w">Resulting w index.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,], int)"/>
-        public static bool TryCalculateIndexes<T>(T[,,,] array, int index, out int x, out int y, out int z, out int w)
+        public static bool TryCalculateIndexes<T>(T[,,,] array, int index, out int w, out int x, out int y, out int z)
         {
             NullCheck(array);
-            int leny = array.GetLength(1);
-            int lenz = array.GetLength(2);
-            int lenw = array.GetLength(3);
-            if (leny == 0 | lenz == 0 | lenw == 0)
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            if (lenx == 0 | leny == 0 | lenz == 0)
             {
-                x = y = z = w = -1;
+                w = x = y = z = -1;
                 return false;
             }
 
-            z = index / lenw;     // (unbound)
-            w = index - z * lenw; // (bound w)
-            y = z / lenz;         // (unbound)
-            z = z - y * lenz;     // (bound z)
+            y = index / lenz;     // (unbound)
+            z = index - y * lenz; // (bound z)
             x = y / leny;         // (unbound)
             y = y - x * leny;     // (bound y)
+            w = x / lenx;         // (unbound)
+            x = x - w * lenx;     // (bound x)
 
-            return unchecked((uint)x < (uint)array.GetLength(0)); // (x bound?)
+            return unchecked((uint)w < (uint)array.GetLength(0)); // (w bound?)
 
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of

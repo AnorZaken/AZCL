@@ -18,7 +18,7 @@ namespace AZCL.Collections
     /// <list type="nobullet">
     ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.AsEnumerable">AsEnumerable</see></item>
     ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Cast">Cast</see>*</item>
-    ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Count">Count**</see></item>
+    ///     <item><see cref="AZCL.Collections.LinqForMultiRankArrays.Count">Count</see>**</item>
     ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAt">ElementAt</see></item>
     ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAtOrDefault">ElementAtOrDefault</see></item>
     ///     <item><see cref="O:AZCL.Collections.LinqForMultiRankArrays.Last">Last</see></item>
@@ -188,10 +188,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,] source) //2
-        {
-            return (NullCheck(source) as TResult[,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -207,10 +205,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,] source) //3
-        {
-            return (NullCheck(source) as TResult[,,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -226,10 +222,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,] source) //4
-        {
-            return (NullCheck(source) as TResult[,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -245,10 +239,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,] source) //5
-        {
-            return (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -264,10 +256,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,] source) //6
-        {
-            return (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -283,10 +273,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,] source) //7
-        {
-            return (NullCheck(source) as TResult[,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -302,10 +290,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,] source) //8
-        {
-            return (NullCheck(source) as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -321,10 +307,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,,] source) //9
-        {
-            return (NullCheck(source) as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
         /// an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -340,10 +324,8 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,,,] source) //10
-        {
-            return (NullCheck(source) as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
-        }
-
+            => (NullCheck(source) as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+        
         /// <summary>
         /// Casts the elements of an array (of any rank) to an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
         /// </summary>
@@ -406,7 +388,7 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentNullException">
         /// Thrown if <c>source</c> is null.
         /// </exception>
-        [Obsolete("Count extension used on an array - use Length property instead!")]
+        [Obsolete("Count extension used on an array. Use Length property instead.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static int Count(this Array source)
             => NullCheck(source).Length;
@@ -472,8 +454,8 @@ namespace AZCL.Collections
         public static TSource ElementAt<TSource>(this TSource[,,,] array, int index)
         {
             int x, y, z, w;
-            ArrayHelper.CalculateIndexes(array, index, out x, out y, out z, out w); // <-- handles the exceptions
-            return array[x, y, z, w];
+            ArrayHelper.CalculateIndexes(array, index, out w, out x, out y, out z); // <-- handles the exceptions
+            return array[w, x, y, z];
         }
 
         /// <summary>
@@ -594,6 +576,185 @@ namespace AZCL.Collections
         {
             var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]];
+        }
+
+        // ---
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,] array, int index) //2
+        {
+            int x, y;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out x, out y)) // <-- throws if array is null.
+                return array[x, y];
+            return default(TSource);
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,] array, int index) //3
+        {
+            int x, y, z;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out x, out y, out z)) // <-- throws if array is null.
+                return array[x, y, z];
+            return default(TSource);
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,] array, int index) //4
+        {
+            int w, x, y, z;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out w, out x, out y, out z)) // <-- throws if array is null.
+                return array[w, x, y, z];
+            return default(TSource);
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,] array, int index) //5
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,] array, int index) //6
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,] array, int index) //7
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,] array, int index) //8
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,,] array, int index) //9
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]];
+        }
+
+        /// <summary>
+        /// Returns the element at a specified enumeration index in a multi-rank array,
+        /// or the default value for the arrays element type if the index is out of bounds.
+        /// </summary>
+        /// <returns>
+        /// The element at the specified position in the array, if the specified index is within bounds;
+        /// otherwise <c>default(<typeparamref name="TSource"/>)</c>.
+        /// </returns>
+        /// <param name="array">A multi-rank array to return an element from.</param>
+        /// <param name="index">The zero-based enumeration index of the element to retrieve.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,,,] array, int index) //10
+        {
+            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]];
         }
 
         // ---
@@ -1637,7 +1798,7 @@ namespace AZCL.Collections
         }
 
         /* A bit limited since it only works for reference types...
-        private static T[] ToArray<T>(Array source) where T : class
+        public static T[] ToArray<T>(Array source) where T : class
         {
             AZAssert.NotNullInternal(source, nameof(source));
             AZAssert.Internal(source.GetType().GetElementType() == typeof(T), "array type mismatch");
