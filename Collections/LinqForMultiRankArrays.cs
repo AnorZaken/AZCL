@@ -432,9 +432,8 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,] array, int index)
         {
-            int x, y, z;
-            ArrayHelper.CalculateIndexes(array, index, out x, out y, out z); // <-- handles the exceptions
-            return array[x, y, z];
+            Tuples.Int3 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i.x, i.y, i.z];
         }
 
         /// <summary>
@@ -453,9 +452,8 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,] array, int index)
         {
-            int x, y, z, w;
-            ArrayHelper.CalculateIndexes(array, index, out w, out x, out y, out z); // <-- handles the exceptions
-            return array[w, x, y, z];
+            Tuples.Int4 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i.w, i.x, i.y, i.z];
         }
 
         /// <summary>
@@ -474,8 +472,8 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,] array, int index) //5
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
-            return array[i[0], i[1], i[2], i[3], i[4]];
+            Tuples.Int5 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i.v, i.w, i.x, i.y, i.z];
         }
 
         /// <summary>
@@ -494,8 +492,8 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,] array, int index) //6
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
-            return array[i[0], i[1], i[2], i[3], i[4], i[5]];
+            Tuples.Int6 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            return array[i.a, i.b, i.c, i.d, i.e, i.f];
         }
 
         /// <summary>
@@ -616,9 +614,9 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,] array, int index) //3
         {
-            int x, y, z;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out x, out y, out z)) // <-- throws if array is null.
-                return array[x, y, z];
+            Tuples.Int3 i;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
+                return array[i.x, i.y, i.z];
             return default(TSource);
         }
 
@@ -637,9 +635,9 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,] array, int index) //4
         {
-            int w, x, y, z;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out w, out x, out y, out z)) // <-- throws if array is null.
-                return array[w, x, y, z];
+            Tuples.Int4 i;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
+                return array[i.w, i.x, i.y, i.z];
             return default(TSource);
         }
 
@@ -658,8 +656,10 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,] array, int index) //5
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
-            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4]];
+            Tuples.Int5 i;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
+                return array[i.v, i.w, i.x, i.y, i.z];
+            return default(TSource);
         }
 
         /// <summary>
@@ -677,8 +677,10 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,] array, int index) //6
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
-            return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5]];
+            Tuples.Int6 i;
+            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
+                return array[i.a, i.b, i.c, i.d, i.e, i.f];
+            return default(TSource);
         }
 
         /// <summary>

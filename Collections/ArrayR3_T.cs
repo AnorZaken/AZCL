@@ -55,20 +55,19 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
         /// (Note especially that if the backing array is absent (null) the <see cref="Length"/> property will be zero.)
         /// </exception>
+        /// <seealso cref="CalculateIndexes(int)"/>
         /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
         public T this[int index]
         {
             get
             {
-                int x, y, z;
-                CalculateIndexes(index, out x, out y, out z);
-                return array[x, y, z];
+                Tuples.Int3 i = CalculateIndexes(index);
+                return array[i.x, i.y, i.z];
             }
             set
             {
-                int x, y, z;
-                CalculateIndexes(index, out x, out y, out z);
-                array[x, y, z] = value;
+                Tuples.Int3 i = CalculateIndexes(index);
+                array[i.x, i.y, i.z] = value;
             }
         }
 
@@ -91,6 +90,28 @@ namespace AZCL.Collections
                 if (array == null)
                     throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
                 array[x, y, z] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the value at the specified position in the wrapped backing array.
+        /// </summary>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
+        /// </exception>
+        public T this[Tuples.Int3 xyz]
+        {
+            get
+            {
+                if (array == null)
+                    throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
+                return array[xyz.x, xyz.y, xyz.z];
+            }
+            set
+            {
+                if (array == null)
+                    throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
+                array[xyz.x, xyz.y, xyz.z] = value;
             }
         }
 
@@ -138,6 +159,37 @@ namespace AZCL.Collections
         }
 
         /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z item indexes.
+        /// </summary>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
+        /// <returns>
+        /// An <see cref="Tuples.Int3"/> tuple containing the resulting x, y, and z indexes.
+        /// </returns>
+        /// <param name="index">An enumeration index to calculate item indexes for.</param>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
+        /// (Note especially that if the backing array <see cref="IsAbsent"/> the <see cref="Length"/> property will be zero.)
+        /// </exception>
+        /// <seealso cref="GetValue1D(int)"/>
+        /// <seealso cref="TryCalculateIndexes(int, out Tuples.Int3)"/>
+        public Tuples.Int3 CalculateIndexes(int index)
+        {
+            if (unchecked((uint)index >= (uint)Length))
+                throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
+
+            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
+            int lenz = array.GetLength(2);
+
+            int x, y, z;
+            y = index / lenz; // <-- (not bound by its length *yet*)
+            z = index - y * lenz;
+            x = y / leny;
+            y = y - x * leny;
+
+            return new Tuples.Int3(x, y, z);
+        }
+
+        /// <summary>
         /// Given a one-dimensional enumeration index, tries to calculate the corresponding x, y, and z item indexes.
         /// </summary><returns>
         /// False if the resulting indexes are out of bounds (or the backing array is absent); otherwise true.
@@ -166,6 +218,33 @@ namespace AZCL.Collections
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, tries to calculate the corresponding x, y, and z item indexes.
+        /// </summary><returns>
+        /// False if the resulting indexes are out of bounds (or the backing array is absent); otherwise true.
+        /// </returns>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
+        /// <param name="index">An enumeration index to calculate item indexes for.</param>
+        /// <param name="xyz">Int3 tuple with the resulting x, y, and z index.</param>
+        public bool TryCalculateIndexes(int index, out Tuples.Int3 xyz)
+        {
+            int leny, lenz;
+            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
+            {
+                xyz = default(Tuples.Int3);
+                return false;
+            }
+
+            int x, y, z;
+            y = index / lenz; // <-- (not bound by its length *yet*)
+            z = index - y * lenz;
+            x = y / leny;
+            y = y - x * leny;
+
+            xyz = new Tuples.Int3(x, y, z);
+            return unchecked((uint)x < (uint)array.GetLength(0));
         }
 
         /* Method CopyTo absent because it's for single dimensional arrays only as part of the ICollection interface. */
@@ -246,8 +325,20 @@ namespace AZCL.Collections
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
+        /// <seealso cref="this[int, int, int]"/>
         public T GetValue(int x, int y, int z)
             => this[x, y, z];
+
+        /// <summary>
+        /// Gets the value at the specified position in the wrapped backing array.
+        /// </summary>
+        /// <param name="xyz">Indexes of the element to get.</param>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
+        /// </exception>
+        /// <seealso cref="this[Tuples.Int3]"/>
+        public T GetValue(Tuples.Int3 xyz)
+            => this[xyz];
 
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
@@ -261,9 +352,8 @@ namespace AZCL.Collections
         /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
         public T GetValue1D(int index)
         {
-            int x, y, z;
-            CalculateIndexes(index, out x, out y, out z);
-            return array[x, y, z];
+            Tuples.Int3 i = CalculateIndexes(index);
+            return array[i.x, i.y, i.z];
         }
 
         /// <summary>
@@ -320,9 +410,24 @@ namespace AZCL.Collections
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or larger than the upper bound for the corresponding dimension.
         /// </exception>
+        /// <seealso cref="this[int, int, int]"/>
         public void SetValue(T value, int x, int y, int z)
         {
             this[x, y, z] = value;
+        }
+
+        /// <summary>
+        /// Sets the element at the specified position in the backing array to the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">Value to set an element to.</param>
+        /// <param name="xyz">Indexes of the element to set.</param>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown if any of the indexes are less than zero, or larger than the upper bound for the corresponding dimension.
+        /// </exception>
+        /// <seealso cref="this[Tuples.Int3]"/>
+        public void SetValue(T value, Tuples.Int3 xyz)
+        {
+            this[xyz] = value;
         }
 
         /// <summary>
@@ -336,6 +441,7 @@ namespace AZCL.Collections
         /// (Note especially that if the backing array is absent (null) the <see cref="Length"/> property will be zero.)
         /// </exception>
         /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
+        /// <seealso cref="this[int]"/>
         public void SetValue1D(T value, int index)
         {
             int x, y, z;
@@ -349,8 +455,8 @@ namespace AZCL.Collections
 
         internal T GetValueOrDefault(int index)
         {
-            int x, y, z;
-            return TryCalculateIndexes(index, out x, out y, out z) ? array[x, y, z] : default(T);
+            Tuples.Int3 i;
+            return TryCalculateIndexes(index, out i) ? array[i.x, i.y, i.z] : default(T);
         }
     }
 }

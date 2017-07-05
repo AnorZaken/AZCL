@@ -20,7 +20,9 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,], int, out int, out int)"/>
         /// <seealso cref="AZCL.Collections.ArrayR2{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,], int)"/>
         public static void CalculateIndexes<T>(T[,] array, int index, out int x, out int y)
         {
             if (!TryCalculateIndexes(array, index, out x, out y))
@@ -42,11 +44,39 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,], int, out int, out int, out int)"/>
         /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static void CalculateIndexes<T>(T[,,] array, int index, out int x, out int y, out int z)
         {
             if (!TryCalculateIndexes(array, index, out x, out y, out z))
                 throw new ArgumentOutOfRangeException(paramName: nameof(index));
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="CalculateIndexes{T}(T[,], int, out int, out int)" select="remarks"/>
+        /// <returns>
+        /// An <see cref="Tuples.Int3"/> tuple with the resulting x, y, and z index.
+        /// </returns>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,], int, out Tuples.Int3)"/>
+        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
+        public static Tuples.Int3 CalculateIndexes<T>(T[,,] array, int index)
+        {
+            Tuples.Int3 r;
+            if (TryCalculateIndexes(array, index, out r))
+                return r;
+            throw new ArgumentOutOfRangeException(paramName: nameof(index));
         }
 
         /// <summary>
@@ -65,11 +95,87 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,,], int, out int, out int, out int, out int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,], int)"/>
         public static void CalculateIndexes<T>(T[,,,] array, int index, out int w, out int x, out int y, out int z)
         {
             if (!TryCalculateIndexes(array, index, out w, out x, out y, out z))
                 throw new ArgumentOutOfRangeException(paramName: nameof(index));
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding w, x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="CalculateIndexes{T}(T[,], int, out int, out int)" select="remarks"/>
+        /// <returns>
+        /// An <see cref="Tuples.Int4"/> tuple with the resulting w, x, y, and z index.
+        /// </returns>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,,], int, out Tuples.Int4)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,], int)"/>
+        public static Tuples.Int4 CalculateIndexes<T>(T[,,,] array, int index)
+        {
+            Tuples.Int4 r;
+            if (TryCalculateIndexes(array, index, out r))
+                return r;
+            throw new ArgumentOutOfRangeException(paramName: nameof(index));
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding v, w, x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="CalculateIndexes{T}(T[,], int, out int, out int)" select="remarks"/>
+        /// <returns>
+        /// An <see cref="Tuples.Int5"/> tuple with the resulting v, w, x, y, and z index.
+        /// </returns>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,,,], int, out Tuples.Int5)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,,], int)"/>
+        public static Tuples.Int5 CalculateIndexes<T>(T[,,,,] array, int index)
+        {
+            Tuples.Int5 r;
+            if (TryCalculateIndexes(array, index, out r))
+                return r;
+            throw new ArgumentOutOfRangeException(paramName: nameof(index));
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding six element indexes.
+        /// </summary>
+        /// <inheritdoc cref="CalculateIndexes{T}(T[,], int, out int, out int)" select="remarks"/>
+        /// <returns>
+        /// An <see cref="Tuples.Int6"/> tuple with the resulting six element indexes.
+        /// </returns>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
+        /// </exception>
+        /// <seealso cref="TryCalculateIndexes{T}(T[,,,,,], int, out Tuples.Int6)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,,,], int)"/>
+        public static Tuples.Int6 CalculateIndexes<T>(T[,,,,,] array, int index)
+        {
+            Tuples.Int6 r;
+            if (TryCalculateIndexes(array, index, out r))
+                return r;
+            throw new ArgumentOutOfRangeException(paramName: nameof(index));
         }
 
         /// <summary>
@@ -92,6 +198,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
+        /// <seealso cref="TryCalculateIndexes(Array, int)"/>
         /// <seealso cref="O:AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}"/>
         public static int[] CalculateIndexes(Array array, int index)
         {
@@ -118,6 +225,7 @@ namespace AZCL
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
         /// <seealso cref="AZCL.Collections.ArrayR2{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,], int)"/>
         public static bool TryCalculateIndexes<T>(T[,] array, int index, out int x, out int y)
         {
             int leny = NullCheck(array).LengthY();
@@ -151,6 +259,7 @@ namespace AZCL
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
         /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static bool TryCalculateIndexes<T>(T[,,] array, int index, out int x, out int y, out int z)
         {
             NullCheck(array);
@@ -172,6 +281,40 @@ namespace AZCL
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+        }
+
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="TryCalculateIndexes{T}(T[,], int, out int, out int)" select="remarks|returns"/>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="xyz">Int3 tuple with the resulting x, y, and z index.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
+        public static bool TryCalculateIndexes<T>(T[,,] array, int index, out Tuples.Int3 xyz)
+        {
+            NullCheck(array);
+            int leny = array.GetLength(1);
+            int lenz = array.GetLength(2);
+            if (leny == 0 | lenz == 0)
+            {
+                xyz = default(Tuples.Int3);
+                return false;
+            }
+
+            int x, y, z;
+            y = index / lenz;     // (unbound)
+            z = index - y * lenz; // (bound z)
+            x = y / leny;         // (unbound)
+            y = y - x * leny;     // (bound y)
+
+            xyz = new Tuples.Int3(x, y, z);
+            return unchecked((uint)x < (uint)array.GetLength(0)); // (x bound?)
         }
 
         /// <summary>
@@ -212,6 +355,120 @@ namespace AZCL
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding w, x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="TryCalculateIndexes{T}(T[,], int, out int, out int)" select="remarks|returns"/>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="wxyz">Int4 tuple with the resulting w, x, y, and z index.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,], int)"/>
+        public static bool TryCalculateIndexes<T>(T[,,,] array, int index, out Tuples.Int4 wxyz)
+        {
+            NullCheck(array);
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            if (lenx == 0 | leny == 0 | lenz == 0)
+            {
+                wxyz = default(Tuples.Int4);
+                return false;
+            }
+
+            int w, x, y, z;
+            y = index / lenz;     // (unbound)
+            z = index - y * lenz; // (bound z)
+            x = y / leny;         // (unbound)
+            y = y - x * leny;     // (bound y)
+            w = x / lenx;         // (unbound)
+            x = x - w * lenx;     // (bound x)
+
+            wxyz = new Tuples.Int4(w, x, y, z);
+            return unchecked((uint)w < (uint)array.GetLength(0)); // (w bound?)
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding v, w, x, y, and z element indexes.
+        /// </summary>
+        /// <inheritdoc cref="TryCalculateIndexes{T}(T[,], int, out int, out int)" select="remarks|returns"/>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="vwxyz">Int5 tuple with the resulting v, w, x, y, and z index.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,,], int)"/>
+        public static bool TryCalculateIndexes<T>(T[,,,,] array, int index, out Tuples.Int5 vwxyz)
+        {
+            NullCheck(array);
+            int lenw = array.GetLength(1);
+            int lenx = array.GetLength(2);
+            int leny = array.GetLength(3);
+            int lenz = array.GetLength(4);
+            if (lenw == 0 | lenx == 0 | leny == 0 | lenz == 0)
+            {
+                vwxyz = default(Tuples.Int5);
+                return false;
+            }
+
+            int v, w, x, y, z;
+            y = index / lenz;     // (unbound)
+            z = index - y * lenz; // (bound z)
+            x = y / leny;         // (unbound)
+            y = y - x * leny;     // (bound y)
+            w = x / lenx;         // (unbound)
+            x = x - w * lenx;     // (bound x)
+            v = w / lenw;         // (unbound)
+            w = w - v * lenw;     // (bound w)
+
+            vwxyz = new Tuples.Int5(v, w, x, y, z);
+            return unchecked((uint)v < (uint)array.GetLength(0)); // (v bound?)
+        }
+
+        /// <summary>
+        /// Given a one-dimensional enumeration index, calculates the corresponding six element indexes.
+        /// </summary>
+        /// <inheritdoc cref="TryCalculateIndexes{T}(T[,], int, out int, out int)" select="remarks|returns"/>
+        /// <param name="array">The array whose dimensions to calculate indexes for.</param>
+        /// <param name="index">An enumeration index to transform into regular indexes.</param>
+        /// <param name="indexes">Int6 tuple with the resulting six element indexes.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the <paramref name="array"/> is null.
+        /// </exception>
+        /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,,,,], int)"/>
+        public static bool TryCalculateIndexes<T>(T[,,,,,] array, int index, out Tuples.Int6 indexes)
+        {
+            NullCheck(array);
+            int lenv = array.GetLength(1);
+            int lenw = array.GetLength(2);
+            int lenx = array.GetLength(3);
+            int leny = array.GetLength(4);
+            int lenz = array.GetLength(5);
+            if (lenv == 0| lenw == 0 | lenx == 0 | leny == 0 | lenz == 0)
+            {
+                indexes = default(Tuples.Int6);
+                return false;
+            }
+
+            int u, v, w, x, y, z;
+            y = index / lenz;     // (unbound)
+            z = index - y * lenz; // (bound z)
+            x = y / leny;         // (unbound)
+            y = y - x * leny;     // (bound y)
+            w = x / lenx;         // (unbound)
+            x = x - w * lenx;     // (bound x)
+            v = w / lenw;         // (unbound)
+            w = w - v * lenw;     // (bound w)
+            u = v / lenv;         // (unbound)
+            v = v - u * lenv;     // (bound v)
+
+            indexes = new Tuples.Int6(u, v, w, x, y, z);
+            return unchecked((uint)u < (uint)array.GetLength(0)); // (u bound?)
         }
 
         /// <summary>
