@@ -383,7 +383,7 @@ namespace AZCL.Collections
         // ---
 
         /// <summary>
-        /// Returns the length of the specified array. (Marked as Obsolete! Use Array.Length property instead!)
+        /// Returns the length of the specified array. (Marked as Obsolete! Use the Length property instead!)
         /// </summary>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <c>source</c> is null.
@@ -765,7 +765,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -779,7 +779,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -793,7 +793,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -812,7 +812,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -831,7 +831,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -850,7 +850,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -869,7 +869,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -888,7 +888,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -907,7 +907,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -926,7 +926,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <param name="source">An array (of any rank) to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">An array (of any rank) to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -957,7 +957,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence that satisfies a specified condition.
         /// </summary>
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
-        /// <returns>The last* element in the sequence that passes the test in the specified predicate function. (*See Remarks)</returns>
+        /// <returns>The last element in the sequence that passes the test in the specified predicate function. (See Remarks)</returns>
         /// <param name="source">A multi-rank array to return an element from.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         /// <exception cref="ArgumentNullException">
@@ -1098,7 +1098,7 @@ namespace AZCL.Collections
         /// <returns>
         /// <c>default(<typeparamref name="TSource"/>)</c> if the array is empty; otherwise, the last element in the array.
         /// </returns>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1109,7 +1109,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1120,7 +1120,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1131,7 +1131,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1142,7 +1142,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1153,7 +1153,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1164,7 +1164,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1175,7 +1175,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1186,7 +1186,7 @@ namespace AZCL.Collections
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
         /// </summary>
         /// <inheritdoc cref="LastOrDefault{TSource}(TSource[,])" select="remarks|returns"/>
-        /// <param name="source">A multi-rank array to return the last* element of. (*See Remarks)</param>
+        /// <param name="source">A multi-rank array to return the last element of. (See Remarks)</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
@@ -1201,7 +1201,7 @@ namespace AZCL.Collections
         /// <remarks><inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/></remarks>
         /// <returns>
         /// <c>default(<typeparamref name="TSource"/>)</c> if the array is empty or if no element passes the test in the
-        /// <paramref name="predicate"/> function; otherwise, the last* element in the array that passes that test. (*See Remarks)
+        /// <paramref name="predicate"/> function; otherwise, the last element in the array that passes that test. (See Remarks)
         /// </returns>
         /// <param name="source">A multi-rank array to return an element from.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
@@ -1442,7 +1442,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <returns>
-        /// An <c>IEnumerable&lt;T&gt;</c> that contains the elements that occur after the specified (enumeration*-)index in the <paramref name="source"/>. (*See Remarks)
+        /// An <c>IEnumerable&lt;T&gt;</c> that contains the elements that occur after the specified enumeration index in the <paramref name="source"/>. (See Remarks)
         /// </returns>
         /// <param name="source">A multi-rank array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
@@ -1618,7 +1618,7 @@ namespace AZCL.Collections
         /// </summary>
         /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// <returns>
-        /// A single-rank array that contains the elements of the multi-rank <paramref name="source"/> array in enumeration order*. (*See Remarks)
+        /// A single-rank array that contains the elements of the multi-rank <paramref name="source"/> array in enumeration order. (See Remarks)
         /// </returns>
         /// <param name="source">Multi-rank array to create a single-rank array from.</param>
         /// <exception cref="ArgumentNullException">
@@ -1821,7 +1821,7 @@ namespace AZCL.Collections
         /// </summary>
         /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// <returns>
-        /// A <c>List&lt;T&gt;</c> that contains the elements of the multi-rank <paramref name="source"/> array in enumeration order*. (*See Remarks)
+        /// A <c>List&lt;T&gt;</c> that contains the elements of the multi-rank <paramref name="source"/> array in enumeration order. (See Remarks)
         /// </returns>
         /// <param name="source">Multi-rank array to create a List from.</param>
         /// <exception cref="ArgumentNullException">
