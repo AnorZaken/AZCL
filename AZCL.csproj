@@ -73,6 +73,7 @@
     <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="Tuples\Int2.cs" />
     <Compile Include="Tuples\Int6.cs" />
     <Compile Include="Tuples\Int5.cs" />
     <Compile Include="Tuples\Int4.cs" />
