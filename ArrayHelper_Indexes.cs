@@ -1,4 +1,5 @@
 ﻿using System;
+using AZCL.Collections;
 
 namespace AZCL
 {
@@ -207,6 +208,1099 @@ namespace AZCL
                 throw new ArgumentOutOfRangeException(paramName: nameof(index));
             return r;
         }
+
+        //---
+
+        /* 
+         * From MSDN:
+         * https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element
+         * "
+         * The maximum number of elements in an array is System.UInt32.MaxValue.
+         * The maximum index in any single dimension is 2,147,483,591 (0x7FFFFFC7) for byte arrays and arrays of single-byte structures,
+         *  and 2,146,435,071 (0X7FEFFFFF) for other types.
+         * "
+        */
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <remarks>
+        /// This is the same as calling <see cref="O:AZCL.ArrayHelper.CalculateIndexUC{T}"/> except that it throws an OverflowException
+        /// if the resulting enumeration index is greater than Int32.MaxValue, instead of simply returning a negative value.
+        /// <para/>
+        /// For information on maximum array sizes see MSDN:<br/>
+        /// <a href="https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element">
+        /// https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element </a>
+        /// (specifically the Remarks section).
+        /// </remarks>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        /// <seealso cref="O:AZCL.ArrayHelper.CalculateIndexUC{T}"/>
+        public static int CalculateIndex<T>(T[,] array, int x, int y)
+        {
+            int i = CalculateIndexUC(array, x, y);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,] array, int x, int y, int z)
+        {
+            int i = CalculateIndexUC(array, x, y, z);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="w">W element index.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,,] array, int w, int x, int y, int z)
+        {
+            int i = CalculateIndexUC(array, w, x, y, z);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,] array, Tuples.Int3 xyz)
+        {
+            int i = CalculateIndexUC(array, xyz);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="wxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,,] array, Tuples.Int4 wxyz)
+        {
+            int i = CalculateIndexUC(array, wxyz);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="vwxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,,,] array, Tuples.Int5 vwxyz)
+        {
+            int i = CalculateIndexUC(array, vwxyz);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="indexes">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(T[,,,,,] array, Tuples.Int6 indexes)
+        {
+            int i = CalculateIndexUC(array, indexes);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="indexes">An array of element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="RankException">
+        /// Thrown if the rank of the array differs from the number of indexes provided, or if the rank of the array is zero.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex(Array array, int[] indexes)
+        {
+            int i = CalculateIndexUC(array, indexes);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        // ---
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <remarks>
+        /// <note type="important">
+        /// Since the theoretical limit for number of elements a multi-rank array can hold is UInt32.MaxValue* the returned
+        /// enumeration index is not guaranteed to be positive! The caller should check that the value returned is positive
+        /// unless the specified array is known by the caller to be sufficiently small.
+        /// <br/>
+        /// <i>*Slightly less for rank 2 arrays, and in practice usually much less because of other constraints such as memory.</i>
+        /// </note>
+        /// <para/>
+        /// For information on maximum array sizes see MSDN:<br/>
+        /// <a href="https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element">
+        /// https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element </a>
+        /// (specifically the Remarks section).
+        /// </remarks>
+        /// <returns>
+        /// The enumeration index that corresponds to the specified element indexes for the given array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <seealso cref="O:AZCL.ArrayHelper.CalculateIndex{T}"/>
+        public static int CalculateIndexUC<T>(T[,] array, int x, int y)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+
+            unchecked
+            {
+                if ((uint)x >= (uint)xlen)
+                    throw new ArgumentOutOfRangeException(nameof(x));
+                if ((uint)y >= (uint)ylen)
+                    throw new ArgumentOutOfRangeException(nameof(y));
+
+                return x * ylen + y;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,] array, int x, int y, int z)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+            int zlen = array.LengthZ();
+
+            unchecked
+            {
+                if ((uint)x >= (uint)xlen)
+                    throw new ArgumentOutOfRangeException(nameof(x));
+                if ((uint)y >= (uint)ylen)
+                    throw new ArgumentOutOfRangeException(nameof(y));
+                if ((uint)z >= (uint)zlen)
+                    throw new ArgumentOutOfRangeException(nameof(z));
+
+                return z + (y + x * ylen) * zlen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="w">W element index.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,,] array, int w, int x, int y, int z)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int wlen = array.LengthW();
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+            int zlen = array.LengthZ();
+
+            unchecked
+            {
+                if ((uint)w >= (uint)wlen)
+                    throw new ArgumentOutOfRangeException(nameof(w));
+                if ((uint)x >= (uint)xlen)
+                    throw new ArgumentOutOfRangeException(nameof(x));
+                if ((uint)y >= (uint)ylen)
+                    throw new ArgumentOutOfRangeException(nameof(y));
+                if ((uint)z >= (uint)zlen)
+                    throw new ArgumentOutOfRangeException(nameof(z));
+
+                return z + (y + (x + w * xlen) * ylen) * zlen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,] array, Tuples.Int3 xyz)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+            int zlen = array.LengthZ();
+
+            unchecked
+            {
+                if ((uint)xyz.x >= (uint)xlen | // do not branch these - only makes the code faster if it throws, which is pointless.
+                    (uint)xyz.y >= (uint)ylen |
+                    (uint)xyz.z >= (uint)zlen)
+                    throw new ArgumentOutOfRangeException(nameof(xyz));
+
+                return xyz.z + (xyz.y + xyz.x * ylen) * zlen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="wxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,,] array, Tuples.Int4 wxyz)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int wlen = array.GetLength(0);
+            int xlen = array.GetLength(1);
+            int ylen = array.GetLength(2);
+            int zlen = array.GetLength(3);
+
+            unchecked
+            {
+                if ((uint)wxyz.w >= (uint)wlen | // do not branch these - only makes the code faster if it throws, which is pointless.
+                    (uint)wxyz.x >= (uint)xlen |
+                    (uint)wxyz.y >= (uint)ylen |
+                    (uint)wxyz.z >= (uint)zlen)
+                    throw new ArgumentOutOfRangeException(nameof(wxyz));
+
+                return wxyz.z + (wxyz.y + (wxyz.x + wxyz.w * xlen) * ylen) * zlen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="vwxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,,,] array, Tuples.Int5 vwxyz)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int vlen = array.GetLength(0);
+            int wlen = array.GetLength(1);
+            int xlen = array.GetLength(2);
+            int ylen = array.GetLength(3);
+            int zlen = array.GetLength(4);
+
+            unchecked
+            {
+                if ((uint)vwxyz.v >= (uint)vlen | // do not branch these - only makes the code faster if it throws, which is pointless.
+                    (uint)vwxyz.w >= (uint)wlen |
+                    (uint)vwxyz.x >= (uint)xlen |
+                    (uint)vwxyz.y >= (uint)ylen |
+                    (uint)vwxyz.z >= (uint)zlen)
+                    throw new ArgumentOutOfRangeException(nameof(vwxyz));
+
+                return vwxyz.z + (vwxyz.y + (vwxyz.x + (vwxyz.w + vwxyz.v * wlen) * xlen) * ylen) * zlen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="indexes">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(T[,,,,,] array, Tuples.Int6 indexes)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int alen = array.GetLength(0);
+            int blen = array.GetLength(1);
+            int clen = array.GetLength(2);
+            int dlen = array.GetLength(3);
+            int elen = array.GetLength(4);
+            int flen = array.GetLength(5);
+
+            unchecked
+            {
+                if ((uint)indexes.a >= (uint)alen | // do not branch these - only makes the code faster if it throws, which is pointless.
+                    (uint)indexes.b >= (uint)blen |
+                    (uint)indexes.c >= (uint)clen |
+                    (uint)indexes.d >= (uint)dlen |
+                    (uint)indexes.e >= (uint)elen |
+                    (uint)indexes.f >= (uint)flen)
+                    throw new ArgumentOutOfRangeException(nameof(indexes));
+
+                return indexes.f + (indexes.e + (indexes.d + (indexes.c + (indexes.b + indexes.a * blen) * clen) * dlen) * elen) * flen;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="indexes">An array of element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="array"/> or <paramref name="indexes"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="RankException">
+        /// Thrown if the rank of the array differs from the number of indexes provided, or if the rank of the array is zero.
+        /// </exception>
+        public static int CalculateIndexUC(Array array, int[] indexes)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (indexes == null)
+                throw new ArgumentNullException(nameof(indexes));
+            if (array.Rank != indexes.Length)
+                throw new RankException("array.Rank != indexes.Length");
+            if (indexes.Length == 0)
+                throw new RankException("array.Rank == 0");
+            
+            unchecked
+            {
+                int sum = 0;
+                for (int r = 0; r < indexes.Length; ++r)
+                {
+                    int len = array.GetLength(r);
+                    int idx = indexes[r];
+                    if ((uint)idx >= (uint)len)
+                        throw new ArgumentOutOfRangeException(nameof(indexes));
+
+                    sum = sum * len + idx;
+                }
+                return sum;
+            }
+        }
+
+        // ---
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ArrayR2<T> array, int x, int y)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ArrayR3<T> array, int x, int y, int z)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ArrayR3<T> array, Tuples.Int3 xyz)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ReadOnlyArrayR2<T> array, int x, int y)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes.
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndex{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
+        /// </exception>
+        public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
+        {
+            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            if (i < 0) throw new OverflowException();
+            return i;
+        }
+
+        // ---
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ArrayR2<T> array, int x, int y)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ArrayR3<T> array, int x, int y, int z)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ArrayR3<T> array, Tuples.Int3 xyz)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ReadOnlyArrayR2<T> array, int x, int y)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUC{T}(T[,], int, int)" select="remarks|returns|seealso"/>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
+            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+
+        // ---
+
+        /* Feature creep..?
+         * 
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <remarks>
+        /// For information on maximum array sizes see MSDN:<br/>
+        /// <a href="https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element">
+        /// https://docs.microsoft.com/en-us/dotnet/framework/configure-apps/file-schema/runtime/gcallowverylargeobjects-element </a>
+        /// (specifically the Remarks section).
+        /// </remarks>
+        /// <returns>
+        /// The unsigned enumeration index that corresponds to the specified element indexes for the given array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,] array, int x, int y)
+            => unchecked((uint)CalculateIndexUC(array, x, y));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,] array, int x, int y, int z)
+            => unchecked((uint)CalculateIndexUC(array, x, y, z));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="xyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,] array, Tuples.Int3 xyz)
+            => unchecked((uint)CalculateIndexUC(array, xyz));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="w">W element index.</param>
+        /// <param name="x">X element index.</param>
+        /// <param name="y">Y element index.</param>
+        /// <param name="z">Z element index.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,,] array, int w, int x, int y, int z)
+            => unchecked((uint)CalculateIndexUC(array, w, x, y, z));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="wxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,,] array, Tuples.Int4 wxyz)
+            => unchecked((uint)CalculateIndexUC(array, wxyz));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="vwxyz">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,,,] array, Tuples.Int5 vwxyz)
+            => unchecked((uint)CalculateIndexUC(array, vwxyz));
+
+        /// <summary>
+        /// Calculates the enumeration index for the specified array and element indexes. (US = Unsigned)
+        /// </summary>
+        /// <param name="array">The array to calculate enumeration index for.</param>
+        /// <param name="indexes">The element indexes.</param>
+        /// <inheritdoc cref="CalculateIndexUS{T}(T[,], int, int)" select="remarks|returns"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if any of the element indexes are out of bounds.
+        /// </exception>
+        public static uint CalculateIndexUS<T>(T[,,,,,] array, Tuples.Int6 indexes)
+            => unchecked((uint)CalculateIndexUC(array, indexes));
+        */
+
+        // ---
+
+        /// <summary>
+        /// Finds the index of an <paramref name="value"/> using reference-equality.
+        /// </summary>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <returns>
+        /// The zero-based index of the first occurrence of <paramref name="value"/> in the array; or –1 if no equal value was found.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            for (int i = 0; i < array.Length; ++i)
+                if (ReferenceEquals(array[i], value))
+                    return i;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static void IndexOfRef<TArray, TObject>(TArray[,] array, TObject value, out int x, out int y)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+            for (x = 0; x < xlen; ++x)
+                for (y = 0; y < ylen; ++y)
+                    if (ReferenceEquals(array[x, y], value))
+                        return;
+
+            x = y = -1;
+        }
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="z">The z index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static void IndexOfRef<TArray, TObject>(TArray[,,] array, TObject value, out int x, out int y, out int z)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+
+            int xlen = array.LengthX();
+            int ylen = array.LengthY();
+            int zlen = array.LengthZ();
+            for (x = 0; x < xlen; ++x)
+                for (y = 0; y < ylen; ++y)
+                    for (z = 0; z < zlen; ++z)
+                        if (ReferenceEquals(array[x, y, z], value))
+                            return;
+
+            x = y = z = -1;
+        }
+
+        // ---
+
+        //TODO: doc & public
+        internal static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => IndexOfRef(array, value, startIndex, array == null ? 0 : array.Length - startIndex);
+
+        // ---
+
+        //TODO: doc & public
+        internal static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex, int count)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (unchecked((uint)startIndex >= (uint)array.Length))
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            if (unchecked((uint)count >= (uint)(array.Length - startIndex)))
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            count += startIndex;
+            for (int i = startIndex; i < count; ++i)
+                if (ReferenceEquals(array[i], value))
+                    return i;
+
+            return -1;
+        }
+
+        // ---
+
+            /// <summary>
+            /// Finds the index of an <paramref name="value"/> using reference-equality.
+            /// </summary>
+            /// <param name="array">The array to search.</param>
+            /// <param name="value">The value to locate in the array.</param>
+            /// <returns>
+            /// The zero-based index of the first occurrence of <paramref name="value"/> in the array; or –1 if no equal value was found.
+            /// </returns>
+        public static int IndexOfRef<TArray, TObject>(ReadOnlyArray<TArray> array, TObject value)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => array.Array == null ? -1 : IndexOfRef(array.Array, value);
+
+        /// <summary>
+        /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        public static void IndexOfRef<TArray, TObject>(ArrayR2<TArray> array, TObject value, out int x, out int y)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR2, value, out x, out y);
+        }
+
+        /// <summary>
+        /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        public static void IndexOfRef<TArray, TObject>(ReadOnlyArrayR2<TArray> array, TObject value, out int x, out int y)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR2, value, out x, out y);
+        }
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="z">The z index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        public static void IndexOfRef<TArray, TObject>(ArrayR3<TArray> array, TObject value, out int x, out int y, out int z)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value, out x, out y, out z);
+        }
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        /// <param name="z">The z index of the first occurrence of the specified value, if found; otherwise -1.</param>
+        public static void IndexOfRef<TArray, TObject>(ReadOnlyArrayR3<TArray> array, TObject value, out int x, out int y, out int z)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value, out x, out y, out z);
+        }
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <returns>
+        /// The zero-based indexes of the first occurrence of <paramref name="value"/> in the array; or a tuple with all indexes set to –1 if no equal value was found.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int3 IndexOfRef<TArray, TObject>(TArray[,,] array, TObject value)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+        {
+            int x, y, z;
+            IndexOfRef(array, value, out x, out y, out z);
+            return new Tuples.Int3(x, y, z);
+        }
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <returns>
+        /// The zero-based indexes of the first occurrence of <paramref name="value"/> in the array; or a tuple with all indexes set to –1 if no equal value was found.
+        /// </returns>
+        public static Tuples.Int3 IndexOfRef<TArray, TObject>(ArrayR3<TArray> array, TObject value)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value);
+
+        /// <summary>
+        /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
+        /// </summary><remarks>
+        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// </remarks>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <returns>
+        /// The zero-based indexes of the first occurrence of <paramref name="value"/> in the array; or a tuple with all indexes set to –1 if no equal value was found.
+        /// </returns>
+        public static Tuples.Int3 IndexOfRef<TArray, TObject>(ReadOnlyArrayR3<TArray> array, TObject value)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value);
 
         // ---
 
