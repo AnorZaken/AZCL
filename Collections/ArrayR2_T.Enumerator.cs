@@ -70,7 +70,7 @@ namespace AZCL.Collections
             /// <summary>
             /// Creates an <see cref="Enumerator"/> for the rank 2 array wrapped in the <see cref="ReadOnlyArrayR2{T}"/> argument.
             /// </summary>
-            public Enumerator(ReadOnlyArrayR2<T> array) : this(array.Array)
+            public Enumerator(ReadOnlyArrayR2<T> array) : this(array.ArrayRaw)
             { }
 
             // startIndex must non-negative, but there is no upper bound though!

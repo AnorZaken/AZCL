@@ -62,7 +62,7 @@ namespace AZCL.Collections
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(ArrayR2<TSource> source)
         {
-            var array = source.Array;
+            var array = source.ArrayRaw;
             var typed = array as TResult[,];
             return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ArrayR2<TResult>(typed);
         }
@@ -80,7 +80,7 @@ namespace AZCL.Collections
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(ArrayR3<TSource> source)
         {
-            var array = source.Array;
+            var array = source.ArrayRaw;
             var typed = array as TResult[,,];
             return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ArrayR3<TResult>(typed);
         }
@@ -98,7 +98,7 @@ namespace AZCL.Collections
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArrayR2<TSource> source)
         {
-            var array = source.Array;
+            var array = source.ArrayRaw;
             var typed = array as TResult[,];
             return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ReadOnlyArrayR2<TResult>(typed);
         }
@@ -116,7 +116,7 @@ namespace AZCL.Collections
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArrayR3<TSource> source)
         {
-            var array = source.Array;
+            var array = source.ArrayRaw;
             var typed = array as TResult[,,];
             return typed == null ? array == null ? Empty<TResult>.IEnumerable : ArrayHelper.CastIter<TResult>(array) : new ReadOnlyArrayR3<TResult>(typed);
         }
@@ -133,7 +133,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(ReadOnlyArray<TSource> source)
-            => source.Array?.Cast<TResult>() ?? Empty<TResult>.IEnumerable;
+            => source.ArrayRaw?.Cast<TResult>() ?? Empty<TResult>.IEnumerable;
 
         // ---
 
@@ -362,7 +362,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent.
         /// </exception>
         public static TSource Last<TSource>(this ArrayR2<TSource> source)
-            => ArrayHelper.Last(source.Array);
+            => ArrayHelper.Last(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -373,7 +373,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent.
         /// </exception>
         public static TSource Last<TSource>(this ArrayR3<TSource> source)
-            => ArrayHelper.Last(source.Array);
+            => ArrayHelper.Last(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -384,7 +384,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent.
         /// </exception>
         public static TSource Last<TSource>(this ReadOnlyArrayR2<TSource> source)
-            => ArrayHelper.Last(source.Array);
+            => ArrayHelper.Last(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -395,7 +395,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent.
         /// </exception>
         public static TSource Last<TSource>(this ReadOnlyArrayR3<TSource> source)
-            => ArrayHelper.Last(source.Array);
+            => ArrayHelper.Last(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -410,7 +410,7 @@ namespace AZCL.Collections
             int len = source.Length;
             if (len == 0)
                 throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY);
-            return source.Array[len - 1];
+            return source.ArrayRaw[len - 1];
         }
 
         // ---
@@ -429,7 +429,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent, or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this ArrayR2<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).First(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -445,7 +445,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent, or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this ArrayR3<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).First(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -461,7 +461,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent, or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this ReadOnlyArrayR2<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).First(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -477,7 +477,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or absent, or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this ReadOnlyArrayR3<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).First(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -506,7 +506,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="source">A wrapped array to return the last element of. (See Remarks)</param>
         public static TSource LastOrDefault<TSource>(this ArrayR2<TSource> source)
-            => ArrayHelper.LastOrDefault(source.Array);
+            => ArrayHelper.LastOrDefault(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -514,7 +514,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="LastOrDefault{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to return the last element of. (See Remarks)</param>
         public static TSource LastOrDefault<TSource>(this ArrayR3<TSource> source)
-            => ArrayHelper.LastOrDefault(source.Array);
+            => ArrayHelper.LastOrDefault(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -522,7 +522,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="LastOrDefault{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to return the last element of. (See Remarks)</param>
         public static TSource LastOrDefault<TSource>(this ReadOnlyArrayR2<TSource> source)
-            => ArrayHelper.LastOrDefault(source.Array);
+            => ArrayHelper.LastOrDefault(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -530,7 +530,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="LastOrDefault{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to return the last element of. (See Remarks)</param>
         public static TSource LastOrDefault<TSource>(this ReadOnlyArrayR3<TSource> source)
-            => ArrayHelper.LastOrDefault(source.Array);
+            => ArrayHelper.LastOrDefault(source.ArrayRaw);
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -542,7 +542,7 @@ namespace AZCL.Collections
             int len = source.Length;
             if (len == 0)
                 return default(TSource);
-            return source.Array[len - 1];
+            return source.ArrayRaw[len - 1];
         }
 
         // ---
@@ -561,7 +561,7 @@ namespace AZCL.Collections
         /// Thrown if the <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this ArrayR2<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).FirstOrDefault(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -573,7 +573,7 @@ namespace AZCL.Collections
         /// Thrown if the <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this ArrayR3<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).FirstOrDefault(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -585,7 +585,7 @@ namespace AZCL.Collections
         /// Thrown if the <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this ReadOnlyArrayR2<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).FirstOrDefault(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -597,7 +597,7 @@ namespace AZCL.Collections
         /// Thrown if the <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this ReadOnlyArrayR3<TSource> source, Func<TSource, bool> predicate)
-            => ArrayHelper.Reverse(source.Array).FirstOrDefault(predicate);
+            => ArrayHelper.Reverse(source.ArrayRaw).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -623,7 +623,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="source">A sequence of values to reverse. (See the Remarks section for what this means.)</param>
         public static IEnumerable<TSource> Reverse<TSource>(this ArrayR2<TSource> source)
-            => ArrayHelper.Reverse(source.Array);
+            => ArrayHelper.Reverse(source.ArrayRaw);
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -631,7 +631,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="Reverse{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A sequence of values to reverse. (See the Remarks section for what this means.)</param>
         public static IEnumerable<TSource> Reverse<TSource>(this ArrayR3<TSource> source)
-            => ArrayHelper.Reverse(source.Array);
+            => ArrayHelper.Reverse(source.ArrayRaw);
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -639,7 +639,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="Reverse{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A sequence of values to reverse. (See the Remarks section for what this means.)</param>
         public static IEnumerable<TSource> Reverse<TSource>(this ReadOnlyArrayR2<TSource> source)
-            => ArrayHelper.Reverse(source.Array);
+            => ArrayHelper.Reverse(source.ArrayRaw);
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -647,7 +647,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="Reverse{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A sequence of values to reverse. (See the Remarks section for what this means.)</param>
         public static IEnumerable<TSource> Reverse<TSource>(this ReadOnlyArrayR3<TSource> source)
-            => ArrayHelper.Reverse(source.Array);
+            => ArrayHelper.Reverse(source.ArrayRaw);
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -657,7 +657,7 @@ namespace AZCL.Collections
         public static IEnumerable<TSource> Reverse<TSource>(this ReadOnlyArray<TSource> source)
         {
             var arr = source.Array;
-            for (int i = source.Length - 1; i >= 0; --i)
+            for (int i = arr.Length - 1; i >= 0; --i)
                 yield return arr[i];
         }
 
@@ -675,7 +675,7 @@ namespace AZCL.Collections
         /// <param name="source">A wrapped array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
         public static IEnumerable<TSource> Skip<TSource>(this ArrayR2<TSource> source, int count)
-            => ArrayHelper.Skip(source.Array, count);
+            => ArrayHelper.Skip(source.ArrayRaw, count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -684,7 +684,7 @@ namespace AZCL.Collections
         /// <param name="source">A wrapped array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
         public static IEnumerable<TSource> Skip<TSource>(this ArrayR3<TSource> source, int count)
-            => ArrayHelper.Skip(source.Array, count);
+            => ArrayHelper.Skip(source.ArrayRaw, count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -693,7 +693,7 @@ namespace AZCL.Collections
         /// <param name="source">A wrapped array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArrayR2<TSource> source, int count)
-            => ArrayHelper.Skip(source.Array, count);
+            => ArrayHelper.Skip(source.ArrayRaw, count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -702,7 +702,7 @@ namespace AZCL.Collections
         /// <param name="source">A wrapped array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArrayR3<TSource> source, int count)
-            => ArrayHelper.Skip(source.Array, count);
+            => ArrayHelper.Skip(source.ArrayRaw, count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -711,7 +711,7 @@ namespace AZCL.Collections
         /// <param name="source">A wrapped array to return elements from.</param>
         /// <param name="count">The number of elements to skip before returning the remaining elements. (Negative values are clamped to zero.)</param>
         public static IEnumerable<TSource> Skip<TSource>(this ReadOnlyArray<TSource> source, int count)
-            => (source.Array ?? Empty<TSource>.Array).Skip(count);
+            => source.Array.Skip(count);
 
         // ---
 
@@ -724,7 +724,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="source">A wrapped multi-rank array to create a single-rank array from.</param>
         public static TSource[] ToArray<TSource>(this ArrayR2<TSource> source)
-            => ArrayHelper.ToArray(source.Array);
+            => ArrayHelper.ToArray(source.ArrayRaw);
 
         /// <summary>
         /// Creates a single rank array from a wrapped multi-rank array.
@@ -732,7 +732,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToArray{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped multi-rank array to create a single-rank array from.</param>
         public static TSource[] ToArray<TSource>(this ArrayR3<TSource> source)
-            => ArrayHelper.ToArray(source.Array);
+            => ArrayHelper.ToArray(source.ArrayRaw);
 
         /// <summary>
         /// Creates a single rank array from a wrapped multi-rank array.
@@ -740,7 +740,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToArray{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped multi-rank array to create a single-rank array from.</param>
         public static TSource[] ToArray<TSource>(this ReadOnlyArrayR2<TSource> source)
-            => ArrayHelper.ToArray(source.Array);
+            => ArrayHelper.ToArray(source.ArrayRaw);
 
         /// <summary>
         /// Creates a single rank array from a wrapped multi-rank array.
@@ -748,7 +748,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToArray{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped multi-rank array to create a single-rank array from.</param>
         public static TSource[] ToArray<TSource>(this ReadOnlyArrayR3<TSource> source)
-            => ArrayHelper.ToArray(source.Array);
+            => ArrayHelper.ToArray(source.ArrayRaw);
 
         /// <summary>
         /// Creates a copy of a wrapped array.
@@ -770,7 +770,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="source">A wrapped array to create a List from.</param>
         public static List<TSource> ToList<TSource>(this ArrayR2<TSource> source)
-            => ArrayHelper.ToList(source.Array);
+            => ArrayHelper.ToList(source.ArrayRaw);
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a wrapped array.
@@ -778,7 +778,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToList{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to create a List from.</param>
         public static List<TSource> ToList<TSource>(this ArrayR3<TSource> source)
-            => ArrayHelper.ToList(source.Array);
+            => ArrayHelper.ToList(source.ArrayRaw);
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a wrapped array.
@@ -786,7 +786,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToList{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to create a List from.</param>
         public static List<TSource> ToList<TSource>(this ReadOnlyArrayR2<TSource> source)
-            => ArrayHelper.ToList(source.Array);
+            => ArrayHelper.ToList(source.ArrayRaw);
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a wrapped array.
@@ -794,7 +794,7 @@ namespace AZCL.Collections
         /// <inheritdoc cref="ToList{TSource}(ArrayR2{TSource})" select="remarks|returns"/>
         /// <param name="source">A wrapped array to create a List from.</param>
         public static List<TSource> ToList<TSource>(this ReadOnlyArrayR3<TSource> source)
-            => ArrayHelper.ToList(source.Array);
+            => ArrayHelper.ToList(source.ArrayRaw);
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a wrapped array.
@@ -803,6 +803,6 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="source">A wrapped array to create a List from.</param>
         public static List<TSource> ToList<TSource>(this ReadOnlyArray<TSource> source)
-            => new List<TSource>(source.Array ?? Empty<TSource>.Array);
+            => new List<TSource>(source.Array);
     }
 }

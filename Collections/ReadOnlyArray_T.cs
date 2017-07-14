@@ -40,7 +40,11 @@ namespace AZCL.Collections
         }
 
         // used in various casts / ctors / extensions
-        internal T[] Array => array;
+        internal T[] ArrayRaw => array;
+
+        // used in various casts / ctors / extensions
+        internal T[] Array
+            => array ?? Empty<T>.Array;
 
         /// <summary>
         /// Gets the value at the specified position in the wrapped backing array.

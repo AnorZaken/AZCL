@@ -165,7 +165,7 @@ namespace AZCL.Collections
         /// </summary>
         /// <param name="array">Array to create enumerator for.</param>
         public ArrayEnumeratorReadOnly(ReadOnlyArray<T> array)
-            : this(array.Array, 0, array.Length - 1)
+            : this(array.ArrayRaw, 0, array.Length - 1)
         { }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="length"/> is less than zero or larger than the length of the array.
         /// </exception>
         public ArrayEnumeratorReadOnly(ReadOnlyArray<T> array, int length)
-            : this(array.Array, 0, length - 1)
+            : this(array.ArrayRaw, 0, length - 1)
         {
             if (unchecked((uint)length > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(length));
@@ -192,7 +192,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="start"/> is less than zero or larger than the length of the array.
         /// </exception>
         public ArrayEnumeratorReadOnly(int start, ReadOnlyArray<T> array)
-            : this(array.Array, start, array.Length - 1)
+            : this(array.ArrayRaw, start, array.Length - 1)
         {
             if (unchecked((uint)start > (uint)array.Length))
                 throw new ArgumentOutOfRangeException(nameof(start));
@@ -211,7 +211,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="start"/> + <paramref name="length"/> exceeds the length of the array.
         /// </exception>
         public ArrayEnumeratorReadOnly(int start, ReadOnlyArray<T> array, int length)
-            : this(array.Array, start, start + length - 1)
+            : this(array.ArrayRaw, start, start + length - 1)
         {
             if ((start | length) < 0 | unchecked((uint)(start + length) > (uint)array.Length))
             {

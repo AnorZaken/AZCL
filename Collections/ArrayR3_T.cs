@@ -25,10 +25,12 @@ namespace AZCL.Collections
         /// </remarks>
         public static implicit operator ArrayR3<T>(T[,,] array)
             => array == null ? new ArrayR3<T>() : new ArrayR3<T>(array);
-        
+
         /// <summary>
-        /// Implicitly unwraps an ArrayR3 instance.
-        /// </summary>
+        /// Implicitly unwraps an ArrayR3 instance. This operator never returns null.
+        /// </summary><remarks>
+        /// This will return <see cref="Empty{T}.ArrayR3"/> if the backing array is null.
+        /// </remarks>
         public static implicit operator T[,,](ArrayR3<T> array)
             => array.Array;
         
@@ -114,11 +116,18 @@ namespace AZCL.Collections
                 array[xyz.x, xyz.y, xyz.z] = value;
             }
         }
+        
+        internal T[,,] ArrayRaw => array;
 
         /// <summary>
-        /// The backing array being wrapped. Or null if this wrapper was default initialized / backing array is absent.
-        /// </summary>
-        public T[,,] Array => array;
+        /// The array being wrapped. This property is never null.
+        /// </summary><remarks>
+        /// This will return <see cref="Empty{T}.ArrayR3"/> if the backing array is null.
+        /// <br/>
+        /// To test whether or not the backing array is null, use the <see cref="IsAbsent"/> property.
+        /// </remarks>
+        public T[,,] Array
+            => array ?? Empty<T>.ArrayR3;
 
         /// <summary>
         /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z item indexes.

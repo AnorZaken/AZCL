@@ -28,7 +28,7 @@ namespace AZCL.Collections
             /// <summary>
             /// Creates an <see cref="Enumerator"/> for the array wrapped in the <see cref="ReadOnlyArray{T}"/> argument.
             /// </summary>
-            public Enumerator(ReadOnlyArray<T> array) : this(array.Array)
+            public Enumerator(ReadOnlyArray<T> array) : this(array.array)
             { }
 
             // startIndex must non-negative, but there is no upper bound though!

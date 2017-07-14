@@ -56,13 +56,17 @@ namespace AZCL.Collections
         /// <param name="array">A wrapped array to re-wrap as readonly.</param>
         public ReadOnlyArrayR2(ArrayR2<T> array)
         {
-            this.array = array.Array;
+            this.array = array.ArrayRaw;
             //if (this.array == null)
             //    throw new ArgumentException(paramName: nameof(array), message: ERR.ARRAY_ARG_ABSENT);
         }
 
         // used in various casts / ctors / extensions
-        internal T[,] Array => array;
+        internal T[,] ArrayRaw => array;
+        
+        // used in various casts / ctors / extensions
+        internal T[,] Array
+            => array ?? Empty<T>.ArrayR2;
 
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.

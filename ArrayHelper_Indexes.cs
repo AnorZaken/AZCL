@@ -742,7 +742,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ArrayR2<T> array, int x, int y)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            int i = CalculateIndexUC(array.Array, x, y);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -763,7 +763,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ArrayR3<T> array, int x, int y, int z)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            int i = CalculateIndexUC(array.Array, x, y, z);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -782,7 +782,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ArrayR3<T> array, Tuples.Int3 xyz)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            int i = CalculateIndexUC(array.Array, xyz);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -802,7 +802,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ReadOnlyArrayR2<T> array, int x, int y)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            int i = CalculateIndexUC(array.Array, x, y);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -823,7 +823,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            int i = CalculateIndexUC(array.Array, x, y, z);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -842,7 +842,7 @@ namespace AZCL
         /// </exception>
         public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
         {
-            int i = CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            int i = CalculateIndexUC(array.Array, xyz);
             if (i < 0) throw new OverflowException();
             return i;
         }
@@ -860,7 +860,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ArrayR2<T> array, int x, int y)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            => CalculateIndexUC(array.Array, x, y);
 
         /// <summary>
         /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
@@ -874,7 +874,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ArrayR3<T> array, int x, int y, int z)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            => CalculateIndexUC(array.Array, x, y, z);
 
         /// <summary>
         /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
@@ -886,7 +886,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ArrayR3<T> array, Tuples.Int3 xyz)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            => CalculateIndexUC(array.Array, xyz);
 
         /// <summary>
         /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
@@ -899,7 +899,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ReadOnlyArrayR2<T> array, int x, int y)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR2, x, y);
+            => CalculateIndexUC(array.Array, x, y);
 
         /// <summary>
         /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
@@ -913,7 +913,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, x, y, z);
+            => CalculateIndexUC(array.Array, x, y, z);
 
         /// <summary>
         /// Calculates the enumeration index for the specified array and element indexes. (UC = Unchecked)
@@ -925,7 +925,7 @@ namespace AZCL
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
         public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
-            => CalculateIndexUC(array.Array ?? Empty<T>.ArrayR3, xyz);
+            => CalculateIndexUC(array.Array, xyz);
 
         // ---
 
@@ -1182,7 +1182,7 @@ namespace AZCL
         public static int IndexOfRef<TArray, TObject>(ReadOnlyArray<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
-            => array.Array == null ? -1 : IndexOfRef(array.Array, value);
+            => IndexOfRef(array.Array, value);
 
         /// <summary>
         /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
@@ -1197,7 +1197,7 @@ namespace AZCL
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
-            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR2, value, out x, out y);
+            IndexOfRef(array.Array, value, out x, out y);
         }
 
         /// <summary>
@@ -1213,7 +1213,7 @@ namespace AZCL
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
-            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR2, value, out x, out y);
+            IndexOfRef(array.Array, value, out x, out y);
         }
 
         /// <summary>
@@ -1230,7 +1230,7 @@ namespace AZCL
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
-            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value, out x, out y, out z);
+            IndexOfRef(array.Array, value, out x, out y, out z);
         }
 
         /// <summary>
@@ -1247,7 +1247,7 @@ namespace AZCL
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
-            IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value, out x, out y, out z);
+            IndexOfRef(array.Array, value, out x, out y, out z);
         }
 
         /// <summary>
@@ -1285,7 +1285,7 @@ namespace AZCL
         public static Tuples.Int3 IndexOfRef<TArray, TObject>(ArrayR3<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
-            => IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value);
+            => IndexOfRef(array.Array, value);
 
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
@@ -1300,7 +1300,7 @@ namespace AZCL
         public static Tuples.Int3 IndexOfRef<TArray, TObject>(ReadOnlyArrayR3<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
-            => IndexOfRef(array.Array ?? Empty<TArray>.ArrayR3, value);
+            => IndexOfRef(array.Array, value);
 
         // ---
 
