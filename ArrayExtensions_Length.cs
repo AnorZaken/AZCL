@@ -5,6 +5,12 @@ namespace AZCL
     public static partial class ArrayExtensions
     {
         /// <summary>
+        /// Get array length, or zero if the array is null.
+        /// </summary>
+        public static int LengthOrZero(this System.Array array)
+            => array == null ? 0 : array.Length;
+
+        /// <summary>
         /// Get array length in the first (left-most) dimension of a rank 4 array.
         /// </summary><returns>
         /// array.GetLength(0);

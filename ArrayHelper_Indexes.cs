@@ -1054,7 +1054,7 @@ namespace AZCL
         // ---
 
         /// <summary>
-        /// Finds the index of an <paramref name="value"/> using reference-equality.
+        /// Finds the index of a <paramref name="value"/> using reference-equality.
         /// </summary>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
@@ -1141,16 +1141,63 @@ namespace AZCL
 
         // ---
 
-        //TODO: doc & public
-        internal static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex)
+        /// <summary>
+        /// Finds the index of a <paramref name="value"/> using reference-equality, starting at the specified index.
+        /// </summary>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the search.</param>
+        /// <returns>
+        /// The zero-based index of the first reference to <paramref name="value"/> in the searched range; or –1 if no reference to value occurs within that range.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
+        /// </exception>
+        public static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
-            => IndexOfRef(array, value, startIndex, array == null ? 0 : array.Length - startIndex);
+            => IndexOfRef(array, value, startIndex, array.LengthOrZero() - startIndex);
+
+        /// <summary>
+        /// Finds the index of a <paramref name="value"/> using reference-equality, starting at the specified index.
+        /// </summary>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the search.</param>
+        /// <returns>
+        /// The zero-based index of the first reference to <paramref name="value"/> in the searched range; or –1 if no reference to value occurs within that range.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
+        /// </exception>
+        public static int IndexOfRef<TArray, TObject>(ReadOnlyArray<TArray> array, TObject value, int startIndex)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => IndexOfRef(array.Array, value, startIndex, array.Length - startIndex);
 
         // ---
 
-        //TODO: doc & public
-        internal static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex, int count)
+        /// <summary>
+        /// Finds the index of a <paramref name="value"/>, in the specified range of the array, using reference-equality.
+        /// </summary><returns>
+        /// The zero-based index of the first reference to <paramref name="value"/> in the searched range; or –1 if no reference to value occurs within that range.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the search.</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
+        /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
+        /// </exception>
+        public static int IndexOfRef<TArray, TObject>(TArray[] array, TObject value, int startIndex, int count)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
@@ -1169,16 +1216,38 @@ namespace AZCL
             return -1;
         }
 
+        /// <summary>
+        /// Finds the index of a <paramref name="value"/>, in the specified range of the array, using reference-equality.
+        /// </summary><returns>
+        /// The zero-based index of the first reference to <paramref name="value"/> in the searched range; or –1 if no reference to value occurs within that range.
+        /// </returns>
+        /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <param name="startIndex">The zero-based starting index of the search.</param>
+        /// <param name="count">The number of elements covered by the search range.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
+        /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
+        /// </exception>
+        public static int IndexOfRef<TArray, TObject>(ReadOnlyArray<TArray> array, TObject value, int startIndex, int count)
+            where TArray : class
+            where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
+            => IndexOfRef(array.Array, value, startIndex, count);
+
         // ---
 
-            /// <summary>
-            /// Finds the index of an <paramref name="value"/> using reference-equality.
-            /// </summary>
-            /// <param name="array">The array to search.</param>
-            /// <param name="value">The value to locate in the array.</param>
-            /// <returns>
-            /// The zero-based index of the first occurrence of <paramref name="value"/> in the array; or –1 if no equal value was found.
-            /// </returns>
+        /// <summary>
+        /// Finds the index of a <paramref name="value"/> using reference-equality.
+        /// </summary>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value to locate in the array.</param>
+        /// <returns>
+        /// The zero-based index of the first occurrence of <paramref name="value"/> in the array; or –1 if no equal value was found.
+        /// </returns>
         public static int IndexOfRef<TArray, TObject>(ReadOnlyArray<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
