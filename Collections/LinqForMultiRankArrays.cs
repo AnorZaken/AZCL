@@ -801,12 +801,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,] source) //4
-        {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
-            try { return source[i[0], i[1], i[2], i[3]]; }
-            catch (IndexOutOfRangeException)
-            { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
-        }
+            => ArrayHelper.Last(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -821,7 +816,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,] source) //5
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -840,7 +835,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,] source) //6
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -859,7 +854,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,] source) //7
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -878,7 +873,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,] source) //8
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -897,7 +892,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,,] source) //9
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -916,7 +911,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,,,] source) //10
         {
-            var i = ArrayHelper.GetUpperBounds(NullCheck(source));
+            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -943,7 +938,7 @@ namespace AZCL.Collections
                 if (source.Rank == 1)
                     return source.GetValue(source.Length - 1);
                 else
-                    return source.GetValue(ArrayHelper.GetUpperBounds(source));
+                    return source.GetValue(ArrayHelper.GetUpperBounds_Internal(source));
             }
             catch (IndexOutOfRangeException)
             {
@@ -997,7 +992,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,] source, Func<TSource, bool> predicate) //4
-            => Reverse(source).First(predicate);
+            => ArrayHelper.Reverse(source).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -1125,7 +1120,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,,] source) //4
-            => NullCheck(source).Length == 0 ? default(TSource) : source.Last();
+            => ArrayHelper.LastOrDefault(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -1233,7 +1228,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> or <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,,] source, Func<TSource, bool> predicate) //4
-            => Reverse(NullCheck(source)).FirstOrDefault(predicate);
+            => ArrayHelper.Reverse(NullCheck(source)).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -1344,10 +1339,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Reverse<TSource>(this TSource[,,,] source) //4
-        {
-            foreach (var i in new Iter.IndexesReverseEnumerable(NullCheck(source)))
-                yield return source[i[0], i[1], i[2], i[3]];
-        }
+            => ArrayHelper.Reverse(NullCheck(source));
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -1647,19 +1639,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource[] ToArray<TSource>(this TSource[,,,] source) //4
-        {
-            int i = NullCheck(source).Length;
-            if (i == 0)
-                return Empty<TSource>.Array;
-
-            var arr = new TSource[i];
-
-            i = 0;
-            foreach (TSource val in source)
-                arr[i++] = val;
-
-            return arr;
-        }
+            => ArrayHelper.ToArray(NullCheck(source));
 
         /// <summary>
         /// Creates a single rank array from a multi-rank array.
@@ -1850,14 +1830,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static List<TSource> ToList<TSource>(this TSource[,,,] source) //4
-        {
-            var list = new List<TSource>(NullCheck(source).Length);
-
-            foreach (TSource val in source)
-                list.Add(val);
-
-            return list;
-        }
+            => ArrayHelper.ToList(NullCheck(source));
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a multi-rank array.

@@ -118,6 +118,8 @@ namespace AZCL
             return output;
         }
 
+        // ---
+
         /// <summary>
         /// Creates a jagged array filled with arrays.
         /// </summary><remarks>
@@ -237,6 +239,170 @@ namespace AZCL
             }
         }
 
+        // ---
+
+        /// <summary>
+        /// Get the lengths of all the dimensions of a multi-rank array.
+        /// </summary>
+        /// <param name="array">The array to get lengths for.</param>
+        /// <returns>
+        /// An int[] array containing the lengths of all the dimensions of the array, in left to right index order.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static int[] GetLengths(Array array)
+            => GetLengths_Internal(NullCheck(array));
+
+        /// <summary>
+        /// Get the lengths of the x and y dimensions of a rank 2 array.
+        /// </summary>
+        /// <param name="array">The array to get lengths for.</param>
+        /// <returns>
+        /// An int tuple containing the lengths of the dimensions of the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int2 GetLenghtsTuple<T>(T[,] array)
+            => new Tuples.Int2(NullCheck(array).LengthX(), array.LengthY());
+
+        /// <summary>
+        /// Get the lengths of the x, y, and z dimensions of a rank 3 array.
+        /// </summary>
+        /// <param name="array">The array to get lengths for.</param>
+        /// <returns>
+        /// An int tuple containing the lengths of the dimensions of the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int3 GetLenghtsTuple<T>(T[,,] array)
+            => new Tuples.Int3(NullCheck(array).LengthX(), array.LengthY(), array.LengthZ());
+
+        /// <summary>
+        /// Get the lengths of the w, x, y, and z dimensions of a rank 4 array.
+        /// </summary>
+        /// <param name="array">The array to get lengths for.</param>
+        /// <returns>
+        /// An int tuple containing the lengths of the dimensions of the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int4 GetLenghtsTuple<T>(T[,,,] array)
+            => new Tuples.Int4(NullCheck(array).LengthW(), array.LengthX(), array.LengthY(), array.LengthZ());
+
+        // ---
+
+        /// <summary>
+        /// Get the lower bounds of all the dimensions of a multi-rank array.
+        /// </summary><remarks>
+        /// An empty dimension has a lower bound of zero.
+        /// </remarks>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <returns>
+        /// An int[] array containing the lower bounds of all the dimensions of the array, in left to right index order.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static int[] GetLowerBounds(Array array)
+            => GetLowerBounds_Internal(NullCheck(array));
+
+        /// <summary>
+        /// Get the lower bounds of the x and y dimensions of a rank 2 array.
+        /// </summary><remarks>
+        /// An empty dimension has a lower bound of zero.
+        /// </remarks>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <returns>
+        /// An int tuple containing the lower bounds of the dimensions of the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int2 GetLowerBoundsTuple<T>(T[,] array)
+            => new Tuples.Int2(NullCheck(array).GetLowerBound(0), array.GetLowerBound(1));
+
+        /// <summary>
+        /// Get the lower bounds of the x, y, and z dimensions of a rank 3 array.
+        /// </summary>
+        /// <inheritdoc cref="GetLowerBoundsTuple{T}(T[,])" select="remarks|returns"/>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int3 GetLowerBoundsTuple<T>(T[,,] array)
+            => new Tuples.Int3(NullCheck(array).GetLowerBound(0), array.GetLowerBound(1), array.GetLowerBound(2));
+
+        /// <summary>
+        /// Get the lower bounds of the w, x, y, and z dimensions of a rank 4 array.
+        /// </summary>
+        /// <inheritdoc cref="GetLowerBoundsTuple{T}(T[,])" select="remarks|returns"/>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int4 GetLowerBoundsTuple<T>(T[,,,] array)
+            => new Tuples.Int4(NullCheck(array).GetLowerBound(0), array.GetLowerBound(1), array.GetLowerBound(2), array.GetLowerBound(3));
+
+        // ---
+
+        /// <summary>
+        /// Get the upper bounds of all the dimensions of a multi-rank array.
+        /// </summary><remarks>
+        /// An empty dimension has an upper bound of -1.
+        /// </remarks>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <returns>
+        /// An int[] array containing the upper bounds of all the dimensions of the array, in left to right index order.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static int[] GetUpperBounds(Array array)
+            => GetUpperBounds_Internal(NullCheck(array));
+
+        /// <summary>
+        /// Get the upper bounds of the x and y dimensions of a rank 2 array.
+        /// </summary><remarks>
+        /// An empty dimension has an upper bound of -1.
+        /// </remarks>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <returns>
+        /// An int tuple containing the upper bounds of the dimensions of the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int2 GetUpperBoundsTuple<T>(T[,] array)
+            => new Tuples.Int2(NullCheck(array).GetUpperBound(0), array.GetUpperBound(1));
+
+        /// <summary>
+        /// Get the upper bounds of the x, y, and z dimensions of a rank 3 array.
+        /// </summary>
+        /// <inheritdoc cref="GetUpperBoundsTuple{T}(T[,])" select="remarks|returns"/>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int3 GetUpperBoundsTuple<T>(T[,,] array)
+            => new Tuples.Int3(NullCheck(array).GetUpperBound(0), array.GetUpperBound(1), array.GetUpperBound(2));
+
+        /// <summary>
+        /// Get the upper bounds of the w, x, y, and z dimensions of a rank 4 array.
+        /// </summary>
+        /// <inheritdoc cref="GetUpperBoundsTuple{T}(T[,])" select="remarks|returns"/>
+        /// <param name="array">The array to get bounds for.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static Tuples.Int4 GetUpperBoundsTuple<T>(T[,,,] array)
+            => new Tuples.Int4(NullCheck(array).GetUpperBound(0), array.GetUpperBound(1), array.GetUpperBound(2), array.GetUpperBound(3));
+
+        // ---
+
         /// <summary>
         /// Tests if an array is null or of zero length.
         /// </summary><returns>
@@ -244,13 +410,87 @@ namespace AZCL
         /// </returns>
         public static bool IsNullOrEmpty(Array array)
             => array == null || array.Length == 0;
-        
+
+        /// <summary>
+        /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
+        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// </summary>
+        /// <returns>
+        /// True if all dimensions are zero bound; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static bool IsZeroBound(Array array)
+        {
+            for (int r = 0, rank = NullCheck(array).Rank; r < rank; ++r)
+                if (array.GetLowerBound(r) != 0) // Note: GetLowerBound returns 0 even for empty dimensions (GetUpperBound returns -1).
+                    return false;
+
+            return true;
+        }
+
+        /* (...overloaded for efficient unrolling - these will be the most common cases anyway.) */
+        /// <summary>
+        /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
+        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// </summary>
+        /// <returns>
+        /// True if all dimensions are zero bound; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static bool IsZeroBound<T>(T[] array)
+            => 0 == array.GetLowerBound(0); // Note: GetLowerBound returns 0 even for empty dimensions (GetUpperBound returns -1).
+
+        /// <summary>
+        /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
+        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// </summary>
+        /// <returns>
+        /// True if all dimensions are zero bound; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static bool IsZeroBound<T>(T[,] array)
+            => 0 == (array.GetLowerBound(0) | array.GetLowerBound(1));
+
+        /// <summary>
+        /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
+        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// </summary>
+        /// <returns>
+        /// True if all dimensions are zero bound; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static bool IsZeroBound<T>(T[,,] array)
+            => 0 == (array.GetLowerBound(0) | array.GetLowerBound(1) | array.GetLowerBound(2));
+
+        /// <summary>
+        /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
+        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// </summary>
+        /// <returns>
+        /// True if all dimensions are zero bound; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array is null.
+        /// </exception>
+        public static bool IsZeroBound<T>(T[,,,] array)
+            => 0 == (array.GetLowerBound(0) | array.GetLowerBound(1) | array.GetLowerBound(2) | array.GetLowerBound(3));
+
         /// <summary>
         /// Gets a 32-bit integer that represents the total number of elements in all
         /// the dimensions of the array, or 0 if the array is null.
         /// </summary>
         public static int LengthOrZero<T>(Array array)
             => array == null ? 0 : array.Length;
+
+        // ---
         
         /// <summary>
         /// Fills an array with new instances of T.
@@ -787,6 +1027,7 @@ namespace AZCL
             }
         }
 
+        // ---
 
         //public static void Slice<T>(T[,] input, out T[][] output); // <-- TODO !
 
@@ -811,7 +1052,7 @@ namespace AZCL
             return false;
         }
 
-        internal static int[] GetLengths(Array array)
+        internal static int[] GetLengths_Internal(Array array)
         {
             AZAssert.NotNullInternal(array, nameof(array));
 
@@ -821,27 +1062,63 @@ namespace AZCL
             return lenghts;
         }
 
-        // ! resulting indexes are NOT guaranteed to be valid for use in an indexer! (i.e. if one of the lengths are 0) !
-        internal static int[] GetUpperBounds(Array array)
+        internal static int[] GetLowerBounds_Internal(Array array)
         {
             AZAssert.NotNullInternal(array, nameof(array));
 
-            var lenghts = new int[array.Rank];
-            for (int i = 0; i < lenghts.Length; ++i)
-                lenghts[i] = array.GetLength(i) - 1;
-            return lenghts;
+            var bounds = new int[array.Rank];
+            for (int i = 0; i < bounds.Length; ++i)
+                bounds[i] = array.GetLowerBound(i);
+            return bounds;
         }
+
+        // no null-check!
+        internal static Tuples.Int2 GetLowerBoundsTuple_Internal<T>(T[,] array)
+            => new Tuples.Int2(array.GetLowerBound(0), array.GetLowerBound(1));
+
+        // no null-check!
+        internal static Tuples.Int3 GetLowerBoundsTuple_Internal<T>(T[,,] array)
+            => new Tuples.Int3(array.GetLowerBound(0), array.GetLowerBound(1), array.GetLowerBound(2));
+
+        // no null-check!
+        internal static Tuples.Int4 GetLowerBoundsTuple_Internal<T>(T[,,,] array)
+            => new Tuples.Int4(array.GetLowerBound(0), array.GetLowerBound(1), array.GetLowerBound(2), array.GetLowerBound(3));
+
+        // ! resulting indexes are NOT guaranteed to be valid for use in an indexer! (i.e. if one of the lengths are 0) !
+        internal static int[] GetUpperBounds_Internal(Array array)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+
+            var bounds = new int[array.Rank];
+            for (int i = 0; i < bounds.Length; ++i)
+                bounds[i] = array.GetUpperBound(i);
+            return bounds;
+        }
+
+        // no null-check!
+        internal static Tuples.Int2 GetUpperBoundsTuple_Internal<T>(T[,] array)
+            => new Tuples.Int2(array.GetUpperBound(0), array.GetUpperBound(1));
+
+        // no null-check!
+        internal static Tuples.Int3 GetUpperBoundsTuple_Internal<T>(T[,,] array)
+            => new Tuples.Int3(array.GetUpperBound(0), array.GetUpperBound(1), array.GetUpperBound(2));
+
+        // no null-check!
+        internal static Tuples.Int4 GetUpperBoundsTuple_Internal<T>(T[,,,] array)
+            => new Tuples.Int4(array.GetUpperBound(0), array.GetUpperBound(1), array.GetUpperBound(2), array.GetUpperBound(3));
+
+        // ---
 
         // treats null as an empty array!
         internal static T Last<T>(T[,] arrayOrNull)
         {
             if (arrayOrNull == null)
                 throw new InvalidOperationException(ERR.SOURCE_EMPTY);
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            if (lenx == 0 | leny == 0)
+            int bx = arrayOrNull.GetUpperBound(0);
+            int by = arrayOrNull.GetUpperBound(1);
+            if ((bx | by) == -1) // at least one dimension is empty (This assumes zero-bound!!)
                 throw new InvalidOperationException(ERR.SOURCE_EMPTY);
-            return arrayOrNull[lenx - 1, leny - 1];
+            return arrayOrNull[bx, by];
         }
 
         // treats null as an empty array!
@@ -849,12 +1126,26 @@ namespace AZCL
         {
             if (arrayOrNull == null)
                 throw new InvalidOperationException(ERR.SOURCE_EMPTY);
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            int lenz = arrayOrNull.GetLength(2);
-            if (lenx == 0 | leny == 0 | lenz == 0)
+            int bx = arrayOrNull.GetUpperBound(0);
+            int by = arrayOrNull.GetUpperBound(1);
+            int bz = arrayOrNull.GetUpperBound(2);
+            if ((bx | by | bz) == -1) // at least one dimension is empty (This assumes zero-bound!!)
                 throw new InvalidOperationException(ERR.SOURCE_EMPTY);
-            return arrayOrNull[lenx - 1, leny - 1, lenz - 1];
+            return arrayOrNull[bx, by, bz];
+        }
+
+        // treats null as an empty array!
+        internal static T Last<T>(T[,,,] arrayOrNull)
+        {
+            if (arrayOrNull == null)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            int bw = arrayOrNull.GetUpperBound(0);
+            int bx = arrayOrNull.GetUpperBound(1);
+            int by = arrayOrNull.GetUpperBound(2);
+            int bz = arrayOrNull.GetUpperBound(3);
+            if ((bw | bx | by | bz) == -1) // at least one dimension is empty (This assumes zero-bound!!)
+                throw new InvalidOperationException(ERR.SOURCE_EMPTY);
+            return arrayOrNull[bw, bx, by, bz];
         }
 
         // treats null as an empty array!
@@ -862,10 +1153,10 @@ namespace AZCL
         {
             if (arrayOrNull != null)
             {
-                int lenx = arrayOrNull.GetLength(0);
-                int leny = arrayOrNull.GetLength(1);
-                if (lenx != 0 & leny != 0)
-                    return arrayOrNull[lenx - 1, leny - 1];
+                int bx = arrayOrNull.GetUpperBound(0);
+                int by = arrayOrNull.GetUpperBound(1);
+                if ((bx | by) != -1) // no dimension is empty (This assumes zero-bound!!)
+                    return arrayOrNull[bx, by];
             }
             return default(T);
         }
@@ -875,11 +1166,26 @@ namespace AZCL
         {
             if (arrayOrNull != null)
             {
-                int lenx = arrayOrNull.GetLength(0);
-                int leny = arrayOrNull.GetLength(1);
-                int lenz = arrayOrNull.GetLength(2);
-                if (lenx != 0 & leny != 0 & lenz != 0)
-                    return arrayOrNull[lenx - 1, leny - 1, lenz - 1];
+                int bx = arrayOrNull.GetUpperBound(0);
+                int by = arrayOrNull.GetUpperBound(1);
+                int bz = arrayOrNull.GetUpperBound(2);
+                if ((bx | by | bz) != -1) // no dimension is empty (This assumes zero-bound!!)
+                    return arrayOrNull[bx, by, bz];
+            }
+            return default(T);
+        }
+
+        // treats null as an empty array!
+        internal static T LastOrDefault<T>(T[,,,] arrayOrNull)
+        {
+            if (arrayOrNull != null)
+            {
+                int bw = arrayOrNull.GetUpperBound(0);
+                int bx = arrayOrNull.GetUpperBound(1);
+                int by = arrayOrNull.GetUpperBound(2);
+                int bz = arrayOrNull.GetUpperBound(3);
+                if ((bw | bx | by | bz) != -1) // no dimension is empty (This assumes zero-bound!!)
+                    return arrayOrNull[bw, bx, by, bz];
             }
             return default(T);
         }
@@ -937,10 +1243,10 @@ namespace AZCL
         {
             if (arrayOrNull != null)
             {
-                int xmax = arrayOrNull.GetLength(0) - 1;
-                int ymax = arrayOrNull.GetLength(1) - 1;
-                for (int x = xmax; x >= 0; --x)
-                    for (int y = ymax; y >= 0; --y)
+                var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+                var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+                for (int x = max.x; x >= min.x; --x)
+                    for (int y = max.y; y >= min.y; --y)
                         yield return arrayOrNull[x, y];
             }
         }
@@ -950,13 +1256,27 @@ namespace AZCL
         {
             if (arrayOrNull != null)
             {
-                int xmax = arrayOrNull.GetLength(0) - 1;
-                int ymax = arrayOrNull.GetLength(1) - 1;
-                int zmax = arrayOrNull.GetLength(2) - 1;
-                for (int x = xmax; x >= 0; --x)
-                    for (int y = ymax; y >= 0; --y)
-                        for (int z = zmax; z >= 0; --z)
+                var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+                var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+                for (int x = max.x; x >= min.x; --x)
+                    for (int y = max.y; y >= min.y; --y)
+                        for (int z = max.z; z >= min.z; --z)
                             yield return arrayOrNull[x, y, z];
+            }
+        }
+
+        // treats null as an empty array!
+        internal static IEnumerable<T> Reverse<T>(T[,,,] arrayOrNull)
+        {
+            if (arrayOrNull != null)
+            {
+                var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+                var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+                for (int w = max.w; w >= min.w; --w)
+                    for (int x = max.x; x >= min.x; --x)
+                        for (int y = max.y; y >= min.y; --y)
+                            for (int z = max.z; z >= min.z; --z)
+                                yield return arrayOrNull[w, x, y, z];
             }
         }
 
@@ -984,11 +1304,11 @@ namespace AZCL
             var arr = new T[i];
             i = 0;
 
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
-                    arr[i] = arrayOrNull[x, y];
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int x = min.x; x <= max.x; ++x)
+                for (int y = min.y; y <= max.y; ++y)
+                    arr[i++] = arrayOrNull[x, y];
 
             return arr;
         }
@@ -1003,13 +1323,33 @@ namespace AZCL
             var arr = new T[i];
             i = 0;
 
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            int lenz = arrayOrNull.GetLength(2);
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
-                    for (int z = 0; z < lenz; ++z)
-                        arr[i] = arrayOrNull[x, y, z];
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int x = min.x; x <= max.x; ++x)
+                for (int y = min.y; y <= max.y; ++y)
+                    for (int z = min.z; z <= max.z; ++z)
+                        arr[i++] = arrayOrNull[x, y, z];
+
+            return arr;
+        }
+
+        // treats null as an empty array!
+        internal static T[] ToArray<T>(T[,,,] arrayOrNull)
+        {
+            int i;
+            if (arrayOrNull == null || (i = arrayOrNull.Length) == 0)
+                return Empty<T>.Array;
+
+            var arr = new T[i];
+            i = 0;
+
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int w = min.w; w <= max.w; ++w)
+                for (int x = min.x; x <= max.x; ++x)
+                    for (int y = min.y; y <= max.y; ++y)
+                        for (int z = min.z; z <= max.z; ++z)
+                            arr[i++] = arrayOrNull[w, x, y, z];
 
             return arr;
         }
@@ -1023,10 +1363,10 @@ namespace AZCL
 
             var list = new List<T>(len);
 
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int x = min.x; x <= max.x; ++x)
+                for (int y = min.y; y <= max.y; ++y)
                     list.Add(arrayOrNull[x, y]);
 
             return list;
@@ -1041,13 +1381,32 @@ namespace AZCL
 
             var list = new List<T>(len);
 
-            int lenx = arrayOrNull.GetLength(0);
-            int leny = arrayOrNull.GetLength(1);
-            int lenz = arrayOrNull.GetLength(2);
-            for (int x = 0; x < lenx; ++x)
-                for (int y = 0; y < leny; ++y)
-                    for (int z = 0; z < lenz; ++z)
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int x = min.x; x <= max.x; ++x)
+                for (int y = min.y; y <= max.y; ++y)
+                    for (int z = min.z; z <= max.z; ++z)
                         list.Add(arrayOrNull[x, y, z]);
+
+            return list;
+        }
+
+        // treats null as an empty array!
+        internal static List<T> ToList<T>(T[,,,] arrayOrNull)
+        {
+            int len;
+            if (arrayOrNull == null || (len = arrayOrNull.Length) == 0)
+                return new List<T>(0);
+
+            var list = new List<T>(len);
+
+            var max = GetUpperBoundsTuple_Internal(arrayOrNull);
+            var min = GetLowerBoundsTuple_Internal(arrayOrNull);
+            for (int w = min.w; w <= max.w; ++w)
+                for (int x = min.x; x <= max.x; ++x)
+                    for (int y = min.y; y <= max.y; ++y)
+                        for (int z = min.z; z <= max.z; ++z)
+                            list.Add(arrayOrNull[w, x, y, z]);
 
             return list;
         }
