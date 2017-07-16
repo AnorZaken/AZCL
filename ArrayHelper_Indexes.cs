@@ -1696,9 +1696,24 @@ namespace AZCL
             AZAssert.NotNullInternal(array, nameof(array));
             AZAssert.GEQZeroInternal(x, nameof(x));
             AZAssert.GEQZeroInternal(y, nameof(y));
+            AZAssert.GEQZeroInternal(z, nameof(z));
 
             int temp = array.LengthZ();
             temp = z + y * temp + x * temp * array.LengthY();
+            return inclusive ? temp : temp - 1;
+        }
+
+        // output is not guaranteed to be within bounds!
+        internal static int CalculateCountUnbound<T>(T[,,,] array, int w, int x, int y, int z, bool inclusive)
+        {
+            AZAssert.NotNullInternal(array, nameof(array));
+            AZAssert.GEQZeroInternal(w, nameof(w));
+            AZAssert.GEQZeroInternal(x, nameof(x));
+            AZAssert.GEQZeroInternal(y, nameof(y));
+            AZAssert.GEQZeroInternal(z, nameof(z));
+
+            int temp = array.LengthZ();
+            temp = z + y * temp + x * (temp *= array.LengthY()) + w * temp * array.LengthX();
             return inclusive ? temp : temp - 1;
         }
     }

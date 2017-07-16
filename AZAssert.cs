@@ -55,6 +55,16 @@ namespace AZCL
         }
 
         [Conditional("AZCL_DEBUG")]
+        internal static void BoundsInternal<T>(T[,,,] arr, int w, int x, int y, int z)
+        {
+            Debug.Assert(arr != null);
+            Debug.Assert(unchecked((uint)w < (uint)arr.LengthW()), "w out of bounds");
+            Debug.Assert(unchecked((uint)x < (uint)arr.LengthX()), "x out of bounds");
+            Debug.Assert(unchecked((uint)y < (uint)arr.LengthY()), "y out of bounds");
+            Debug.Assert(unchecked((uint)z < (uint)arr.LengthZ()), "z out of bounds");
+        }
+
+        [Conditional("AZCL_DEBUG")]
         internal static void BoundsInternal<T>(T[,] arr, int startX, int startY, int count)
         {
             BoundsInternal(arr, startX, startY);
@@ -68,6 +78,14 @@ namespace AZCL
             BoundsInternal(arr, startX, startY, startY);
             GEQZeroInternal(count, nameof(count));
             Debug.Assert(ArrayHelper.CalculateCountUnbound(arr, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
+        }
+
+        [Conditional("AZCL_DEBUG")]
+        internal static void BoundsInternal<T>(T[,,,] arr, int startW, int startX, int startY, int startZ, int count)
+        {
+            BoundsInternal(arr, startW, startX, startY, startY);
+            GEQZeroInternal(count, nameof(count));
+            Debug.Assert(ArrayHelper.CalculateCountUnbound(arr, startW, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
         }
 
         /*

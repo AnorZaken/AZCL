@@ -555,6 +555,31 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Fills an array with new instances of T.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// <para/>
+        /// For large arrays with value type elements it's highly recommended to use the <see cref="Clear{T}(T[,,])"/> method instead.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        /// <seealso cref="Clear{T}(T[,,])"/>
+        public static void Populate<T>(this T[,,,] array) where T : new()
+        {
+            NullCheck(array);
+            int lenw = array.GetLength(0);
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            for (int w = 0; w < lenw; ++w)
+                for (int x = 0; x < lenx; ++x)
+                    for (int y = 0; y < leny; ++y)
+                        for (int z = 0; z < lenz; ++z)
+                            array[w, x, y, z] = new T();
+        }
+
+        /// <summary>
         /// Fills the inner arrays of a jagged array with new instances of T.
         /// </summary><remarks>
         /// This will overwrite all existing elements in the inner arrays.
@@ -692,6 +717,38 @@ namespace AZCL
         }
 
         /// <summary>
+        /// Fills an array with a single repeated value.
+        /// </summary><remarks>
+        /// This will overwrite all existing elements in the array.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the array argument is null.
+        /// </exception>
+        public static void Populate<T>(this T[,,,] array, T value)
+        {
+            const int HALFLIMIT = 90;
+            const int THRESHOLD = HALFLIMIT * 2; // Decide which fill-method to use (based on array length)
+
+            if (NullCheck(array).Length < THRESHOLD) // few elements: for-loops are faster
+            {
+                int lenw = array.GetLength(0);
+                int lenx = array.GetLength(1);
+                int leny = array.GetLength(2);
+                int lenz = array.GetLength(3);
+                for (int w = 0; w < lenw; ++w)
+                    for (int x = 0; x < lenx; ++x)
+                        for (int y = 0; y < leny; ++y)
+                            for (int z = 0; z < lenz; ++z)
+                                array[w, x, y, z] = value;
+            }
+            else // many elements: use ArrayCopy chunking
+            {
+                SetRange_ForLoop(array, ref value, HALFLIMIT); // set an initial bunch of values (with loops)
+                RepeatRange_Impl(array, HALFLIMIT); // copy that range onto all remaining elements
+            }
+        }
+
+        /// <summary>
         /// Fills the inner arrays of a jagged array with a single repeated value.
         /// </summary><remarks>
         /// This will overwrite all existing elements in the inner arrays.
@@ -816,6 +873,34 @@ namespace AZCL
                 for (int y = 0; y < leny; ++y)
                     for (int z = 0; z < lenz; ++z)
                         array[x, y, z] = factoryFunc();
+        }
+
+        /// <summary>
+        /// Fills the array using a System.Func&lt;T&gt;.
+        /// </summary><remarks>
+        /// The System.Func&lt;T&gt; will be called once per element in the array, starting at [0,0,0,0] and progressing in [w,x,y,z] order.
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,,,] array, System.Func<T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenw = array.GetLength(0);
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            for (int w = 0; w < lenw; ++w)
+                for (int x = 0; x < lenx; ++x)
+                    for (int y = 0; y < leny; ++y)
+                        for (int z = 0; z < lenz; ++z)
+                            array[w, x, y, z] = factoryFunc();
         }
 
         /// <summary>
@@ -952,6 +1037,35 @@ namespace AZCL
                 for (int y = 0; y < leny; ++y)
                     for (int z = 0; z < lenz; ++z)
                         array[x, y, z] = factoryFunc(x, y, z);
+        }
+
+        /// <summary>
+        /// Fills the array using a System.Func&lt;int, int, int, int, T&gt; that takes the array indexes as arguments.
+        /// </summary><remarks>
+        /// The System.Func&lt;int, int, int, int, T&gt; will be called once per element in the array, progressing in [w,x,y,z] order.
+        /// The <paramref name="factoryFunc"/> arguments will be supplied in the same order, i.e <paramref name="factoryFunc"/>(w, x, y, z).
+        /// </remarks>
+        /// <param name="array">Array to populate.</param>
+        /// <param name="factoryFunc">A delegate that is used as a factory to populate the array.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if any of the arguments are null.
+        /// </exception>
+        public static void Populate<T>(this T[,,,] array, System.Func<int, int, int, int, T> factoryFunc)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (factoryFunc == null)
+                throw new ArgumentNullException(nameof(factoryFunc));
+
+            int lenw = array.GetLength(0);
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            for (int w = 0; w < lenw; ++w)
+                for (int x = 0; x < lenx; ++x)
+                    for (int y = 0; y < leny; ++y)
+                        for (int z = 0; z < lenz; ++z)
+                            array[w, x, y, z] = factoryFunc(w, x, y, z);
         }
 
         /// <summary>
@@ -1470,7 +1584,7 @@ namespace AZCL
                 array[x, y] = value;
             }
         }
-        
+
         private static void SetRange_ForLoop<T>(T[,,] array, ref T value, int count, int x = 0, int y = 0, int z = 0)
         {
             AZAssert.NotEmptyInternal(array, nameof(array));
@@ -1482,6 +1596,7 @@ namespace AZCL
             {
                 if (z == lenz)
                 {
+                    z = 0;
                     if (++y == leny)
                     {
                         y = 0;
@@ -1491,7 +1606,34 @@ namespace AZCL
                 array[x, y, z] = value;
             }
         }
-        
+
+        private static void SetRange_ForLoop<T>(T[,,,] array, ref T value, int count, int w = 0, int x = 0, int y = 0, int z = 0)
+        {
+            AZAssert.NotEmptyInternal(array, nameof(array));
+            AZAssert.BoundsInternal(array, w, x, y, z, count);
+
+            int lenx = array.GetLength(1);
+            int leny = array.GetLength(2);
+            int lenz = array.GetLength(3);
+            for (int i = 0; i < count; ++i, ++z)
+            {
+                if (z == lenz)
+                {
+                    z = 0;
+                    if (++y == leny)
+                    {
+                        y = 0;
+                        if (++x == lenx)
+                        {
+                            x = 0;
+                            ++w;
+                        }
+                    }
+                }
+                array[w, x, y, z] = value;
+            }
+        }
+
         private static bool Populate_FindNonEmptyInner<T>(T[][] array, out T[] inner, out int i) // 'i' will be the index of 'inner'
         {
             AZAssert.NotNullInternal(array, nameof(array));
