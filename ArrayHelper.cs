@@ -23,7 +23,7 @@ namespace AZCL
         }
 
         /// <summary>
-        /// Wraps a multi-rank array in an <see cref="ArrayR2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
+        /// Wraps a multi-rank array in an <see cref="Array2{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary><remarks>
         /// Unfortunately multi-rank arrays in C# only implements IEnumerable and not IEnumerable&lt;<typeparamref name="T"/>&gt;.
         /// To solve this AZCL implements its own enumerators for multi-rank arrays (up to rank 10) and provides specialized wrappers (up to rank 3) for use with Linq and in foreach loops.
@@ -33,18 +33,18 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ArrayR2<T> AsLinqable<T>(this T[,] array)
-            => new ArrayR2<T>(array);
+        public static Array2<T> AsLinqable<T>(this T[,] array)
+            => new Array2<T>(array);
         
         /// <summary>
-        /// Wraps a multi-rank array in an <see cref="ArrayR3{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
+        /// Wraps a multi-rank array in an <see cref="Array3{T}"/> wrapper which implements IEnumerable&lt;<typeparamref name="T"/>&gt; for use with Linq and foreach loops.
         /// </summary>
         /// <inheritdoc cref="AsLinqable{T}(T[,])" select="remarks"/>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ArrayR3<T> AsLinqable<T>(this T[,,] array)
-            => new ArrayR3<T>(array);
+        public static Array3<T> AsLinqable<T>(this T[,,] array)
+            => new Array3<T>(array);
         
         // ---
 
@@ -1396,14 +1396,14 @@ namespace AZCL
 
         internal static IEnumerable<TSource> Skip<TSource>(TSource[,] arrayOrNull, int count)
         {
-            var enumerator = new ArrayR2<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
+            var enumerator = new Array2<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
             while (enumerator.MoveNext())
                 yield return enumerator.Current;
         }
 
         internal static IEnumerable<TSource> Skip<TSource>(TSource[,,] arrayOrNull, int count)
         {
-            var enumerator = new ArrayR3<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
+            var enumerator = new Array3<TSource>.Enumerator(arrayOrNull, count < 0 ? 0 : count);
             while (enumerator.MoveNext())
                 yield return enumerator.Current;
         }

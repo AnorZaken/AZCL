@@ -8,13 +8,13 @@ namespace AZCL.Collections
     /// </summary><remarks>
     /// <para>
     /// Default initialized instances of this struct and will behave as if wrapping an empty array.
-    /// See <see cref="ReadOnlyArrayR3{T}.IsAbsent"/>.
+    /// See <see cref="ReadOnlyArray3{T}.IsAbsent"/>.
     /// </para>
-    /// <inheritdoc cref="ArrayR2{T}" select="para[@id='wrapperSize']"/>
-    /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+    /// <inheritdoc cref="Array2{T}" select="para[@id='wrapperSize']"/>
+    /// <inheritdoc cref="Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
     /// </remarks>
     /// <typeparam name="T">The type of the elements of the array.</typeparam>
-    public partial struct ReadOnlyArrayR3<T> : IEquatable<ReadOnlyArrayR3<T>>, IEquatable<Array>, IEnumerable<T>
+    public partial struct ReadOnlyArray3<T> : IEquatable<ReadOnlyArray3<T>>, IEquatable<Array>, IEnumerable<T>
     {
         private readonly T[,,] array;
 
@@ -23,25 +23,25 @@ namespace AZCL.Collections
         /// </summary><remarks>
         /// If the array argument is null, the backing array of the ReadOnlyArray will simply be absent.
         /// </remarks>
-        public static implicit operator ReadOnlyArrayR3<T>(T[,,] array)
-            => array == null ? new ReadOnlyArrayR3<T>() : new ReadOnlyArrayR3<T>(array);
+        public static implicit operator ReadOnlyArray3<T>(T[,,] array)
+            => array == null ? new ReadOnlyArray3<T>() : new ReadOnlyArray3<T>(array);
         
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
         /// </summary><remarks>
         /// If a backing array is absent, the backing array of the ReadOnlyArray will simply be absent too.
         /// </remarks>
-        public static implicit operator ReadOnlyArrayR3<T>(ArrayR3<T> array)
-            => new ReadOnlyArrayR3<T>(array);
+        public static implicit operator ReadOnlyArray3<T>(Array3<T> array)
+            => new ReadOnlyArray3<T>(array);
         
         /// <summary>
-        /// Creates a ReadOnlyArrayR3 wrapper for a rank 3 array.
+        /// Creates a ReadOnlyArray3 wrapper for a rank 3 array.
         /// </summary>
         /// <param name="array">The array to wrap.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public ReadOnlyArrayR3(T[,,] array)
+        public ReadOnlyArray3(T[,,] array)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
@@ -49,12 +49,12 @@ namespace AZCL.Collections
         }
 
         /// <summary>
-        /// Creates a ReadOnlyArrayR3 wrapper from an ArrayR3 wrapper.
+        /// Creates a ReadOnlyArray3 wrapper from an Array3 wrapper.
         /// </summary><remarks>
         /// If a backing array is absent, the backing array of the ReadOnlyArray will simply be absent too.
         /// </remarks>
         /// <param name="array">A wrapped array to re-wrap as readonly.</param>
-        public ReadOnlyArrayR3(ArrayR3<T> array)
+        public ReadOnlyArray3(Array3<T> array)
         {
             this.array = array.ArrayRaw;
             //if (this.array == null)
@@ -66,7 +66,7 @@ namespace AZCL.Collections
 
         // used in various casts / ctors / extensions
         internal T[,,] Array
-            => array ?? Empty<T>.ArrayR3;
+            => array ?? Empty<T>.Array3;
 
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
@@ -265,14 +265,14 @@ namespace AZCL.Collections
         /// <summary>
         /// Indicates whether this instance and a specified object are considered equivalent.
         /// </summary><returns>
-        /// True if <paramref name="obj"/> is a <see cref="ReadOnlyArrayR3{T}"/> of the same <typeparamref name="T"/> and
+        /// True if <paramref name="obj"/> is a <see cref="ReadOnlyArray3{T}"/> of the same <typeparamref name="T"/> and
         /// their backing arrays are reference equal (or both absent), or if <paramref name="obj"/> is non-null and
         /// reference equal to the backing array of this instance; otherwise false.
         /// </returns>
         /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
-            return obj != null && (ReferenceEquals(this.array, obj) || obj is ReadOnlyArrayR3<T> && Equals((ReadOnlyArrayR3<T>)obj));
+            return obj != null && (ReferenceEquals(this.array, obj) || obj is ReadOnlyArray3<T> && Equals((ReadOnlyArray3<T>)obj));
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace AZCL.Collections
         /// True if both instances share the same backing array, or if both backing arrays are absent; otherwise false.
         /// </returns>
         /// <param name="other">Another instance to compare against.</param>
-        public bool Equals(ReadOnlyArrayR3<T> other)
+        public bool Equals(ReadOnlyArray3<T> other)
             => ReferenceEquals(this.array, other.array);
         
         /// <summary>
@@ -299,11 +299,11 @@ namespace AZCL.Collections
         /// </summary><remarks>
         /// This is the method that a foreach statement would call. (The C# compiler employs duck-typing for foreach loops.)
         /// </remarks>
-        public ArrayR3<T>.Enumerator GetEnumerator()
-            => new ArrayR3<T>.Enumerator(array);
+        public Array3<T>.Enumerator GetEnumerator()
+            => new Array3<T>.Enumerator(array);
         
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
-            => array == null ? Empty<T>.GetEnumerator() : new ArrayR3<T>.Enumerator(array);
+            => array == null ? Empty<T>.GetEnumerator() : new Array3<T>.Enumerator(array);
         
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
             => array?.GetEnumerator() ?? Empty<T>.GetEnumerator();
@@ -415,7 +415,7 @@ namespace AZCL.Collections
 
         /// <inheritdoc/>
         public override string ToString()
-            => array == null ? "<ReadOnlyArrayR3:{}>" : ("<ReadOnlyArrayR3:" + array.ToString() + ">");
+            => array == null ? "<ReadOnlyArray3:{}>" : ("<ReadOnlyArray3:" + array.ToString() + ">");
 
         internal T GetValueOrDefault(int index)
         {

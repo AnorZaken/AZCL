@@ -12,12 +12,12 @@ namespace AZCL.Collections
      * are increased first, then the next left dimension, and so on to the left.
      */
 
-    public partial struct ArrayR3<T> : IEquatable<ArrayR3<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: for better Linq performance
+    public partial struct Array3<T> : IEquatable<Array3<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: for better Linq performance
     {
         /// <summary>
         /// A standard struct implementation of an IEnumerator&lt;<typeparamref name="T"/>&gt; for rank 3 arrays.
         /// </summary><remarks>
-        /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         public struct Enumerator : IEnumerator<T>
         {
@@ -35,11 +35,11 @@ namespace AZCL.Collections
                 => new Enumerator(array);
             
             /// <summary>
-            /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArrayR3{T}"/>.
+            /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArray3{T}"/>.
             /// </summary><remarks>
-            /// This operator does not throw, even if the <see cref="ReadOnlyArrayR3{T}"/> argument was default initialized.
+            /// This operator does not throw, even if the <see cref="ReadOnlyArray3{T}"/> argument was default initialized.
             /// </remarks>
-            public static implicit operator Enumerator(ReadOnlyArrayR3<T> array)
+            public static implicit operator Enumerator(ReadOnlyArray3<T> array)
                 => new Enumerator(array);
             
             /// <summary>
@@ -67,9 +67,9 @@ namespace AZCL.Collections
             }
             
             /// <summary>
-            /// Creates an <see cref="Enumerator"/> for the rank 3 array wrapped in the <see cref="ReadOnlyArrayR3{T}"/> argument.
+            /// Creates an <see cref="Enumerator"/> for the rank 3 array wrapped in the <see cref="ReadOnlyArray3{T}"/> argument.
             /// </summary>
-            public Enumerator(ReadOnlyArrayR3<T> array) : this(array.ArrayRaw)
+            public Enumerator(ReadOnlyArray3<T> array) : this(array.ArrayRaw)
             { }
 
             // startIndex must non-negative, but there is no upper bound though!

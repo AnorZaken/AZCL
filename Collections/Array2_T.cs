@@ -4,44 +4,47 @@ using System.Collections.Generic;
 namespace AZCL.Collections
 {
     /// <summary>
-    /// Thin wrapper for rank 3 arrays to implement IEnumerable&lt;<typeparamref name="T"/>&gt; and thus become "Linq-able" and usable in foreach loops.
+    /// Thin wrapper for rank 2 arrays to implement IEnumerable&lt;<typeparamref name="T"/>&gt; and thus become "Linq-able" and usable in foreach loops.
     /// </summary><remarks>
-    /// The wrapped array is exposed through the <see cref="ArrayR3{T}.Array"/> property.
+    /// The wrapped array is exposed through the <see cref="Array2{T}.Array"/> property.
     /// <para>
     /// Default initialized instances of this struct and will behave as if wrapping an empty array.
-    /// See <see cref="ArrayR3{T}.IsAbsent"/>.
+    /// See <see cref="Array2{T}.IsAbsent"/>.
     /// </para>
-    /// <inheritdoc cref="ArrayR2{T}" select="para[@id='wrapperSize']"/>
-    /// <inheritdoc cref="ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+    /// <para id="wrapperSize">
+    /// This struct contains only a single field: a reference to the backing array.
+    /// Thus its size will match that of a reference meaning that instances can be passed around as arguments performance penalty free.
+    /// </para>
+    /// <inheritdoc cref="Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
     /// </remarks>
-    public partial struct ArrayR3<T> : IEquatable<ArrayR3<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: implement for better Linq performance?
+    public partial struct Array2<T> : IEquatable<Array2<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: implement for better Linq performance?
     {
-        private readonly T[,,] array;
+        private readonly T[,] array;
 
         /// <summary>
-        /// Implicitly wraps a multi-rank array in a "Linq-able" <see cref="ArrayR3{T}"/> wrapper.
+        /// Implicitly wraps a multi-rank array in a "Linq-able" <see cref="Array2{T}"/> wrapper.
         /// </summary><remarks>
         /// If the array argument is null, the backing array of the Array wrapper will simply be absent.
         /// </remarks>
-        public static implicit operator ArrayR3<T>(T[,,] array)
-            => array == null ? new ArrayR3<T>() : new ArrayR3<T>(array);
+        public static implicit operator Array2<T>(T[,] array)
+            => array == null ? new Array2<T>() : new Array2<T>(array);
 
         /// <summary>
-        /// Implicitly unwraps an ArrayR3 instance. This operator never returns null.
+        /// Implicitly unwraps an Array2 instance. This operator never returns null.
         /// </summary><remarks>
-        /// This will return <see cref="Empty{T}.ArrayR3"/> if the backing array is null.
+        /// This will return <see cref="Empty{T}.Array2"/> if the backing array is null.
         /// </remarks>
-        public static implicit operator T[,,](ArrayR3<T> array)
+        public static implicit operator T[,](Array2<T> array)
             => array.Array;
         
         /// <summary>
-        /// Creates an ArrayR3 wrapper for a rank 3 array.
+        /// Creates an Array2 wrapper for a rank 2 array.
         /// </summary>
         /// <param name="array">The array to wrap.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public ArrayR3(T[,,] array)
+        public Array2(T[,] array)
         {
             if (array == null)
                 throw new ArgumentNullException(nameof(array));
@@ -51,25 +54,26 @@ namespace AZCL.Collections
         /// <summary>
         /// Gets or sets the value at the specified enumeration index in the wrapped backing array.
         /// </summary>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
-        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int, out int)"/> for more info.</param>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int)" select="remarks"/>
+        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int)"/> for more info.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
         /// (Note especially that if the backing array is absent (null) the <see cref="Length"/> property will be zero.)
         /// </exception>
-        /// <seealso cref="CalculateIndexes(int)"/>
-        /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
+        /// <seealso cref="CalculateIndexes(int, out int, out int)"/>
         public T this[int index]
         {
             get
             {
-                Tuples.Int3 i = CalculateIndexes(index);
-                return array[i.x, i.y, i.z];
+                int x, y;
+                CalculateIndexes(index, out x, out y);
+                return array[x, y];
             }
             set
             {
-                Tuples.Int3 i = CalculateIndexes(index);
-                array[i.x, i.y, i.z] = value;
+                int x, y;
+                CalculateIndexes(index, out x, out y);
+                array[x, y] = value;
             }
         }
 
@@ -79,181 +83,89 @@ namespace AZCL.Collections
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
-        public T this[int x, int y, int z]
+        public T this[int x, int y]
         {
             get
             {
                 if (array == null)
                     throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
-                return array[x, y, z];
+                return array[x, y];
             }
             set
             {
                 if (array == null)
                     throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
-                array[x, y, z] = value;
+                array[x, y] = value;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the value at the specified position in the wrapped backing array.
-        /// </summary>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
-        /// </exception>
-        public T this[Tuples.Int3 xyz]
-        {
-            get
-            {
-                if (array == null)
-                    throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
-                return array[xyz.x, xyz.y, xyz.z];
-            }
-            set
-            {
-                if (array == null)
-                    throw new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT);
-                array[xyz.x, xyz.y, xyz.z] = value;
-            }
-        }
-        
-        internal T[,,] ArrayRaw => array;
+        internal T[,] ArrayRaw => array;
 
         /// <summary>
         /// The array being wrapped. This property is never null.
         /// </summary><remarks>
-        /// This will return <see cref="Empty{T}.ArrayR3"/> if the backing array is null.
+        /// This will return <see cref="Empty{T}.Array2"/> if the backing array is null.
         /// <br/>
         /// To test whether or not the backing array is null, use the <see cref="IsAbsent"/> property.
         /// </remarks>
-        public T[,,] Array
-            => array ?? Empty<T>.ArrayR3;
+        public T[,] Array
+            => array ?? Empty<T>.Array2;
 
         /// <summary>
-        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z item indexes.
+        /// Given a one-dimensional enumeration index, calculates the corresponding x and y item indexes.
         /// </summary><remarks>
         /// When enumerating over multi-dimensional arrays elements are traversed such that the indices of the
         /// rightmost dimension are increased first, then the next left dimension, and so on to the left.
         /// <br/>(See C# Language Specification - Version 4.0 paragraph 8.8.4)<br/>
-        /// In other words x = index / (<see cref="LengthY"/> * <see cref="LengthZ"/>),
-        /// temp = index % (<see cref="LengthY"/> * <see cref="LengthZ"/>),
-        /// y = temp / <see cref="LengthZ"/>, z = temp % <see cref="LengthZ"/>.
+        /// In other words x = index / <see cref="LengthY"/>, y = index % <see cref="LengthY"/>.
         /// </remarks>
         /// <param name="index">An enumeration index to calculate item indexes for.</param>
         /// <param name="x">Resulting x index.</param>
         /// <param name="y">Resulting y index.</param>
-        /// <param name="z">Resulting z index.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
         /// (Note especially that if the backing array <see cref="IsAbsent"/> the <see cref="Length"/> property will be zero.)
         /// </exception>
         /// <seealso cref="GetValue1D(int)"/>
-        /// <seealso cref="TryCalculateIndexes(int, out int, out int, out int)"/>
-        public void CalculateIndexes(int index, out int x, out int y, out int z)
+        public void CalculateIndexes(int index, out int x, out int y)
         {
             if (unchecked((uint)index >= (uint)Length))
                 throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
-            
-            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
-            int lenz = array.GetLength(2);
-            
-            y = index / lenz; // <-- (not bound by its length *yet*)
-            z = index - y * lenz;
-            x = y / leny;
-            y = y - x * leny;
 
+            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
+            // Fast DivRem:
+            x = index / leny;
+            y = index - x * leny;
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
         }
 
         /// <summary>
-        /// Given a one-dimensional enumeration index, calculates the corresponding x, y, and z item indexes.
-        /// </summary>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
-        /// <returns>
-        /// An <see cref="Tuples.Int3"/> tuple containing the resulting x, y, and z indexes.
-        /// </returns>
-        /// <param name="index">An enumeration index to calculate item indexes for.</param>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
-        /// (Note especially that if the backing array <see cref="IsAbsent"/> the <see cref="Length"/> property will be zero.)
-        /// </exception>
-        /// <seealso cref="GetValue1D(int)"/>
-        /// <seealso cref="TryCalculateIndexes(int, out Tuples.Int3)"/>
-        public Tuples.Int3 CalculateIndexes(int index)
-        {
-            if (unchecked((uint)index >= (uint)Length))
-                throw array == null ? new IndexOutOfRangeException(ERR.BACKING_ARRAY_ABSENT) : new IndexOutOfRangeException();
-
-            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
-            int lenz = array.GetLength(2);
-
-            int x, y, z;
-            y = index / lenz; // <-- (not bound by its length *yet*)
-            z = index - y * lenz;
-            x = y / leny;
-            y = y - x * leny;
-
-            return new Tuples.Int3(x, y, z);
-        }
-
-        /// <summary>
-        /// Given a one-dimensional enumeration index, tries to calculate the corresponding x, y, and z item indexes.
+        /// Given a one-dimensional enumeration index, tries to calculate the corresponding x and y item indexes.
         /// </summary><returns>
         /// False if the resulting indexes are out of bounds (or the backing array is absent); otherwise true.
         /// </returns>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int)" select="remarks"/>
         /// <param name="index">An enumeration index to calculate item indexes for.</param>
-        /// <param name="x">Resulting x index.</param>
-        /// <param name="y">Resulting y index.</param>
-        /// <param name="z">Resulting z index.</param>
-        public bool TryCalculateIndexes(int index, out int x, out int y, out int z)
+        /// <param name="x">Resulting x index (or zero if the method failed).</param>
+        /// <param name="y">Resulting y index (or zero if the method failed).</param>
+        public bool TryCalculateIndexes(int index, out int x, out int y)
         {
-            int leny, lenz;
-            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
+            if (unchecked((uint)index >= (uint)Length))
             {
-                x = y = z = -1;
+                x = y = 0;
                 return false;
             }
 
-            y = index / lenz; // <-- (not bound by its length *yet*)
-            z = index - y * lenz;
-            x = y / leny;
-            y = y - x * leny;
-
-            return unchecked((uint)x < (uint)array.GetLength(0));
-
+            int leny = array.GetLength(1); // we know array is non null and that all dimensions are non-zero after the above check^
+            // Fast DivRem:
+            x = index / leny;
+            y = index - x * leny;
             // IL doesn't have a DivRem instruction because IL doesn't support instructions with two return values.
             // Thus the above is the fastest way to DivRem in .Net (and it's the way .Net Core does it) because as of
             // yet the Jitter doesn't optimize when it sees % and / used together. (There is a petition for it though.)
-        }
-
-        /// <summary>
-        /// Given a one-dimensional enumeration index, tries to calculate the corresponding x, y, and z item indexes.
-        /// </summary><returns>
-        /// False if the resulting indexes are out of bounds (or the backing array is absent); otherwise true.
-        /// </returns>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
-        /// <param name="index">An enumeration index to calculate item indexes for.</param>
-        /// <param name="xyz">Int3 tuple with the resulting x, y, and z index.</param>
-        public bool TryCalculateIndexes(int index, out Tuples.Int3 xyz)
-        {
-            int leny, lenz;
-            if (array == null || (leny = array.GetLength(1)) == 0 || (lenz = array.GetLength(2)) == 0)
-            {
-                xyz = default(Tuples.Int3);
-                return false;
-            }
-
-            int x, y, z;
-            y = index / lenz; // <-- (not bound by its length *yet*)
-            z = index - y * lenz;
-            x = y / leny;
-            y = y - x * leny;
-
-            xyz = new Tuples.Int3(x, y, z);
-            return unchecked((uint)x < (uint)array.GetLength(0));
+            return true;
         }
 
         /* Method CopyTo absent because it's for single dimensional arrays only as part of the ICollection interface. */
@@ -261,14 +173,14 @@ namespace AZCL.Collections
         /// <summary>
         /// Indicates whether this instance and a specified object are considered equivalent.
         /// </summary><returns>
-        /// True if <paramref name="obj"/> is a <see cref="ArrayR3{T}"/> of the same <typeparamref name="T"/> and
+        /// True if <paramref name="obj"/> is a <see cref="Array2{T}"/> of the same <typeparamref name="T"/> and
         /// their backing arrays are reference equal (or both absent), or if <paramref name="obj"/> is non-null and
         /// reference equal to the backing array of this instance; otherwise false.
         /// </returns>
         /// <param name="obj">Another object to compare against.</param>
         public override bool Equals(object obj)
         {
-            return obj != null && (ReferenceEquals(this.array, obj) || obj is ArrayR3<T> && Equals((ArrayR3<T>)obj));
+            return obj != null && (ReferenceEquals(this.array, obj) || obj is Array2<T> && Equals((Array2<T>)obj));
         }
 
         /// <summary>
@@ -277,7 +189,7 @@ namespace AZCL.Collections
         /// True if both instances share the same backing array, or if both backing arrays are absent; otherwise false.
         /// </returns>
         /// <param name="other">Another instance to compare against.</param>
-        public bool Equals(ArrayR3<T> other)
+        public bool Equals(Array2<T> other)
             => ReferenceEquals(this.array, other.array);
         
         /// <summary>
@@ -315,7 +227,7 @@ namespace AZCL.Collections
         /// </returns>
         /// <param name="dimension">A zero-based dimension of the Array whose length needs to be determined.</param>
         /// <exception cref="IndexOutOfRangeException">
-        /// Thrown if <paramref name="dimension"/> is less than zero or greater or equal to the rank of the array. (Rank == 3).
+        /// Thrown if <paramref name="dimension"/> is less than zero or greater or equal to the rank of the array. (Rank == 2).
         /// </exception>
         public int GetLength(int dimension)
         {
@@ -330,39 +242,27 @@ namespace AZCL.Collections
         /// </summary>
         /// <param name="x">First index of the element to get.</param>
         /// <param name="y">Second index of the element to get.</param>
-        /// <param name="z">Third index of the element to get.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
         /// </exception>
-        /// <seealso cref="this[int, int, int]"/>
-        public T GetValue(int x, int y, int z)
-            => this[x, y, z];
-
-        /// <summary>
-        /// Gets the value at the specified position in the wrapped backing array.
-        /// </summary>
-        /// <param name="xyz">Indexes of the element to get.</param>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown if any of the indexes are less than zero, or greater than the upper bound for the corresponding dimension.
-        /// </exception>
-        /// <seealso cref="this[Tuples.Int3]"/>
-        public T GetValue(Tuples.Int3 xyz)
-            => this[xyz];
-
+        public T GetValue(int x, int y)
+            => this[x, y];
+        
         /// <summary>
         /// Gets the value at the specified enumeration index in the wrapped backing array.
         /// </summary>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
-        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int, out int)"/> for more info.</param>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int)" select="remarks"/>
+        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int)"/> for more info.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
         /// (Note especially that if the backing array is absent (null) the <see cref="Length"/> property will be zero.)
         /// </exception>
-        /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
+        /// <seealso cref="CalculateIndexes(int, out int, out int)"/>
         public T GetValue1D(int index)
         {
-            Tuples.Int3 i = CalculateIndexes(index);
-            return array[i.x, i.y, i.z];
+            int x, y;
+            CalculateIndexes(index, out x, out y);
+            return array[x, y];
         }
 
         /// <summary>
@@ -381,7 +281,7 @@ namespace AZCL.Collections
         /// </remarks>
         public int Length
             => array == null ? 0 : array.Length;
-
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the first dimension of the Array.
         /// </summary><remarks>
@@ -390,7 +290,7 @@ namespace AZCL.Collections
         /// </remarks>
         public int LengthX
             => array == null ? 0 : array.GetLength(0);
-
+        
         /// <summary>
         /// Gets a 32-bit integer that represents the number of elements in the second dimension of the Array.
         /// </summary><remarks>
@@ -399,73 +299,47 @@ namespace AZCL.Collections
         /// </remarks>
         public int LengthY
             => array == null ? 0 : array.GetLength(1);
-
-        /// <summary>
-        /// Gets a 32-bit integer that represents the number of elements in the third dimension of the Array.
-        /// </summary><remarks>
-        /// Will be zero if this wrapper was default constructed / backing array is absent.<br/>
-        /// This is the same as calling <see cref="GetLength(int)"/> with 2 as argument for the dimension parameter.
-        /// </remarks>
-        public int LengthZ
-            => array == null ? 0 : array.GetLength(2);
-
+        
         /// <summary>
         /// Sets the element at the specified position in the backing array to the specified <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Value to set an element to.</param>
         /// <param name="x">First index of the element to set.</param>
         /// <param name="y">Second index of the element to set.</param>
-        /// <param name="z">Third index of the element to set.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if any of the indexes are less than zero, or larger than the upper bound for the corresponding dimension.
         /// </exception>
-        /// <seealso cref="this[int, int, int]"/>
-        public void SetValue(T value, int x, int y, int z)
+        public void SetValue(T value, int x, int y)
         {
-            this[x, y, z] = value;
-        }
-
-        /// <summary>
-        /// Sets the element at the specified position in the backing array to the specified <paramref name="value"/>.
-        /// </summary>
-        /// <param name="value">Value to set an element to.</param>
-        /// <param name="xyz">Indexes of the element to set.</param>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown if any of the indexes are less than zero, or larger than the upper bound for the corresponding dimension.
-        /// </exception>
-        /// <seealso cref="this[Tuples.Int3]"/>
-        public void SetValue(T value, Tuples.Int3 xyz)
-        {
-            this[xyz] = value;
+            this[x, y] = value;
         }
 
         /// <summary>
         /// Sets the element at the specified enumeration index in the backing array to the specified <paramref name="value"/>.
         /// </summary>
-        /// <inheritdoc cref="CalculateIndexes(int, out int, out int, out int)" select="remarks"/>
+        /// <inheritdoc cref="CalculateIndexes(int, out int, out int)" select="remarks"/>
         /// <param name="value">Value to set an element to.</param>
-        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int, out int)"/> for more info.</param>
+        /// <param name="index">An enumeration index. See <see cref="CalculateIndexes(int, out int, out int)"/> for more info.</param>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the <see cref="Length"/> of the array.
         /// (Note especially that if the backing array is absent (null) the <see cref="Length"/> property will be zero.)
         /// </exception>
-        /// <seealso cref="CalculateIndexes(int, out int, out int, out int)"/>
-        /// <seealso cref="this[int]"/>
+        /// <seealso cref="CalculateIndexes(int, out int, out int)"/>
         public void SetValue1D(T value, int index)
         {
-            int x, y, z;
-            CalculateIndexes(index, out x, out y, out z);
-            this[x, y, z] = value;
+            int x, y;
+            CalculateIndexes(index, out x, out y);
+            this[x, y] = value;
         }
 
         /// <inheritdoc/>
         public override string ToString()
-            => array == null ? "<ArrayR3:{}>" : ("<ArrayR3:" + array.ToString() + ">");
-
+            => array == null ? "<Array2:{}>" : ("<Array2:" + array.ToString() + ">");
+        
         internal T GetValueOrDefault(int index)
         {
-            Tuples.Int3 i;
-            return TryCalculateIndexes(index, out i) ? array[i.x, i.y, i.z] : default(T);
+            int x, y;
+            return TryCalculateIndexes(index, out x, out y) ? array[x, y] : default(T);
         }
     }
 }

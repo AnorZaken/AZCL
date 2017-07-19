@@ -19,12 +19,12 @@ namespace AZCL.Collections
         /// <summary>
         /// Empty (zero length) <typeparamref name="T"/>[,] array.
         /// </summary>
-        public static readonly T[,] ArrayR2 = new T[0,0];
+        public static readonly T[,] Array2 = new T[0,0];
 
         /// <summary>
         /// Empty (zero length) <typeparamref name="T"/>[,,] array.
         /// </summary>
-        public static readonly T[,,] ArrayR3 = new T[0,0,0];
+        public static readonly T[,,] Array3 = new T[0,0,0];
 
         /// <summary>
         /// Empty (read-only) ICollection&lt;<typeparamref name="T"/>&gt;.
@@ -53,6 +53,7 @@ namespace AZCL.Collections
         /// <summary>
         /// Empty System.Collections.ObjectMode.ReadOnlyCollection&lt;<typeparamref name="T"/>&gt;.
         /// </summary>
-        public static ReadOnlyCollection<T> ReadOnlyCollection = new ReadOnlyCollection<T>(Array); // contains one IList and one Object reference (the latter is syncRoot).
+        public static ReadOnlyCollection<T> ReadOnlyCollection = new ReadOnlyCollection<T>(Array);
+        // ^(Note about size: Contains one IList and one Object reference - the latter is 'syncRoot'.)
     }
 }

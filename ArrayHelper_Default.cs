@@ -27,14 +27,14 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ReadOnlyArrayR2<T> AsReadOnly<T>(this T[,] array)
-            => new ReadOnlyArrayR2<T>(array);
+        public static ReadOnlyArray2<T> AsReadOnly<T>(this T[,] array)
+            => new ReadOnlyArray2<T>(array);
         
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
         /// </summary>
-        public static ReadOnlyArrayR2<T> AsReadOnly<T>(this ArrayR2<T> array)
-            => new ReadOnlyArrayR2<T>(array);
+        public static ReadOnlyArray2<T> AsReadOnly<T>(this Array2<T> array)
+            => new ReadOnlyArray2<T>(array);
         
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
@@ -42,14 +42,14 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ReadOnlyArrayR3<T> AsReadOnly<T>(this T[,,] array)
-            => new ReadOnlyArrayR3<T>(array);
+        public static ReadOnlyArray3<T> AsReadOnly<T>(this T[,,] array)
+            => new ReadOnlyArray3<T>(array);
         
         /// <summary>
         /// Creates a ReadOnlyArray wrapper for an array.
         /// </summary>
-        public static ReadOnlyArrayR3<T> AsReadOnly<T>(this ArrayR3<T> array)
-            => new ReadOnlyArrayR3<T>(array);
+        public static ReadOnlyArray3<T> AsReadOnly<T>(this Array3<T> array)
+            => new ReadOnlyArray3<T>(array);
         
 
         /* Methods that only have array Rank 1 overloads: */
@@ -361,7 +361,7 @@ namespace AZCL
         /// </summary><remarks>
         /// Does nothing if backing array is absent.
         /// </remarks>
-        public static void Clear<T>(this ArrayR2<T> array)
+        public static void Clear<T>(this Array2<T> array)
         {
             var arr = array.ArrayRaw;
             if (arr != null)
@@ -373,7 +373,7 @@ namespace AZCL
         /// </summary><remarks>
         /// Does nothing if backing array is absent.
         /// </remarks>
-        public static void Clear<T>(this ArrayR3<T> array)
+        public static void Clear<T>(this Array3<T> array)
         {
             var arr = array.ArrayRaw;
             if (arr != null)
@@ -522,7 +522,7 @@ namespace AZCL
         /// </summary><remarks>
         /// If backing array is absent for the <paramref name="input"/> then it will also be absent for the output.
         /// </remarks><returns>
-        /// An <see cref="ArrayR2{T}"/> wrapper of type <typeparamref name="TOutput"/> matching the size and rank of the <paramref name="input"/> array.
+        /// An <see cref="Array2{T}"/> wrapper of type <typeparamref name="TOutput"/> matching the size and rank of the <paramref name="input"/> array.
         /// </returns>
         /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
         /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
@@ -531,14 +531,14 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="converter"/> argument is null.
         /// </exception>
-        public static ArrayR2<TOutput> ConvertAll<TInput, TOutput>(ArrayR2<TInput> input, Converter<TInput, TOutput> converter)
+        public static Array2<TOutput> ConvertAll<TInput, TOutput>(Array2<TInput> input, Converter<TInput, TOutput> converter)
         {
             if (input.Length == 0)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
 
-                return new ArrayR2<TOutput>();
+                return new Array2<TOutput>();
             }
             return ConvertAll(input.ArrayRaw, converter);
         }
@@ -546,20 +546,20 @@ namespace AZCL
         /// <summary>
         /// Converts all elements of an array of one type to an array of another type.
         /// </summary>
-        /// <inheritdoc cref="ConvertAll{TInput, TOutput}(ArrayR2{TInput}, Converter{TInput, TOutput})"/>
+        /// <inheritdoc cref="ConvertAll{TInput, TOutput}(Array2{TInput}, Converter{TInput, TOutput})"/>
         /// <param name="input">Input array containing elements to convert.</param>
         /// <param name="converter">A System.Converter&lt;TInput, TOutput&gt; used to converts elements from one type to another type.</param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="converter"/> argument is null.
         /// </exception>
-        public static ArrayR2<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArrayR2<TInput> input, Converter<TInput, TOutput> converter)
+        public static Array2<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArray2<TInput> input, Converter<TInput, TOutput> converter)
         {
             if (input.Length == 0)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
 
-                return new ArrayR2<TOutput>();
+                return new Array2<TOutput>();
             }
             return ConvertAll(input.ArrayRaw, converter);
         }
@@ -569,7 +569,7 @@ namespace AZCL
         /// </summary><remarks>
         /// If backing array is absent for the <paramref name="input"/> then it will also be absent for the output.
         /// </remarks><returns>
-        /// An <see cref="ArrayR3{T}"/> wrapper of type <typeparamref name="TOutput"/> matching the size and rank of the <paramref name="input"/> array.
+        /// An <see cref="Array3{T}"/> wrapper of type <typeparamref name="TOutput"/> matching the size and rank of the <paramref name="input"/> array.
         /// </returns>
         /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
         /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
@@ -578,14 +578,14 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="converter"/> argument is null.
         /// </exception>
-        public static ArrayR3<TOutput> ConvertAll<TInput, TOutput>(ArrayR3<TInput> input, Converter<TInput, TOutput> converter)
+        public static Array3<TOutput> ConvertAll<TInput, TOutput>(Array3<TInput> input, Converter<TInput, TOutput> converter)
         {
             if (input.Length == 0)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
 
-                return new ArrayR3<TOutput>();
+                return new Array3<TOutput>();
             }
             return ConvertAll(input.ArrayRaw, converter);
         }
@@ -593,7 +593,7 @@ namespace AZCL
         /// <summary>
         /// Converts all elements of an array of one type to an array of another type.
         /// </summary>
-        /// <inheritdoc cref="ConvertAll{TInput, TOutput}(ArrayR3{TInput}, Converter{TInput, TOutput})"/>
+        /// <inheritdoc cref="ConvertAll{TInput, TOutput}(Array3{TInput}, Converter{TInput, TOutput})"/>
         /// <typeparam name="TInput">The type of the elements of the <paramref name="input"/> array.</typeparam>
         /// <typeparam name="TOutput">The type of the elements of the output array.</typeparam>
         /// <param name="input">Input array containing elements to convert.</param>
@@ -601,14 +601,14 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="converter"/> argument is null.
         /// </exception>
-        public static ArrayR3<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArrayR3<TInput> input, Converter<TInput, TOutput> converter)
+        public static Array3<TOutput> ConvertAll<TInput, TOutput>(ReadOnlyArray3<TInput> input, Converter<TInput, TOutput> converter)
         {
             if (input.Length == 0)
             {
                 if (converter == null)
                     throw new ArgumentNullException(nameof(converter));
 
-                return new ArrayR3<TOutput>();
+                return new Array3<TOutput>();
             }
             return ConvertAll(input.ArrayRaw, converter);
         }
@@ -712,7 +712,7 @@ namespace AZCL
         /// Thrown if the array or the predicate is null.
         /// </exception>
         public static bool Exists<T>(T[,] array, Predicate<T> match)
-            => Exists(new ReadOnlyArrayR2<T>(array), match); // <-- ctor does null check.
+            => Exists(new ReadOnlyArray2<T>(array), match); // <-- ctor does null check.
         
         /// <summary>
         /// Determines whether the array contains elements that match the conditions of the predicate.
@@ -725,7 +725,7 @@ namespace AZCL
         /// Thrown if the array or the predicate is null.
         /// </exception>
         public static bool Exists<T>(T[,,] array, Predicate<T> match)
-            => Exists(new ReadOnlyArrayR3<T>(array), match); // <-- ctor does null check.
+            => Exists(new ReadOnlyArray3<T>(array), match); // <-- ctor does null check.
 #pragma warning restore CS0618
         
         /// <summary>
@@ -746,7 +746,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Exists{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq Any(Func<T, bool>) extension instead.")]
-        public static bool Exists<T>(ArrayR2<T> array, Predicate<T> match)
+        public static bool Exists<T>(Array2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -759,7 +759,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Exists{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq Any(Func<T, bool>) extension instead.")]
-        public static bool Exists<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static bool Exists<T>(ReadOnlyArray2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -772,7 +772,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Exists{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq Any(Func<T, bool>) extension instead.")]
-        public static bool Exists<T>(ArrayR3<T> array, Predicate<T> match)
+        public static bool Exists<T>(Array3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -785,7 +785,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Exists{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq Any(Func<T, bool>) extension instead.")]
-        public static bool Exists<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static bool Exists<T>(ReadOnlyArray3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -818,7 +818,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static bool TrueForAll<T>(T[,] array, Predicate<T> match)
-            => TrueForAll(new ReadOnlyArrayR2<T>(array), match); // <-- ctor does null check.
+            => TrueForAll(new ReadOnlyArray2<T>(array), match); // <-- ctor does null check.
         
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined by the predicate.
@@ -831,7 +831,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static bool TrueForAll<T>(T[,,] array, Predicate<T> match)
-            => TrueForAll(new ReadOnlyArrayR3<T>(array), match); // <-- ctor does null check.
+            => TrueForAll(new ReadOnlyArray3<T>(array), match); // <-- ctor does null check.
 #pragma warning restore CS0618
         
         /// <summary>
@@ -852,7 +852,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="TrueForAll{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq All(Func<T, bool>) extension instead.")]
-        public static bool TrueForAll<T>(ArrayR2<T> array, Predicate<T> match)
+        public static bool TrueForAll<T>(Array2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -865,7 +865,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="TrueForAll{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq All(Func<T, bool>) extension instead.")]
-        public static bool TrueForAll<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static bool TrueForAll<T>(ReadOnlyArray2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -878,7 +878,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="TrueForAll{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq All(Func<T, bool>) extension instead.")]
-        public static bool TrueForAll<T>(ArrayR3<T> array, Predicate<T> match)
+        public static bool TrueForAll<T>(Array3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -891,7 +891,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="TrueForAll{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq All(Func<T, bool>) extension instead.")]
-        public static bool TrueForAll<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static bool TrueForAll<T>(ReadOnlyArray3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -924,7 +924,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static T Find<T>(T[,] array, Predicate<T> match)
-            => Find(new ArrayR2<T>(array), match); // <-- ctor does null check.
+            => Find(new Array2<T>(array), match); // <-- ctor does null check.
         
         /// <summary>
         /// Searches the array for an element that matches the conditions defined by the predicate, returning the first occurrence.
@@ -937,7 +937,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static T Find<T>(T[,,] array, Predicate<T> match)
-            => Find(new ArrayR3<T>(array), match); // <-- ctor does null check.
+            => Find(new Array3<T>(array), match); // <-- ctor does null check.
 #pragma warning restore CS0618
         
         /// <summary>
@@ -958,7 +958,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Find{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq FirstOrDefault(Func<T, bool>) extension instead.")]
-        public static T Find<T>(ArrayR2<T> array, Predicate<T> match)
+        public static T Find<T>(Array2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -971,7 +971,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Find{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq FirstOrDefault(Func<T, bool>) extension instead.")]
-        public static T Find<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static T Find<T>(ReadOnlyArray2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -984,7 +984,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Find{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq FirstOrDefault(Func<T, bool>) extension instead.")]
-        public static T Find<T>(ArrayR3<T> array, Predicate<T> match)
+        public static T Find<T>(Array3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -997,7 +997,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="Find{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq FirstOrDefault(Func<T, bool>) extension instead.")]
-        public static T Find<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static T Find<T>(ReadOnlyArray3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -1030,7 +1030,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static T[] FindAll<T>(T[,] array, Predicate<T> match)
-            => FindAll(new ArrayR2<T>(array), match); // <-- ctor does null check.
+            => FindAll(new Array2<T>(array), match); // <-- ctor does null check.
         
         /// <summary>
         /// Retrieves all the elements that match the conditions defined by the specified predicate.
@@ -1043,7 +1043,7 @@ namespace AZCL
         /// Thrown if the array or predicate is null.
         /// </exception>
         public static T[] FindAll<T>(T[,,] array, Predicate<T> match)
-            => FindAll(new ArrayR3<T>(array), match); // <-- ctor does null check.
+            => FindAll(new Array3<T>(array), match); // <-- ctor does null check.
 #pragma warning restore CS0618
         
         /// <summary>
@@ -1064,7 +1064,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="FindAll{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq Where(Func<T, bool>) extension instead.")]
-        public static T[] FindAll<T>(ArrayR2<T> array, Predicate<T> match)
+        public static T[] FindAll<T>(Array2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -1077,7 +1077,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="FindAll{T}(T[,], Predicate{T})"/>
         [Obsolete("Use Linq Where(Func<T, bool>) extension instead.")]
-        public static T[] FindAll<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static T[] FindAll<T>(ReadOnlyArray2<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -1090,7 +1090,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="FindAll{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq Where(Func<T, bool>) extension instead.")]
-        public static T[] FindAll<T>(ArrayR3<T> array, Predicate<T> match)
+        public static T[] FindAll<T>(Array3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -1103,7 +1103,7 @@ namespace AZCL
         /// </summary>
         /// <seealso cref="FindAll{T}(T[,,], Predicate{T})"/>
         [Obsolete("Use Linq Where(Func<T, bool>) extension instead.")]
-        public static T[] FindAll<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static T[] FindAll<T>(ReadOnlyArray3<T> array, Predicate<T> match)
         {
             if (match == null)
                 throw new ArgumentNullException(nameof(match));
@@ -1211,7 +1211,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static T FindLast<T>(ArrayR2<T> array, Predicate<T> match)
+        public static T FindLast<T>(Array2<T> array, Predicate<T> match)
             => FindLast<T>(array.Array, match);
         
         /// <summary>
@@ -1224,7 +1224,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static T FindLast<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static T FindLast<T>(ReadOnlyArray2<T> array, Predicate<T> match)
             => FindLast<T>(array.Array, match);
         
         /// <summary>
@@ -1237,7 +1237,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static T FindLast<T>(ArrayR3<T> array, Predicate<T> match)
+        public static T FindLast<T>(Array3<T> array, Predicate<T> match)
             => FindLast<T>(array.Array, match);
         
         /// <summary>
@@ -1250,7 +1250,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static T FindLast<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static T FindLast<T>(ReadOnlyArray3<T> array, Predicate<T> match)
             => FindLast<T>(array.Array, match);
         
         /// <summary>
@@ -1345,7 +1345,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static int FindIndex<T>(this ArrayR2<T> array, Predicate<T> match)
+        public static int FindIndex<T>(this Array2<T> array, Predicate<T> match)
             => FindIndex<T>(array.Array, match);
         
         /// <summary>
@@ -1358,7 +1358,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray2<T> array, Predicate<T> match)
             => FindIndex<T>(array.Array, match);
         
         /// <summary>
@@ -1371,7 +1371,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static int FindIndex<T>(this ArrayR3<T> array, Predicate<T> match)
+        public static int FindIndex<T>(this Array3<T> array, Predicate<T> match)
             => FindIndex<T>(array.Array, match);
         
         /// <summary>
@@ -1384,7 +1384,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the predicate is null.
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray3<T> array, Predicate<T> match)
             => FindIndex<T>(array.Array, match);
         
         /// <summary>
@@ -1536,7 +1536,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int FindIndex<T>(this ArrayR2<T> array, int startIndex, Predicate<T> match)
+        public static int FindIndex<T>(this Array2<T> array, int startIndex, Predicate<T> match)
             => FindIndex<T>(array.Array, startIndex, match);
         
         /// <summary>
@@ -1553,7 +1553,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR2<T> array, int startIndex, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray2<T> array, int startIndex, Predicate<T> match)
             => FindIndex<T>(array.Array, startIndex, match);
         
         /// <summary>
@@ -1570,7 +1570,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int FindIndex<T>(this ArrayR3<T> array, int startIndex, Predicate<T> match)
+        public static int FindIndex<T>(this Array3<T> array, int startIndex, Predicate<T> match)
             => FindIndex<T>(array.Array, startIndex, match);
         
         /// <summary>
@@ -1587,7 +1587,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR3<T> array, int startIndex, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray3<T> array, int startIndex, Predicate<T> match)
             => FindIndex<T>(array.Array, startIndex, match);
         
         /// <summary>
@@ -1757,7 +1757,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int FindIndex<T>(this ArrayR2<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindIndex<T>(this Array2<T> array, int startIndex, int count, Predicate<T> match)
             => FindIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -1776,7 +1776,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR2<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray2<T> array, int startIndex, int count, Predicate<T> match)
             => FindIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -1795,7 +1795,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int FindIndex<T>(this ArrayR3<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindIndex<T>(this Array3<T> array, int startIndex, int count, Predicate<T> match)
             => FindIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -1814,7 +1814,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int FindIndex<T>(this ReadOnlyArrayR3<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindIndex<T>(this ReadOnlyArray3<T> array, int startIndex, int count, Predicate<T> match)
             => FindIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -1915,7 +1915,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array or predicate is null.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR2<T> array, Predicate<T> match)
+        public static int FindLastIndex<T>(Array2<T> array, Predicate<T> match)
             => FindLastIndex(array.Array, match);
         
         /// <summary>
@@ -1928,7 +1928,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array or predicate is null.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR2<T> array, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray2<T> array, Predicate<T> match)
             => FindLastIndex(array.Array, match);
         
         /// <summary>
@@ -1941,7 +1941,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array or predicate is null.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR3<T> array, Predicate<T> match)
+        public static int FindLastIndex<T>(Array3<T> array, Predicate<T> match)
             => FindLastIndex(array.Array, match);
         
         /// <summary>
@@ -1954,7 +1954,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the array or predicate is null.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR3<T> array, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray3<T> array, Predicate<T> match)
             => FindLastIndex(array.Array, match);
         
         /// <summary>
@@ -2129,7 +2129,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR2<T> array, int startIndex, Predicate<T> match)
+        public static int FindLastIndex<T>(Array2<T> array, int startIndex, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, match);
         
         /// <summary>
@@ -2147,7 +2147,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR2<T> array, int startIndex, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray2<T> array, int startIndex, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, match);
         
         /// <summary>
@@ -2165,7 +2165,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR3<T> array, int startIndex, Predicate<T> match)
+        public static int FindLastIndex<T>(Array3<T> array, int startIndex, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, match);
         
         /// <summary>
@@ -2183,7 +2183,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR3<T> array, int startIndex, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray3<T> array, int startIndex, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, match);
         
         /// <summary>
@@ -2379,7 +2379,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR2<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindLastIndex<T>(Array2<T> array, int startIndex, int count, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -2400,7 +2400,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR2<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray2<T> array, int startIndex, int count, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -2421,7 +2421,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int FindLastIndex<T>(ArrayR3<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindLastIndex<T>(Array3<T> array, int startIndex, int count, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -2442,7 +2442,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int FindLastIndex<T>(ReadOnlyArrayR3<T> array, int startIndex, int count, Predicate<T> match)
+        public static int FindLastIndex<T>(ReadOnlyArray3<T> array, int startIndex, int count, Predicate<T> match)
             => FindLastIndex(array.Array, startIndex, count, match);
         
         /// <summary>
@@ -2508,7 +2508,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int IndexOf<T>(this ArrayR2<T> array, T value)
+        public static int IndexOf<T>(this Array2<T> array, T value)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2519,7 +2519,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int IndexOf<T>(this ReadOnlyArrayR2<T> array, T value)
+        public static int IndexOf<T>(this ReadOnlyArray2<T> array, T value)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2530,7 +2530,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int IndexOf<T>(this ArrayR3<T> array, T value)
+        public static int IndexOf<T>(this Array3<T> array, T value)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2541,7 +2541,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int IndexOf<T>(this ReadOnlyArrayR3<T> array, T value)
+        public static int IndexOf<T>(this ReadOnlyArray3<T> array, T value)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2631,7 +2631,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int IndexOf<T>(this ArrayR2<T> array, T value, int startIndex)
+        public static int IndexOf<T>(this Array2<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -2649,7 +2649,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int IndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex)
+        public static int IndexOf<T>(this ReadOnlyArray2<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -2667,7 +2667,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int IndexOf<T>(this ArrayR3<T> array, T value, int startIndex)
+        public static int IndexOf<T>(this Array3<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -2685,7 +2685,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than zero or greater than the length of the array.
         /// </exception>
-        public static int IndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex)
+        public static int IndexOf<T>(this ReadOnlyArray3<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -2779,7 +2779,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int IndexOf<T>(this ArrayR2<T> array, T value, int startIndex, int count)
+        public static int IndexOf<T>(this Array2<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -2796,7 +2796,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int IndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex, int count)
+        public static int IndexOf<T>(this ReadOnlyArray2<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -2813,7 +2813,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int IndexOf<T>(this ArrayR3<T> array, T value, int startIndex, int count)
+        public static int IndexOf<T>(this Array3<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -2830,7 +2830,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> or <paramref name="count"/> is less than zero;
         /// or if <paramref name="startIndex"/> + <paramref name="count"/> is greater than the length of the array (or overflows).
         /// </exception>
-        public static int IndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex, int count)
+        public static int IndexOf<T>(this ReadOnlyArray3<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.IndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -2894,7 +2894,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int LastIndexOf<T>(this ArrayR2<T> array, T value)
+        public static int LastIndexOf<T>(this Array2<T> array, T value)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2905,7 +2905,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value)
+        public static int LastIndexOf<T>(this ReadOnlyArray2<T> array, T value)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2916,7 +2916,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int LastIndexOf<T>(this ArrayR3<T> array, T value)
+        public static int LastIndexOf<T>(this Array3<T> array, T value)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         
         /// <summary>
@@ -2927,7 +2927,7 @@ namespace AZCL
         /// <inheritdoc cref="IndexOf{T}(T[], T)" select="remarks"/>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value)
+        public static int LastIndexOf<T>(this ReadOnlyArray3<T> array, T value)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value);
         
         /// <summary>
@@ -3024,7 +3024,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int LastIndexOf<T>(this ArrayR2<T> array, T value, int startIndex)
+        public static int LastIndexOf<T>(this Array2<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -3039,7 +3039,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex)
+        public static int LastIndexOf<T>(this ReadOnlyArray2<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -3054,7 +3054,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int LastIndexOf<T>(this ArrayR3<T> array, T value, int startIndex)
+        public static int LastIndexOf<T>(this Array3<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -3069,7 +3069,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// </exception>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex)
+        public static int LastIndexOf<T>(this ReadOnlyArray3<T> array, T value, int startIndex)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex);
         
         /// <summary>
@@ -3168,7 +3168,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int LastIndexOf<T>(this ArrayR2<T> array, T value, int startIndex, int count)
+        public static int LastIndexOf<T>(this Array2<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -3186,7 +3186,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR2<T> array, T value, int startIndex, int count)
+        public static int LastIndexOf<T>(this ReadOnlyArray2<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -3204,7 +3204,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int LastIndexOf<T>(this ArrayR3<T> array, T value, int startIndex, int count)
+        public static int LastIndexOf<T>(this Array3<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
         
         /// <summary>
@@ -3222,7 +3222,7 @@ namespace AZCL
         /// Thrown if <paramref name="startIndex"/> is less than -1 or greater than or equal to the length of the array.
         /// Also thrown if either <paramref name="count"/> or [<paramref name="startIndex"/> - <paramref name="count"/> + 1] is less than zero.
         /// </exception>
-        public static int LastIndexOf<T>(this ReadOnlyArrayR3<T> array, T value, int startIndex, int count)
+        public static int LastIndexOf<T>(this ReadOnlyArray3<T> array, T value, int startIndex, int count)
             => IndexFinder<T>.instance.LastIndexOf(array.Array, ref value, startIndex, count);
     }
 }

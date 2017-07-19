@@ -17,10 +17,10 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ArrayR2<T>.Enumerator Create<T>(T[,] array)
+        public static Array2<T>.Enumerator Create<T>(T[,] array)
         {
             if (array == null) throw new ArgumentNullException(nameof(array));
-            return new ArrayR2<T>.Enumerator(array);
+            return new Array2<T>.Enumerator(array);
         }
 
         /// <summary>
@@ -29,10 +29,10 @@ namespace AZCL.Collections
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="array"/> is null.
         /// </exception>
-        public static ArrayR3<T>.Enumerator Create<T>(T[,,] array)
+        public static Array3<T>.Enumerator Create<T>(T[,,] array)
         {
             if (array == null) throw new ArgumentNullException(nameof(array));
-            return new ArrayR3<T>.Enumerator(array);
+            return new Array3<T>.Enumerator(array);
         }
 
         // ----

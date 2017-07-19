@@ -12,7 +12,7 @@ namespace AZCL.Collections
      * are increased first, then the next left dimension, and so on to the left.
      */
 
-    public partial struct ArrayR2<T> : IEquatable<ArrayR2<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: for better Linq performance
+    public partial struct Array2<T> : IEquatable<Array2<T>>, IEquatable<Array>, IEnumerable<T>//, ICollection<T> <-- TODO: for better Linq performance
     {
         /// <summary>
         /// A standard struct implementation of an IEnumerator&lt;<typeparamref name="T"/>&gt; for rank 2 arrays.
@@ -39,11 +39,11 @@ namespace AZCL.Collections
                 => new Enumerator(array);
             
             /// <summary>
-            /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArrayR2{T}"/>.
+            /// Creates an <see cref="Enumerator"/> from a <see cref="ReadOnlyArray2{T}"/>.
             /// </summary><remarks>
-            /// This operator does not throw, even if the <see cref="ReadOnlyArrayR2{T}"/> argument was default initialized.
+            /// This operator does not throw, even if the <see cref="ReadOnlyArray2{T}"/> argument was default initialized.
             /// </remarks>
-            public static implicit operator Enumerator(ReadOnlyArrayR2<T> array)
+            public static implicit operator Enumerator(ReadOnlyArray2<T> array)
                 => new Enumerator(array);
             
             /// <summary>
@@ -68,9 +68,9 @@ namespace AZCL.Collections
             }
 
             /// <summary>
-            /// Creates an <see cref="Enumerator"/> for the rank 2 array wrapped in the <see cref="ReadOnlyArrayR2{T}"/> argument.
+            /// Creates an <see cref="Enumerator"/> for the rank 2 array wrapped in the <see cref="ReadOnlyArray2{T}"/> argument.
             /// </summary>
-            public Enumerator(ReadOnlyArrayR2<T> array) : this(array.ArrayRaw)
+            public Enumerator(ReadOnlyArray2<T> array) : this(array.ArrayRaw)
             { }
 
             // startIndex must non-negative, but there is no upper bound though!

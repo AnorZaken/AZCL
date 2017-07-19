@@ -9,7 +9,7 @@ namespace AZCL
         /// <summary>
         /// Given a one-dimensional enumeration index, calculates the corresponding x and y element indexes.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array whose dimensions to calculate indexes for.</param>
         /// <param name="index">An enumeration index to transform into regular indexes.</param>
@@ -22,7 +22,7 @@ namespace AZCL
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
         /// <seealso cref="TryCalculateIndexes{T}(T[,], int, out int, out int)"/>
-        /// <seealso cref="AZCL.Collections.ArrayR2{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array2{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,], int)"/>
         public static void CalculateIndexes<T>(T[,] array, int index, out int x, out int y)
         {
@@ -46,7 +46,7 @@ namespace AZCL
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
         /// <seealso cref="TryCalculateIndexes{T}(T[,,], int, out int, out int, out int)"/>
-        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array3{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static void CalculateIndexes<T>(T[,,] array, int index, out int x, out int y, out int z)
         {
@@ -70,7 +70,7 @@ namespace AZCL
         /// Thrown if <paramref name="index"/> is less than zero or greater than or equal to the length of the specified array.
         /// </exception>
         /// <seealso cref="TryCalculateIndexes{T}(T[,,], int, out Tuples.Int3)"/>
-        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array3{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static Tuples.Int3 CalculateIndexes<T>(T[,,] array, int index)
         {
@@ -740,7 +740,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ArrayR2<T> array, int x, int y)
+        public static int CalculateIndex<T>(Array2<T> array, int x, int y)
         {
             int i = CalculateIndexUC(array.Array, x, y);
             if (i < 0) throw new OverflowException();
@@ -761,7 +761,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ArrayR3<T> array, int x, int y, int z)
+        public static int CalculateIndex<T>(Array3<T> array, int x, int y, int z)
         {
             int i = CalculateIndexUC(array.Array, x, y, z);
             if (i < 0) throw new OverflowException();
@@ -780,7 +780,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ArrayR3<T> array, Tuples.Int3 xyz)
+        public static int CalculateIndex<T>(Array3<T> array, Tuples.Int3 xyz)
         {
             int i = CalculateIndexUC(array.Array, xyz);
             if (i < 0) throw new OverflowException();
@@ -800,7 +800,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ReadOnlyArrayR2<T> array, int x, int y)
+        public static int CalculateIndex<T>(ReadOnlyArray2<T> array, int x, int y)
         {
             int i = CalculateIndexUC(array.Array, x, y);
             if (i < 0) throw new OverflowException();
@@ -821,7 +821,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
+        public static int CalculateIndex<T>(ReadOnlyArray3<T> array, int x, int y, int z)
         {
             int i = CalculateIndexUC(array.Array, x, y, z);
             if (i < 0) throw new OverflowException();
@@ -840,7 +840,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        public static int CalculateIndex<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
+        public static int CalculateIndex<T>(ReadOnlyArray3<T> array, Tuples.Int3 xyz)
         {
             int i = CalculateIndexUC(array.Array, xyz);
             if (i < 0) throw new OverflowException();
@@ -859,7 +859,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ArrayR2<T> array, int x, int y)
+        public static int CalculateIndexUC<T>(Array2<T> array, int x, int y)
             => CalculateIndexUC(array.Array, x, y);
 
         /// <summary>
@@ -873,7 +873,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ArrayR3<T> array, int x, int y, int z)
+        public static int CalculateIndexUC<T>(Array3<T> array, int x, int y, int z)
             => CalculateIndexUC(array.Array, x, y, z);
 
         /// <summary>
@@ -885,7 +885,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ArrayR3<T> array, Tuples.Int3 xyz)
+        public static int CalculateIndexUC<T>(Array3<T> array, Tuples.Int3 xyz)
             => CalculateIndexUC(array.Array, xyz);
 
         /// <summary>
@@ -898,7 +898,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ReadOnlyArrayR2<T> array, int x, int y)
+        public static int CalculateIndexUC<T>(ReadOnlyArray2<T> array, int x, int y)
             => CalculateIndexUC(array.Array, x, y);
 
         /// <summary>
@@ -912,7 +912,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, int x, int y, int z)
+        public static int CalculateIndexUC<T>(ReadOnlyArray3<T> array, int x, int y, int z)
             => CalculateIndexUC(array.Array, x, y, z);
 
         /// <summary>
@@ -924,7 +924,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        public static int CalculateIndexUC<T>(ReadOnlyArrayR3<T> array, Tuples.Int3 xyz)
+        public static int CalculateIndexUC<T>(ReadOnlyArray3<T> array, Tuples.Int3 xyz)
             => CalculateIndexUC(array.Array, xyz);
 
         // ---
@@ -1081,7 +1081,7 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
@@ -1110,7 +1110,7 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
@@ -1256,13 +1256,13 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
-        public static void IndexOfRef<TArray, TObject>(ArrayR2<TArray> array, TObject value, out int x, out int y)
+        public static void IndexOfRef<TArray, TObject>(Array2<TArray> array, TObject value, out int x, out int y)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
@@ -1272,13 +1272,13 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x and y indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
-        public static void IndexOfRef<TArray, TObject>(ReadOnlyArrayR2<TArray> array, TObject value, out int x, out int y)
+        public static void IndexOfRef<TArray, TObject>(ReadOnlyArray2<TArray> array, TObject value, out int x, out int y)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
@@ -1288,14 +1288,14 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="z">The z index of the first occurrence of the specified value, if found; otherwise -1.</param>
-        public static void IndexOfRef<TArray, TObject>(ArrayR3<TArray> array, TObject value, out int x, out int y, out int z)
+        public static void IndexOfRef<TArray, TObject>(Array3<TArray> array, TObject value, out int x, out int y, out int z)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
@@ -1305,14 +1305,14 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <param name="x">The x index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="y">The y index of the first occurrence of the specified value, if found; otherwise -1.</param>
         /// <param name="z">The z index of the first occurrence of the specified value, if found; otherwise -1.</param>
-        public static void IndexOfRef<TArray, TObject>(ReadOnlyArrayR3<TArray> array, TObject value, out int x, out int y, out int z)
+        public static void IndexOfRef<TArray, TObject>(ReadOnlyArray3<TArray> array, TObject value, out int x, out int y, out int z)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
         {
@@ -1322,7 +1322,7 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
@@ -1344,14 +1344,14 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <returns>
         /// The zero-based indexes of the first occurrence of <paramref name="value"/> in the array; or a tuple with all indexes set to –1 if no equal value was found.
         /// </returns>
-        public static Tuples.Int3 IndexOfRef<TArray, TObject>(ArrayR3<TArray> array, TObject value)
+        public static Tuples.Int3 IndexOfRef<TArray, TObject>(Array3<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
             => IndexOfRef(array.Array, value);
@@ -1359,14 +1359,14 @@ namespace AZCL
         /// <summary>
         /// Finds the zero-based x, y, and z indexes of a <paramref name="value"/> using reference-equality.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks>
         /// <param name="array">The array to search.</param>
         /// <param name="value">The value to locate in the array.</param>
         /// <returns>
         /// The zero-based indexes of the first occurrence of <paramref name="value"/> in the array; or a tuple with all indexes set to –1 if no equal value was found.
         /// </returns>
-        public static Tuples.Int3 IndexOfRef<TArray, TObject>(ReadOnlyArrayR3<TArray> array, TObject value)
+        public static Tuples.Int3 IndexOfRef<TArray, TObject>(ReadOnlyArray3<TArray> array, TObject value)
             where TArray : class
             where TObject : class // <-- 'value' could be of type Object and thus non-generic, but using constraints gives compile time detection of accidental boxing !
             => IndexOfRef(array.Array, value);
@@ -1376,7 +1376,7 @@ namespace AZCL
         /// <summary>
         /// Given a one-dimensional enumeration index, calculates the corresponding x and y element indexes.
         /// </summary><remarks>
-        /// <inheritdoc cref="AZCL.Collections.ArrayR2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
+        /// <inheritdoc cref="AZCL.Collections.Array2{T}.Enumerator" select="para[@id='enumerationOrder']"/>
         /// </remarks><returns>
         /// False if the resulting indexes are out of bounds; otherwise true.
         /// </returns>
@@ -1387,7 +1387,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
-        /// <seealso cref="AZCL.Collections.ArrayR2{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array2{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,], int)"/>
         public static bool TryCalculateIndexes<T>(T[,] array, int index, out int x, out int y)
         {
@@ -1421,7 +1421,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
-        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array3{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static bool TryCalculateIndexes<T>(T[,,] array, int index, out int x, out int y, out int z)
         {
@@ -1457,7 +1457,7 @@ namespace AZCL
         /// <exception cref="ArgumentNullException">
         /// Thrown if the <paramref name="array"/> is null.
         /// </exception>
-        /// <seealso cref="AZCL.Collections.ArrayR3{T}.GetValue1D(int)"/>
+        /// <seealso cref="AZCL.Collections.Array3{T}.GetValue1D(int)"/>
         /// <seealso cref="AZCL.Collections.LinqForMultiRankArrays.ElementAt{TSource}(TSource[,,], int)"/>
         public static bool TryCalculateIndexes<T>(T[,,] array, int index, out Tuples.Int3 xyz)
         {

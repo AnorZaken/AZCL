@@ -10,7 +10,7 @@ namespace AZCL.Collections
     /// Default initialized instances of this struct and will behave as if wrapping an empty array.
     /// See <see cref="ReadOnlyArray{T}.IsAbsent"/>.
     /// </para>
-    /// <inheritdoc cref="ArrayR2{T}" select="para[@id='wrapperSize']"/>
+    /// <inheritdoc cref="Array2{T}" select="para[@id='wrapperSize']"/>
     /// </remarks>
     /// <typeparam name="T">The type of the elements of the array.</typeparam>
     public partial struct ReadOnlyArray<T> : IEquatable<ReadOnlyArray<T>>, IEquatable<Array>, IEnumerable<T>
