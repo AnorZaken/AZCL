@@ -255,7 +255,7 @@ namespace AZCL.Collections
         {
             if (array == null)
                 return null;
-            T[,,] copy = ArrayHelper.New(array);
+            T[,,] copy = ArrayKit.New(array);
             System.Array.Copy(array, copy, array.Length);
             return copy;
         }

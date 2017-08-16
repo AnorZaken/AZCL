@@ -147,7 +147,7 @@ namespace AZCL.Collections
                         return Compose(comparers[0], comparers[1], comparers[2], comparers[3], comparers[4]);
                 }
 
-            if (ArrayHelper.ExistsNull(comparers))
+            if (ArrayKit.ExistsNull(comparers))
                 throw new ArgumentNullException(paramName: nameof(comparers), message: ERR.PARAMS_CONTAINS_NULL);
 
 
@@ -290,7 +290,7 @@ namespace AZCL.Collections
         internal ComparerN(IComparer<T>[] comparers)
         {
             AZAssert.NotNullInternal(comparers, nameof(comparers));
-            AZAssert.Internal(!ArrayHelper.ExistsNull(comparers), "param is null");
+            AZAssert.Internal(!ArrayKit.ExistsNull(comparers), "param is null");
 
             this.comparers = comparers;
         }

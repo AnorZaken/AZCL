@@ -5,9 +5,15 @@ using AZCL.Collections;
 
 namespace AZCL
 {
-    // XML summary is in ArrayHelper.cs
-    public static partial class ArrayHelper
+    // XML summary is in ArrayKit.cs
+    public static partial class ArrayKit
     {
+        /* Q: Why use Apt-methods instead of a List<T>?
+           A: Because JIT can not optimize List access in a loop as much as it can optimize access to an array (stored in a local).
+              So for performance, if you need it. (You probably don't - but regardless this is almost as easy to use as a List<T>.)
+              Though if you really need tight performance you should strip away the parameter checking and exception throwing too.
+        */
+
         /// <summary>
         /// Appends a value to an array which currently has <paramref name="count"/> elements occupied,
         /// incrementing <paramref name="count"/> and resizing the array if necessary.

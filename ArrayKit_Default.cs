@@ -6,8 +6,8 @@ using AZCL.Collections;
 
 namespace AZCL
 {
-    // XML summary is in ArrayHelper.cs
-    public static partial class ArrayHelper
+    // XML summary is in ArrayKit.cs
+    public static partial class ArrayKit
     {
         /* Static methods from System.Array - expanded to cover multi-dimensional and readonly arrays! */
         /* ******************************************************************************************* */

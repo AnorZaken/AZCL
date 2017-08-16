@@ -59,11 +59,11 @@
   <ItemGroup>
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="ArrayExtensions_Copy.cs" />
-    <Compile Include="ArrayHelper.cs" />
+    <Compile Include="ArrayKit.cs" />
     <Compile Include="ArrayHelper_Indexes.cs" />
-    <Compile Include="ArrayHelper_Default.cs" />
+    <Compile Include="ArrayKit_Default.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
-    <Compile Include="ArrayHelper_Apt.cs" />
+    <Compile Include="ArrayKit_Apt.cs" />
     <Compile Include="AZAssert.cs" />
     <Compile Include="Bits\Hash.cs" />
     <Compile Include="Bits\HashExtensions.cs" />

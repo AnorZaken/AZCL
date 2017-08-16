@@ -50,7 +50,7 @@ namespace AZCL.Collections
         /// Returns the specified multi-rank array typed as IEnumerable&lt;<typeparamref name="TSource"/>&gt;.
         /// </summary><remarks>
         /// <note type="note">
-        /// For enumerating rank 2 and rank 3 arrays see the <see cref="O:AZCL.ArrayHelper.AsLinqable{T}"/> extensions.
+        /// For enumerating rank 2 and rank 3 arrays see the <see cref="O:AZCL.ArrayKit.AsLinqable{T}"/> extensions.
         /// They return thin feature-rich array wrappers that implements <c>IEnumerable&lt;T&gt;</c>.
         /// </note>
         /// <para id="deferredExec">
@@ -188,7 +188,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,] source) //2
-            => (NullCheck(source) as TResult[,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,])?.AsLinqable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -205,7 +205,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,] source) //3
-            => (NullCheck(source) as TResult[,,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,])?.AsLinqable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -222,7 +222,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,] source) //4
-            => (NullCheck(source) as TResult[,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -239,7 +239,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,] source) //5
-            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -256,7 +256,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,] source) //6
-            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -273,7 +273,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,] source) //7
-            => (NullCheck(source) as TResult[,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -290,7 +290,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,] source) //8
-            => (NullCheck(source) as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -307,7 +307,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,,] source) //9
-            => (NullCheck(source) as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of a multi-rank array of type <typeparamref name="TSource"/> to
@@ -324,7 +324,7 @@ namespace AZCL.Collections
         /// Thrown if an enumerated element in the source couldn't be cast to type <typeparamref name="TResult"/>.
         /// </exception>
         public static IEnumerable<TResult> Cast<TResult, TSource>(this TSource[,,,,,,,,,] source) //10
-            => (NullCheck(source) as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+            => (NullCheck(source) as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
         
         /// <summary>
         /// Casts the elements of an array (of any rank) to an <c>IEnumerable&lt;&gt;</c> of type <typeparamref name="TResult"/>.
@@ -346,27 +346,27 @@ namespace AZCL.Collections
             switch (NullCheck(source).Rank)
             {
                 case 1:
-                    return (source as TResult[]) ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[]) ?? ArrayKit.CastIter<TResult>(source);
                 case 2:
-                    return (source as TResult[,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,])?.AsLinqable() ?? ArrayKit.CastIter<TResult>(source);
                 case 3:
-                    return (source as TResult[,,])?.AsLinqable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,])?.AsLinqable() ?? ArrayKit.CastIter<TResult>(source);
                 case 4:
-                    return (source as TResult[,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 5:
-                    return (source as TResult[,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 6:
-                    return (source as TResult[,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 7:
-                    return (source as TResult[,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 8:
-                    return (source as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 9:
-                    return (source as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 case 10:
-                    return (source as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayHelper.CastIter<TResult>(source);
+                    return (source as TResult[,,,,,,,,,])?.AsEnumerable() ?? ArrayKit.CastIter<TResult>(source);
                 default:
-                    return ArrayHelper.CastIter<TResult>(source);
+                    return ArrayKit.CastIter<TResult>(source);
             }
         }
 
@@ -412,7 +412,7 @@ namespace AZCL.Collections
         public static TSource ElementAt<TSource>(this TSource[,] array, int index)
         {
             int x, y;
-            ArrayHelper.CalculateIndexes(array, index, out x, out y); // <-- handles the exceptions
+            ArrayKit.CalculateIndexes(array, index, out x, out y); // <-- handles the exceptions
             return array[x, y];
         }
 
@@ -432,7 +432,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,] array, int index)
         {
-            Tuples.Int3 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            Tuples.Int3 i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i.x, i.y, i.z];
         }
 
@@ -452,7 +452,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,] array, int index)
         {
-            Tuples.Int4 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            Tuples.Int4 i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i.w, i.x, i.y, i.z];
         }
 
@@ -472,7 +472,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,] array, int index) //5
         {
-            Tuples.Int5 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            Tuples.Int5 i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i.v, i.w, i.x, i.y, i.z];
         }
 
@@ -492,7 +492,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,] array, int index) //6
         {
-            Tuples.Int6 i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            Tuples.Int6 i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i.a, i.b, i.c, i.d, i.e, i.f];
         }
 
@@ -512,7 +512,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,,] array, int index) //7
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            var i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6]];
         }
 
@@ -532,7 +532,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,,,] array, int index) //8
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            var i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]];
         }
 
@@ -552,7 +552,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,,,,] array, int index) //9
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            var i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]];
         }
 
@@ -572,7 +572,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAt<TSource>(this TSource[,,,,,,,,,] array, int index) //10
         {
-            var i = ArrayHelper.CalculateIndexes(array, index); // <-- handles the exceptions
+            var i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
             return array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]];
         }
 
@@ -594,7 +594,7 @@ namespace AZCL.Collections
         public static TSource ElementAtOrDefault<TSource>(this TSource[,] array, int index) //2
         {
             int x, y;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out x, out y)) // <-- throws if array is null.
+            if (ArrayKit.TryCalculateIndexes(array, index, out x, out y)) // <-- throws if array is null.
                 return array[x, y];
             return default(TSource);
         }
@@ -615,7 +615,7 @@ namespace AZCL.Collections
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,] array, int index) //3
         {
             Tuples.Int3 i;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
+            if (ArrayKit.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
                 return array[i.x, i.y, i.z];
             return default(TSource);
         }
@@ -636,7 +636,7 @@ namespace AZCL.Collections
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,] array, int index) //4
         {
             Tuples.Int4 i;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
+            if (ArrayKit.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null.
                 return array[i.w, i.x, i.y, i.z];
             return default(TSource);
         }
@@ -657,7 +657,7 @@ namespace AZCL.Collections
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,] array, int index) //5
         {
             Tuples.Int5 i;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
+            if (ArrayKit.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
                 return array[i.v, i.w, i.x, i.y, i.z];
             return default(TSource);
         }
@@ -678,7 +678,7 @@ namespace AZCL.Collections
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,] array, int index) //6
         {
             Tuples.Int6 i;
-            if (ArrayHelper.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
+            if (ArrayKit.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
                 return array[i.a, i.b, i.c, i.d, i.e, i.f];
             return default(TSource);
         }
@@ -698,7 +698,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,] array, int index) //7
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            var i = ArrayKit.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
             return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6]];
         }
 
@@ -717,7 +717,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,] array, int index) //8
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            var i = ArrayKit.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
             return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]];
         }
 
@@ -736,7 +736,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,,] array, int index) //9
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            var i = ArrayKit.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
             return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]];
         }
 
@@ -755,7 +755,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource ElementAtOrDefault<TSource>(this TSource[,,,,,,,,,] array, int index) //10
         {
-            var i = ArrayHelper.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
+            var i = ArrayKit.TryCalculateIndexes(array, index); // <-- throws if array is null; returns null if out of bounds.
             return i == null ? default(TSource) : array[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]];
         }
 
@@ -773,7 +773,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,] source) //2
-            => ArrayHelper.Last(NullCheck(source));
+            => ArrayKit.Last(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -787,7 +787,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,] source) //3
-            => ArrayHelper.Last(NullCheck(source));
+            => ArrayKit.Last(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -801,7 +801,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,] source) //4
-            => ArrayHelper.Last(NullCheck(source));
+            => ArrayKit.Last(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence.
@@ -816,7 +816,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,] source) //5
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -835,7 +835,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,] source) //6
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -854,7 +854,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,] source) //7
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -873,7 +873,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,] source) //8
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -892,7 +892,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,,] source) //9
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -911,7 +911,7 @@ namespace AZCL.Collections
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,,,,,,,] source) //10
         {
-            var i = ArrayHelper.GetUpperBounds_Internal(NullCheck(source));
+            var i = ArrayKit.GetUpperBounds_Internal(NullCheck(source));
             try { return source[i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9]]; }
             catch (IndexOutOfRangeException)
             { throw new InvalidOperationException(AZCL.ERR.SOURCE_EMPTY); }
@@ -938,7 +938,7 @@ namespace AZCL.Collections
                 if (source.Rank == 1)
                     return source.GetValue(source.Length - 1);
                 else
-                    return source.GetValue(ArrayHelper.GetUpperBounds_Internal(source));
+                    return source.GetValue(ArrayKit.GetUpperBounds_Internal(source));
             }
             catch (IndexOutOfRangeException)
             {
@@ -962,7 +962,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,] source, Func<TSource, bool> predicate) //2
-            => ArrayHelper.Reverse(NullCheck(source)).First(predicate);
+            => ArrayKit.Reverse(NullCheck(source)).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -977,7 +977,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,] source, Func<TSource, bool> predicate) //3
-            => ArrayHelper.Reverse(NullCheck(source)).First(predicate);
+            => ArrayKit.Reverse(NullCheck(source)).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -992,7 +992,7 @@ namespace AZCL.Collections
         /// Thrown if the source array is empty or no element satisfies the condition in <paramref name="predicate"/>.
         /// </exception>
         public static TSource Last<TSource>(this TSource[,,,] source, Func<TSource, bool> predicate) //4
-            => ArrayHelper.Reverse(source).First(predicate);
+            => ArrayKit.Reverse(source).First(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a specified condition.
@@ -1098,7 +1098,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,] source) //2
-            => ArrayHelper.LastOrDefault(NullCheck(source));
+            => ArrayKit.LastOrDefault(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -1109,7 +1109,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,] source) //3
-            => ArrayHelper.LastOrDefault(NullCheck(source));
+            => ArrayKit.LastOrDefault(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -1120,7 +1120,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,,] source) //4
-            => ArrayHelper.LastOrDefault(NullCheck(source));
+            => ArrayKit.LastOrDefault(NullCheck(source));
 
         /// <summary>
         /// Returns the last element of a sequence, or a default value if the sequence contains no elements.
@@ -1204,7 +1204,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> or <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,] source, Func<TSource, bool> predicate) //2
-            => ArrayHelper.Reverse(NullCheck(source)).FirstOrDefault(predicate);
+            => ArrayKit.Reverse(NullCheck(source)).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -1216,7 +1216,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> or <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,] source, Func<TSource, bool> predicate) //3
-            => ArrayHelper.Reverse(NullCheck(source)).FirstOrDefault(predicate);
+            => ArrayKit.Reverse(NullCheck(source)).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -1228,7 +1228,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> or <paramref name="predicate"/> is null.
         /// </exception>
         public static TSource LastOrDefault<TSource>(this TSource[,,,] source, Func<TSource, bool> predicate) //4
-            => ArrayHelper.Reverse(NullCheck(source)).FirstOrDefault(predicate);
+            => ArrayKit.Reverse(NullCheck(source)).FirstOrDefault(predicate);
 
         /// <summary>
         /// Returns the last element of a sequence that satisfies a condition, or a default value if no such element is found.
@@ -1317,7 +1317,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Reverse<TSource>(this TSource[,] source)
-            => ArrayHelper.Reverse(NullCheck(source));
+            => ArrayKit.Reverse(NullCheck(source));
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -1328,7 +1328,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Reverse<TSource>(this TSource[,,] source)
-            => ArrayHelper.Reverse(NullCheck(source));
+            => ArrayKit.Reverse(NullCheck(source));
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -1339,7 +1339,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Reverse<TSource>(this TSource[,,,] source) //4
-            => ArrayHelper.Reverse(NullCheck(source));
+            => ArrayKit.Reverse(NullCheck(source));
 
         /// <summary>
         /// Inverts the order of the elements in a sequence.
@@ -1442,7 +1442,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Skip<TSource>(this TSource[,] source, int count) //2
-            => ArrayHelper.Skip(NullCheck(source), count);
+            => ArrayKit.Skip(NullCheck(source), count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -1454,7 +1454,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static IEnumerable<TSource> Skip<TSource>(this TSource[,,] source, int count) //3
-            => ArrayHelper.Skip(NullCheck(source), count);
+            => ArrayKit.Skip(NullCheck(source), count);
 
         /// <summary>
         /// Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -1617,7 +1617,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource[] ToArray<TSource>(this TSource[,] source) //2
-            => ArrayHelper.ToArray(NullCheck(source));
+            => ArrayKit.ToArray(NullCheck(source));
 
         /// <summary>
         /// Creates a single rank array from a multi-rank array.
@@ -1628,7 +1628,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource[] ToArray<TSource>(this TSource[,,] source) //3
-            => ArrayHelper.ToArray(NullCheck(source));
+            => ArrayKit.ToArray(NullCheck(source));
 
         /// <summary>
         /// Creates a single rank array from a multi-rank array.
@@ -1639,7 +1639,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static TSource[] ToArray<TSource>(this TSource[,,,] source) //4
-            => ArrayHelper.ToArray(NullCheck(source));
+            => ArrayKit.ToArray(NullCheck(source));
 
         /// <summary>
         /// Creates a single rank array from a multi-rank array.
@@ -1808,7 +1808,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static List<TSource> ToList<TSource>(this TSource[,] source) //2
-            => ArrayHelper.ToList(NullCheck(source));
+            => ArrayKit.ToList(NullCheck(source));
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a multi-rank array.
@@ -1819,7 +1819,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static List<TSource> ToList<TSource>(this TSource[,,] source) //3
-            => ArrayHelper.ToList(NullCheck(source));
+            => ArrayKit.ToList(NullCheck(source));
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a multi-rank array.
@@ -1830,7 +1830,7 @@ namespace AZCL.Collections
         /// Thrown if <paramref name="source"/> is null.
         /// </exception>
         public static List<TSource> ToList<TSource>(this TSource[,,,] source) //4
-            => ArrayHelper.ToList(NullCheck(source));
+            => ArrayKit.ToList(NullCheck(source));
 
         /// <summary>
         /// Creates a <c>List&lt;T&gt;</c> from a multi-rank array.

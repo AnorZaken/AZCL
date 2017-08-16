@@ -69,7 +69,7 @@ namespace AZCL
         {
             BoundsInternal(arr, startX, startY);
             GEQZeroInternal(count, nameof(count));
-            Debug.Assert(ArrayHelper.CalculateCountUnbound(arr, startX, startY, false) + count <= arr.Length, "count out of bounds");
+            Debug.Assert(ArrayKit.CalculateCountUnbound(arr, startX, startY, false) + count <= arr.Length, "count out of bounds");
         }
 
         [Conditional("AZCL_DEBUG")]
@@ -77,7 +77,7 @@ namespace AZCL
         {
             BoundsInternal(arr, startX, startY, startY);
             GEQZeroInternal(count, nameof(count));
-            Debug.Assert(ArrayHelper.CalculateCountUnbound(arr, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
+            Debug.Assert(ArrayKit.CalculateCountUnbound(arr, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
         }
 
         [Conditional("AZCL_DEBUG")]
@@ -85,7 +85,7 @@ namespace AZCL
         {
             BoundsInternal(arr, startW, startX, startY, startY);
             GEQZeroInternal(count, nameof(count));
-            Debug.Assert(ArrayHelper.CalculateCountUnbound(arr, startW, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
+            Debug.Assert(ArrayKit.CalculateCountUnbound(arr, startW, startX, startY, startZ, false) + count <= arr.Length, "count out of bounds");
         }
 
         /*

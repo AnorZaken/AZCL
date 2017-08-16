@@ -7,7 +7,7 @@ namespace AZCL
     /// <summary>
     /// Various array related methods and extensions.
     /// </summary>
-    public static partial class ArrayHelper
+    public static partial class ArrayKit
     {
         /// <summary>
         /// Updates the <paramref name="array"/> reference with a copy that has the specified <paramref name="value"/> appended.
@@ -413,7 +413,7 @@ namespace AZCL
 
         /// <summary>
         /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
-        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// <para/>(The <see cref="ArrayKit"/> class only supports zero bound arrays.)
         /// </summary>
         /// <returns>
         /// True if all dimensions are zero bound; otherwise false.
@@ -433,7 +433,7 @@ namespace AZCL
         /* (...overloaded for efficient unrolling - these will be the most common cases anyway.) */
         /// <summary>
         /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
-        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// <para/>(The <see cref="ArrayKit"/> class only supports zero bound arrays.)
         /// </summary>
         /// <returns>
         /// True if all dimensions are zero bound; otherwise false.
@@ -446,7 +446,7 @@ namespace AZCL
 
         /// <summary>
         /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
-        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// <para/>(The <see cref="ArrayKit"/> class only supports zero bound arrays.)
         /// </summary>
         /// <returns>
         /// True if all dimensions are zero bound; otherwise false.
@@ -459,7 +459,7 @@ namespace AZCL
 
         /// <summary>
         /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
-        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// <para/>(The <see cref="ArrayKit"/> class only supports zero bound arrays.)
         /// </summary>
         /// <returns>
         /// True if all dimensions are zero bound; otherwise false.
@@ -472,7 +472,7 @@ namespace AZCL
 
         /// <summary>
         /// Returns whether the specified array is zero based, i.e. whether the lower bound is zero for all its dimensions.
-        /// <para/>(The <see cref="ArrayHelper"/> class only supports zero bound arrays.)
+        /// <para/>(The <see cref="ArrayKit"/> class only supports zero bound arrays.)
         /// </summary>
         /// <returns>
         /// True if all dimensions are zero bound; otherwise false.

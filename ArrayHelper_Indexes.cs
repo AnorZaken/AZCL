@@ -3,8 +3,8 @@ using AZCL.Collections;
 
 namespace AZCL
 {
-    // XML summary is in ArrayHelper.cs
-    public static partial class ArrayHelper
+    // XML summary is in ArrayKit.cs
+    public static partial class ArrayKit
     {
         /// <summary>
         /// Given a one-dimensional enumeration index, calculates the corresponding x and y element indexes.
@@ -189,7 +189,7 @@ namespace AZCL
         /// </returns>
         /// <example><code>
         /// var arr = new [,] {{ 'A', 'B' }, { 'C', 'D' }};
-        /// Console.Write(arr.GetValue(ArrayHelper.CalculateIndexes(arr, 2))); // prints "C"
+        /// Console.Write(arr.GetValue(ArrayKit.CalculateIndexes(arr, 2))); // prints "C"
         /// </code></example>
         /// <param name="array">The array whose dimensions to calculate indexes for.</param>
         /// <param name="index">An enumeration index to transform into regular indexes.</param>
@@ -228,7 +228,7 @@ namespace AZCL
         /// <param name="x">X element index.</param>
         /// <param name="y">Y element index.</param>
         /// <remarks>
-        /// This is the same as calling <see cref="O:AZCL.ArrayHelper.CalculateIndexUC{T}"/> except that it throws an OverflowException
+        /// This is the same as calling <see cref="O:AZCL.ArrayKit.CalculateIndexUC{T}"/> except that it throws an OverflowException
         /// if the resulting enumeration index is greater than Int32.MaxValue, instead of simply returning a negative value.
         /// <para/>
         /// For information on maximum array sizes see MSDN:<br/>
@@ -246,7 +246,7 @@ namespace AZCL
         /// <exception cref="OverflowException">
         /// Thrown if the resulting enumeration index is greater than Int32.MaxValue.
         /// </exception>
-        /// <seealso cref="O:AZCL.ArrayHelper.CalculateIndexUC{T}"/>
+        /// <seealso cref="O:AZCL.ArrayKit.CalculateIndexUC{T}"/>
         public static int CalculateIndex<T>(T[,] array, int x, int y)
         {
             int i = CalculateIndexUC(array, x, y);
@@ -447,7 +447,7 @@ namespace AZCL
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown if any of the element indexes are out of bounds.
         /// </exception>
-        /// <seealso cref="O:AZCL.ArrayHelper.CalculateIndex{T}"/>
+        /// <seealso cref="O:AZCL.ArrayKit.CalculateIndex{T}"/>
         public static int CalculateIndexUC<T>(T[,] array, int x, int y)
         {
             if (array == null)
@@ -1644,7 +1644,7 @@ namespace AZCL
         /// </returns>
         /// <example><code>
         /// var arr = new [,] {{ 'A', 'B' }, { 'C', 'D' }};
-        /// Console.Write(arr.GetValue(ArrayHelper.TryCalculateIndexes(arr, 2))); // prints "C"
+        /// Console.Write(arr.GetValue(ArrayKit.TryCalculateIndexes(arr, 2))); // prints "C"
         /// </code></example>
         /// <param name="array">The array whose dimensions to calculate indexes for.</param>
         /// <param name="index">An enumeration index to transform into regular indexes.</param>

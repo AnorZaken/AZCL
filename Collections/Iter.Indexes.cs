@@ -47,7 +47,7 @@ namespace AZCL.Collections // Only supporting zero-bound arrays!
                 AZAssert.NotNullInternal(array, nameof(array));
                 
                 indexes = null;
-                lengths = array.Length == 0 ? null : ArrayHelper.GetLengths_Internal(array);
+                lengths = array.Length == 0 ? null : ArrayKit.GetLengths_Internal(array);
             }
 
             // ! Value is UNDEFINED before the first move, after a reset, as well as after a move has failed !
@@ -195,7 +195,7 @@ namespace AZCL.Collections // Only supporting zero-bound arrays!
                 AZAssert.NotNullInternal(array, nameof(array));
 
                 indexes = null;
-                lengths = array.Length == 0 ? null : ArrayHelper.GetLengths_Internal(array);
+                lengths = array.Length == 0 ? null : ArrayKit.GetLengths_Internal(array);
             }
 
             public int[] Current

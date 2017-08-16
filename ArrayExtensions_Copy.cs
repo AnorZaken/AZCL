@@ -27,7 +27,7 @@ namespace AZCL
             if (source == null)
                 return null;
 
-            var copy = ArrayHelper.New(source);
+            var copy = ArrayKit.New(source);
             System.Array.Copy(source, copy, source.Length);
             return copy;
         }
@@ -40,7 +40,7 @@ namespace AZCL
             if (source == null)
                 return null;
 
-            var copy = ArrayHelper.New(source);
+            var copy = ArrayKit.New(source);
             System.Array.Copy(source, copy, source.Length);
             return copy;
         }
