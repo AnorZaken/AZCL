@@ -63,6 +63,7 @@
     <Compile Include="ArrayHelper_Indexes.cs" />
     <Compile Include="ArrayHelper_Default.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
+    <Compile Include="ArrayHelper_Apt.cs" />
     <Compile Include="AZAssert.cs" />
     <Compile Include="Bits\Hash.cs" />
     <Compile Include="Bits\HashExtensions.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Collections\Comparer.cs" />
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
+    <Compile Include="ResizeBehavior.cs" />
     <Compile Include="Tuples\Int2.cs" />
     <Compile Include="Tuples\Int6.cs" />
     <Compile Include="Tuples\Int5.cs" />
