@@ -60,11 +60,12 @@
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="ArrayExtensions_Copy.cs" />
     <Compile Include="ArrayKit.cs" />
-    <Compile Include="ArrayHelper_Indexes.cs" />
+    <Compile Include="ArrayKit_Indexes.cs" />
     <Compile Include="ArrayKit_Default.cs" />
     <Compile Include="ArrayExtensions_Length.cs" />
     <Compile Include="ArrayKit_Apt.cs" />
     <Compile Include="AZAssert.cs" />
+    <Compile Include="Bits\Bit.cs" />
     <Compile Include="Bits\Hash.cs" />
     <Compile Include="Bits\HashExtensions_BOOST.cs" />
     <Compile Include="Bits\Rotate.cs" />
