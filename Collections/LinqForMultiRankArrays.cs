@@ -493,7 +493,7 @@ namespace AZCL.Collections
         public static TSource ElementAt<TSource>(this TSource[,,,,,] array, int index) //6
         {
             Tuples.Int6 i = ArrayKit.CalculateIndexes(array, index); // <-- handles the exceptions
-            return array[i.a, i.b, i.c, i.d, i.e, i.f];
+            return array[i.u, i.v, i.w, i.x, i.y, i.z];
         }
 
         /// <summary>
@@ -679,7 +679,7 @@ namespace AZCL.Collections
         {
             Tuples.Int6 i;
             if (ArrayKit.TryCalculateIndexes(array, index, out i)) // <-- throws if array is null; returns null if out of bounds.
-                return array[i.a, i.b, i.c, i.d, i.e, i.f];
+                return array[i.u, i.v, i.w, i.x, i.y, i.z];
             return default(TSource);
         }
 

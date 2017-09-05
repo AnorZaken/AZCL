@@ -671,15 +671,15 @@ namespace AZCL
 
             unchecked
             {
-                if ((uint)indexes.a >= (uint)alen | // do not branch these - only makes the code faster if it throws, which is pointless.
-                    (uint)indexes.b >= (uint)blen |
-                    (uint)indexes.c >= (uint)clen |
-                    (uint)indexes.d >= (uint)dlen |
-                    (uint)indexes.e >= (uint)elen |
-                    (uint)indexes.f >= (uint)flen)
+                if ((uint)indexes.u >= (uint)alen | // do not branch these - only makes the code faster if it throws, which is pointless.
+                    (uint)indexes.v >= (uint)blen |
+                    (uint)indexes.w >= (uint)clen |
+                    (uint)indexes.x >= (uint)dlen |
+                    (uint)indexes.y >= (uint)elen |
+                    (uint)indexes.z >= (uint)flen)
                     throw new ArgumentOutOfRangeException(nameof(indexes));
 
-                return indexes.f + (indexes.e + (indexes.d + (indexes.c + (indexes.b + indexes.a * blen) * clen) * dlen) * elen) * flen;
+                return indexes.z + (indexes.y + (indexes.x + (indexes.w + (indexes.v + indexes.u * blen) * clen) * dlen) * elen) * flen;
             }
         }
 

@@ -4,7 +4,7 @@ using System.Globalization;
 namespace AZCL.Tuples
 {
     /// <summary>
-    /// An immutable tuple of six Int32 values. (a,b,c,d,e,f)
+    /// An immutable tuple of six Int32 values. (u|v|w|x|y|z)
     /// </summary>
     public struct Int6 : IEquatable<Int6>
     {
@@ -16,41 +16,44 @@ namespace AZCL.Tuples
         /// <summary>
         /// Instantiates an Int6 tuple with the specified values.
         /// </summary>
-        public Int6(int a, int b, int c, int d, int e, int f)
+        public Int6(int u, int v, int w, int x, int y, int z)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
-            this.e = e;
-            this.f = f;
+            this.u = u;
+            this.v = v;
+            this.w = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
 
 #pragma warning disable CS1591 // documentation warning
-        public readonly int a, b, c, d, e, f;
+        public readonly int u, v, w, x, y, z;
 
         public override int GetHashCode()
-            => Bits.Hash.Combine(Bits.Hash.Combine(a, b, c, d), e, f);
+            => Bits.Hash.Combine(Bits.Hash.Combine(u, v, w, x), y, z);
 
         public override bool Equals(object obj)
             => obj is Int6 && Equals((Int6)obj);
 
         public bool Equals(Int6 other)
-            => a == other.a & b == other.b & c == other.c && d == other.d & e == other.e & f == other.f;
+            => u == other.u & v == other.v & w == other.w && x == other.x & y == other.y & z == other.z;
 
         public override string ToString()
+            => ToString(CultureInfo.InvariantCulture);
+
+        public string ToString(IFormatProvider format)
             => "("
-            + a.ToString(CultureInfo.InvariantCulture)
+            + u.ToString(format)
             + SEPARATOR.ToString()
-            + b.ToString(CultureInfo.InvariantCulture)
+            + v.ToString(format)
             + SEPARATOR.ToString()
-            + c.ToString(CultureInfo.InvariantCulture)
+            + w.ToString(format)
             + SEPARATOR.ToString()
-            + d.ToString(CultureInfo.InvariantCulture)
+            + x.ToString(format)
             + SEPARATOR.ToString()
-            + e.ToString(CultureInfo.InvariantCulture)
+            + y.ToString(format)
             + SEPARATOR.ToString()
-            + f.ToString(CultureInfo.InvariantCulture)
+            + z.ToString(format)
             + ")";
 
 #pragma warning restore CS1591 // documentation warning
@@ -74,21 +77,46 @@ namespace AZCL.Tuples
         /// Thrown if any of the tuple values does not fit in an Int32.
         /// </exception>
         public static Int6 Parse(string input)
+            => Parse(input, CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// Parses a string as an Int6.
+        /// </summary>
+        /// <param name="input">The string to parse.</param>
+        /// <param name="format">The format provider to use when parsing. (Specifying <c>null</c> will use current thread culture.)</param>
+        /// <param name="style">The number style (default is AllowLeadingSign).</param>
+        /// <returns>
+        /// The parsed tuple.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if the string argument is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="style"/> is neither a <c>System.Globalization.NumberStyles</c> value, nor a combination
+        /// of <c>System.Globalization.NumberStyles.AllowHexSpecifier</c> and <c>System.Globalization.NumberStyles.HexNumber</c>.
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// Thrown if the string isn't in the correct format.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if any of the tuple values does not fit in an Int32.
+        /// </exception>
+        public static Int6 Parse(string input, IFormatProvider format, NumberStyles style = NumberStyles.AllowLeadingSign)
         {
             if (input == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(input));
 
             int[] i = ParseSplit(input);
             if (i == null)
                 throw new FormatException();
 
             return new Int6(
-                int.Parse(input.Substring(1, i[0] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture),
-                int.Parse(input.Substring(i[0] + 1, i[1] - i[0] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture),
-                int.Parse(input.Substring(i[1] + 1, i[2] - i[1] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture),
-                int.Parse(input.Substring(i[2] + 1, i[3] - i[2] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture),
-                int.Parse(input.Substring(i[3] + 1, i[4] - i[3] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture),
-                int.Parse(input.Substring(i[4] + 1, input.Length - i[4] - 2), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture))
+                int.Parse(input.Substring(1, i[0] - 1), style, format),
+                int.Parse(input.Substring(i[0] + 1, i[1] - i[0] - 1), style, format),
+                int.Parse(input.Substring(i[1] + 1, i[2] - i[1] - 1), style, format),
+                int.Parse(input.Substring(i[2] + 1, i[3] - i[2] - 1), style, format),
+                int.Parse(input.Substring(i[3] + 1, i[4] - i[3] - 1), style, format),
+                int.Parse(input.Substring(i[4] + 1, input.Length - i[4] - 2), style, format))
                 ;
         }
 
@@ -101,31 +129,47 @@ namespace AZCL.Tuples
         /// True if parsing succeeded; otherwise false.
         /// </returns>
         public static bool TryParse(string input, out Int6 result)
+            => TryParse(input, out result, CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// Tries to parse a string as an Int6.
+        /// </summary>
+        /// <param name="input">The string to parse.</param>
+        /// <param name="result">The parsed tuple value, if parsing was successful; otherwise an all zeroes tuple.</param>
+        /// <param name="format">The format provider to use when parsing. (Specifying <c>null</c> will use current thread culture.)</param>
+        /// <param name="style">The number style (default is AllowLeadingSign).</param>
+        /// <returns>
+        /// True if parsing succeeded; otherwise false.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="style"/> is neither a <c>System.Globalization.NumberStyles</c> value, nor a combination
+        /// of <c>System.Globalization.NumberStyles.AllowHexSpecifier</c> and <c>System.Globalization.NumberStyles.HexNumber</c>.
+        /// </exception>
+        public static bool TryParse(string input, out Int6 result, IFormatProvider format, NumberStyles style = NumberStyles.AllowLeadingSign)
         {
             result = default(Int6);
 
             if (input == null)
                 return false;
-            
+
             int[] i = ParseSplit(input);
             if (i == null)
-                return false; // (1,3,5)
-
-            int a, b, c, d, e, f;
-            if (!int.TryParse(input.Substring(1, i[0] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out a) ||
-                !int.TryParse(input.Substring(i[0] + 1, i[1] - i[0] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out b) ||
-                !int.TryParse(input.Substring(i[1] + 1, i[2] - i[1] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out c) ||
-                !int.TryParse(input.Substring(i[2] + 1, i[3] - i[2] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out d) ||
-                !int.TryParse(input.Substring(i[3] + 1, i[4] - i[3] - 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out e) ||
-                !int.TryParse(input.Substring(i[4] + 1, input.Length - i[4] - 2), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out f) )
                 return false;
 
-            result = new Int6(a, b, c, d, e, f);
+            int u, v, w, x, y, z;
+            if (!int.TryParse(input.Substring(1, i[0] - 1), style, format, out u) ||
+                !int.TryParse(input.Substring(i[0] + 1, i[1] - i[0] - 1), style, format, out v) ||
+                !int.TryParse(input.Substring(i[1] + 1, i[2] - i[1] - 1), style, format, out w) ||
+                !int.TryParse(input.Substring(i[2] + 1, i[3] - i[2] - 1), style, format, out x) ||
+                !int.TryParse(input.Substring(i[3] + 1, i[4] - i[3] - 1), style, format, out y) ||
+                !int.TryParse(input.Substring(i[4] + 1, input.Length - i[4] - 2), style, format, out z))
+                return false;
+
+            result = new Int6(u, v, w, x, y, z);
             return true;
         }
 
-        // returns null if it failed - otherwise it succeeded.
-        // returns the indexes of the separators.
+        // returns the indexes of the separators - or null if it failed.
         private static int[] ParseSplit(string s)
         {
             AZAssert.NotNullInternal(s, nameof(s));
