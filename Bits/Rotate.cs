@@ -2,7 +2,7 @@
 namespace AZCL.Bits
 {
     /// <summary>
-    /// Static class for performing bit rotations.
+    /// Static class for performing bit rotations on integral types.
     /// </summary><remarks>
     /// A bit rotation is a bit shift with wrap-around. Bits that would get shifted out get shifted back in at the other end. Thus no bits / information is lost.
     /// </remarks>
@@ -18,11 +18,10 @@ namespace AZCL.Bits
         public static sbyte Left(sbyte value, int rotation)
         {
             const int L = 8;
-            const uint V = ~(0xFFFFffff << L);
             unchecked
             {
                 rotation &= L - 1;
-                uint val = (uint)value & V;
+                uint val = (byte)value; // (casting directly to uint causes sign extension!)
                 val = val << rotation | val >> L - rotation;
                 return (sbyte)val;
             }
@@ -35,16 +34,15 @@ namespace AZCL.Bits
         /// </remarks>
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
-        public static sbyte Left(byte value, int rotation)
+        public static byte Left(byte value, int rotation)
         {
             const int L = 8;
-            const uint V = ~(0xFFFFffff << L);
             unchecked
             {
                 rotation &= L - 1;
-                uint val = (uint)value & V;
+                uint val = value;
                 val = val << rotation | val >> L - rotation;
-                return (sbyte)val;
+                return (byte)val;
             }
         }
 
@@ -58,11 +56,10 @@ namespace AZCL.Bits
         public static short Left(short value, int rotation)
         {
             const int L = 16;
-            const uint V = ~(0xFFFFffff << L);
             unchecked
             {
                 rotation &= L - 1;
-                uint val = (uint)value & V;
+                uint val = (ushort)value; // (casting directly to uint causes sign extension!)
                 val = val << rotation | val >> L - rotation;
                 return (short)val;
             }
@@ -78,11 +75,10 @@ namespace AZCL.Bits
         public static ushort Left(ushort value, int rotation)
         {
             const int L = 16;
-            const uint V = ~(0xFFFFffff << L);
             unchecked
             {
                 rotation &= L - 1;
-                uint val = (uint)value & V;
+                uint val = value;
                 val = val << rotation | val >> L - rotation;
                 return (ushort)val;
             }
@@ -116,7 +112,7 @@ namespace AZCL.Bits
             const int L = 32;
             unchecked
             {
-                return value << rotation | value >> L - rotation;
+                return value << rotation | value >> L - rotation; // ("L - rotation" can overflow)
             }
         }
 
@@ -148,7 +144,7 @@ namespace AZCL.Bits
             const int L = 64;
             unchecked
             {
-                return value << rotation | value >> L - rotation;
+                return value << rotation | value >> L - rotation; // ("L - rotation" can overflow)
             }
         }
 
@@ -171,7 +167,7 @@ namespace AZCL.Bits
         /// </remarks>
         /// <param name="value">A value whose bits are to be rotated.</param>
         /// <param name="rotation">The number of bits to rotate.</param>
-        public static sbyte Right(byte value, int rotation)
+        public static byte Right(byte value, int rotation)
             => Left(value, -rotation);
         
         /// <summary>
