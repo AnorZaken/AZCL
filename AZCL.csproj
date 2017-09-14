@@ -76,6 +76,7 @@
     <Compile Include="Collections\Empty.cs" />
     <Compile Include="Collections\ERR.cs" />
     <Compile Include="ResizeBehavior.cs" />
+    <Compile Include="Tuples\Bool8.cs" />
     <Compile Include="Tuples\Int2.cs" />
     <Compile Include="Tuples\Int6.cs" />
     <Compile Include="Tuples\Int5.cs" />
