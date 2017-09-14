@@ -30,6 +30,24 @@ namespace AZCL.Bits
             B28 = 1 << 28, B29 = 1 << 29,
             B30 = 1 << 30, B31 = 1u << 31;
 
+        private const ulong
+            B32 = 1ul << 32, B33 = 1ul << 33,
+            B34 = 1ul << 34, B35 = 1ul << 35,
+            B36 = 1ul << 36, B37 = 1ul << 37,
+            B38 = 1ul << 38, B39 = 1ul << 39,
+            B40 = 1ul << 40, B41 = 1ul << 41,
+            B42 = 1ul << 42, B43 = 1ul << 43,
+            B44 = 1ul << 44, B45 = 1ul << 45,
+            B46 = 1ul << 46, B47 = 1ul << 47,
+            B48 = 1ul << 48, B49 = 1ul << 49,
+            B50 = 1ul << 50, B51 = 1ul << 51,
+            B52 = 1ul << 52, B53 = 1ul << 53,
+            B54 = 1ul << 54, B55 = 1ul << 55,
+            B56 = 1ul << 56, B57 = 1ul << 57,
+            B58 = 1ul << 58, B59 = 1ul << 59,
+            B60 = 1ul << 60, B61 = 1ul << 61,
+            B62 = 1ul << 62, B63 = 1ul << 63;
+
         #region --- Byte ---
 
         /// <summary>
@@ -2618,6 +2636,2984 @@ namespace AZCL.Bits
         /// </summary>
         public static uint Unset31(uint bits) => bits & ~B31;
 
+        #endregion
+
+        #region --- Long ---
+
+        /// <summary>
+        /// Gets the specified bit on a long, as a boolean.
+        /// </summary>
+        /// <param name="bits">The long to get a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to get.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static bool Get(this long bits, int bitIndex) => (bits & (1L << (bitIndex & 0x3f))) != 0;
+
+        // ---
+
+        /// <summary>
+        /// Gets bit 0 of [0:63].
+        /// </summary>
+        public static bool Get0(this long bits) => (bits & B0) != 0;
+
+        /// <summary>
+        /// Gets bit 1 of [0:63].
+        /// </summary>
+        public static bool Get1(this long bits) => (bits & B1) != 0;
+
+        /// <summary>
+        /// Gets bit 2 of [0:63].
+        /// </summary>
+        public static bool Get2(this long bits) => (bits & B2) != 0;
+
+        /// <summary>
+        /// Gets bit 3 of [0:63].
+        /// </summary>
+        public static bool Get3(this long bits) => (bits & B3) != 0;
+
+        /// <summary>
+        /// Gets bit 4 of [0:63].
+        /// </summary>
+        public static bool Get4(this long bits) => (bits & B4) != 0;
+
+        /// <summary>
+        /// Gets bit 5 of [0:63].
+        /// </summary>
+        public static bool Get5(this long bits) => (bits & B5) != 0;
+
+        /// <summary>
+        /// Gets bit 6 of [0:63].
+        /// </summary>
+        public static bool Get6(this long bits) => (bits & B6) != 0;
+
+        /// <summary>
+        /// Gets bit 7 of [0:63].
+        /// </summary>
+        public static bool Get7(this long bits) => (bits & B7) != 0;
+
+        /// <summary>
+        /// Gets bit 8 of [0:63].
+        /// </summary>
+        public static bool Get8(this long bits) => (bits & B8) != 0;
+
+        /// <summary>
+        /// Gets bit 9 of [0:63].
+        /// </summary>
+        public static bool Get9(this long bits) => (bits & B9) != 0;
+
+        /// <summary>
+        /// Gets bit 10 of [0:63].
+        /// </summary>
+        public static bool Get10(this long bits) => (bits & B10) != 0;
+
+        /// <summary>
+        /// Gets bit 11 of [0:63].
+        /// </summary>
+        public static bool Get11(this long bits) => (bits & B11) != 0;
+
+        /// <summary>
+        /// Gets bit 12 of [0:63].
+        /// </summary>
+        public static bool Get12(this long bits) => (bits & B12) != 0;
+
+        /// <summary>
+        /// Gets bit 13 of [0:63].
+        /// </summary>
+        public static bool Get13(this long bits) => (bits & B13) != 0;
+
+        /// <summary>
+        /// Gets bit 14 of [0:63].
+        /// </summary>
+        public static bool Get14(this long bits) => (bits & B14) != 0;
+
+        /// <summary>
+        /// Gets bit 15 of [0:63].
+        /// </summary>
+        public static bool Get15(this long bits) => (bits & B15) != 0;
+
+        /// <summary>
+        /// Gets bit 16 of [0:63].
+        /// </summary>
+        public static bool Get16(this long bits) => (bits & B16) != 0;
+
+        /// <summary>
+        /// Gets bit 17 of [0:63].
+        /// </summary>
+        public static bool Get17(this long bits) => (bits & B17) != 0;
+
+        /// <summary>
+        /// Gets bit 18 of [0:63].
+        /// </summary>
+        public static bool Get18(this long bits) => (bits & B18) != 0;
+
+        /// <summary>
+        /// Gets bit 19 of [0:63].
+        /// </summary>
+        public static bool Get19(this long bits) => (bits & B19) != 0;
+
+        /// <summary>
+        /// Gets bit 20 of [0:63].
+        /// </summary>
+        public static bool Get20(this long bits) => (bits & B20) != 0;
+
+        /// <summary>
+        /// Gets bit 21 of [0:63].
+        /// </summary>
+        public static bool Get21(this long bits) => (bits & B21) != 0;
+
+        /// <summary>
+        /// Gets bit 22 of [0:63].
+        /// </summary>
+        public static bool Get22(this long bits) => (bits & B22) != 0;
+
+        /// <summary>
+        /// Gets bit 23 of [0:63].
+        /// </summary>
+        public static bool Get23(this long bits) => (bits & B23) != 0;
+
+        /// <summary>
+        /// Gets bit 24 of [0:63].
+        /// </summary>
+        public static bool Get24(this long bits) => (bits & B24) != 0;
+
+        /// <summary>
+        /// Gets bit 25 of [0:63].
+        /// </summary>
+        public static bool Get25(this long bits) => (bits & B25) != 0;
+
+        /// <summary>
+        /// Gets bit 26 of [0:63].
+        /// </summary>
+        public static bool Get26(this long bits) => (bits & B26) != 0;
+
+        /// <summary>
+        /// Gets bit 27 of [0:63].
+        /// </summary>
+        public static bool Get27(this long bits) => (bits & B27) != 0;
+
+        /// <summary>
+        /// Gets bit 28 of [0:63].
+        /// </summary>
+        public static bool Get28(this long bits) => (bits & B28) != 0;
+
+        /// <summary>
+        /// Gets bit 29 of [0:63].
+        /// </summary>
+        public static bool Get29(this long bits) => (bits & B29) != 0;
+
+        /// <summary>
+        /// Gets bit 30 of [0:63].
+        /// </summary>
+        public static bool Get30(this long bits) => (bits & B30) != 0;
+
+        /// <summary>
+        /// Gets bit 31 of [0:63].
+        /// </summary>
+        public static bool Get31(this long bits) => (bits & B31) != 0;
+
+        /// <summary>
+        /// Gets bit 32 of [0:63].
+        /// </summary>
+        public static bool Get32(this long bits) => (bits & (long)B32) != 0;
+
+        /// <summary>
+        /// Gets bit 33 of [0:63].
+        /// </summary>
+        public static bool Get33(this long bits) => (bits & (long)B33) != 0;
+
+        /// <summary>
+        /// Gets bit 34 of [0:63].
+        /// </summary>
+        public static bool Get34(this long bits) => (bits & (long)B34) != 0;
+
+        /// <summary>
+        /// Gets bit 35 of [0:63].
+        /// </summary>
+        public static bool Get35(this long bits) => (bits & (long)B35) != 0;
+
+        /// <summary>
+        /// Gets bit 36 of [0:63].
+        /// </summary>
+        public static bool Get36(this long bits) => (bits & (long)B36) != 0;
+
+        /// <summary>
+        /// Gets bit 37 of [0:63].
+        /// </summary>
+        public static bool Get37(this long bits) => (bits & (long)B37) != 0;
+
+        /// <summary>
+        /// Gets bit 38 of [0:63].
+        /// </summary>
+        public static bool Get38(this long bits) => (bits & (long)B38) != 0;
+
+        /// <summary>
+        /// Gets bit 39 of [0:63].
+        /// </summary>
+        public static bool Get39(this long bits) => (bits & (long)B39) != 0;
+
+        /// <summary>
+        /// Gets bit 40 of [0:63].
+        /// </summary>
+        public static bool Get40(this long bits) => (bits & (long)B40) != 0;
+
+        /// <summary>
+        /// Gets bit 41 of [0:63].
+        /// </summary>
+        public static bool Get41(this long bits) => (bits & (long)B41) != 0;
+
+        /// <summary>
+        /// Gets bit 42 of [0:63].
+        /// </summary>
+        public static bool Get42(this long bits) => (bits & (long)B42) != 0;
+
+        /// <summary>
+        /// Gets bit 43 of [0:63].
+        /// </summary>
+        public static bool Get43(this long bits) => (bits & (long)B43) != 0;
+
+        /// <summary>
+        /// Gets bit 44 of [0:63].
+        /// </summary>
+        public static bool Get44(this long bits) => (bits & (long)B44) != 0;
+
+        /// <summary>
+        /// Gets bit 45 of [0:63].
+        /// </summary>
+        public static bool Get45(this long bits) => (bits & (long)B45) != 0;
+
+        /// <summary>
+        /// Gets bit 46 of [0:63].
+        /// </summary>
+        public static bool Get46(this long bits) => (bits & (long)B46) != 0;
+
+        /// <summary>
+        /// Gets bit 47 of [0:63].
+        /// </summary>
+        public static bool Get47(this long bits) => (bits & (long)B47) != 0;
+
+        /// <summary>
+        /// Gets bit 48 of [0:63].
+        /// </summary>
+        public static bool Get48(this long bits) => (bits & (long)B48) != 0;
+
+        /// <summary>
+        /// Gets bit 49 of [0:63].
+        /// </summary>
+        public static bool Get49(this long bits) => (bits & (long)B49) != 0;
+
+        /// <summary>
+        /// Gets bit 50 of [0:63].
+        /// </summary>
+        public static bool Get50(this long bits) => (bits & (long)B50) != 0;
+
+        /// <summary>
+        /// Gets bit 51 of [0:63].
+        /// </summary>
+        public static bool Get51(this long bits) => (bits & (long)B51) != 0;
+
+        /// <summary>
+        /// Gets bit 52 of [0:63].
+        /// </summary>
+        public static bool Get52(this long bits) => (bits & (long)B52) != 0;
+
+        /// <summary>
+        /// Gets bit 53 of [0:63].
+        /// </summary>
+        public static bool Get53(this long bits) => (bits & (long)B53) != 0;
+
+        /// <summary>
+        /// Gets bit 54 of [0:63].
+        /// </summary>
+        public static bool Get54(this long bits) => (bits & (long)B54) != 0;
+
+        /// <summary>
+        /// Gets bit 55 of [0:63].
+        /// </summary>
+        public static bool Get55(this long bits) => (bits & (long)B55) != 0;
+
+        /// <summary>
+        /// Gets bit 56 of [0:63].
+        /// </summary>
+        public static bool Get56(this long bits) => (bits & (long)B56) != 0;
+
+        /// <summary>
+        /// Gets bit 57 of [0:63].
+        /// </summary>
+        public static bool Get57(this long bits) => (bits & (long)B57) != 0;
+
+        /// <summary>
+        /// Gets bit 58 of [0:63].
+        /// </summary>
+        public static bool Get58(this long bits) => (bits & (long)B58) != 0;
+
+        /// <summary>
+        /// Gets bit 59 of [0:63].
+        /// </summary>
+        public static bool Get59(this long bits) => (bits & (long)B59) != 0;
+
+        /// <summary>
+        /// Gets bit 60 of [0:63].
+        /// </summary>
+        public static bool Get60(this long bits) => (bits & (long)B60) != 0;
+
+        /// <summary>
+        /// Gets bit 61 of [0:63].
+        /// </summary>
+        public static bool Get61(this long bits) => (bits & (long)B61) != 0;
+
+        /// <summary>
+        /// Gets bit 62 of [0:63].
+        /// </summary>
+        public static bool Get62(this long bits) => (bits & (long)B62) != 0;
+
+        /// <summary>
+        /// Gets bit 63 of [0:63].
+        /// </summary>
+        public static bool Get63(this long bits) => (bits & unchecked((long)B63)) != 0;
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, sets the specified bit, and returns the result.
+        /// </summary>
+        /// <param name="bits">The long before setting a bit.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static long Set(long bits, int bitIndex) => bits | (1L << (bitIndex & 0x3f));
+
+        /// <summary>
+        /// Sets the specified bit on a long.
+        /// </summary>
+        /// <param name="bits">The long to set a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Set(ref long bits, int bitIndex) => bits |= (1L << (bitIndex & 0x3f));
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, sets bit 0 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set0(long bits) => bits | B0;
+
+        /// <summary>
+        /// Takes a long, sets bit 1 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set1(long bits) => bits | B1;
+
+        /// <summary>
+        /// Takes a long, sets bit 2 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set2(long bits) => bits | B2;
+
+        /// <summary>
+        /// Takes a long, sets bit 3 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set3(long bits) => bits | B3;
+
+        /// <summary>
+        /// Takes a long, sets bit 4 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set4(long bits) => bits | B4;
+
+        /// <summary>
+        /// Takes a long, sets bit 5 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set5(long bits) => bits | B5;
+
+        /// <summary>
+        /// Takes a long, sets bit 6 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set6(long bits) => bits | B6;
+
+        /// <summary>
+        /// Takes a long, sets bit 7 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set7(long bits) => bits | B7;
+
+        /// <summary>
+        /// Takes a long, sets bit 8 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set8(long bits) => bits | B8;
+
+        /// <summary>
+        /// Takes a long, sets bit 9 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set9(long bits) => bits | B9;
+
+        /// <summary>
+        /// Takes a long, sets bit 10 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set10(long bits) => bits | B10;
+
+        /// <summary>
+        /// Takes a long, sets bit 11 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set11(long bits) => bits | B11;
+
+        /// <summary>
+        /// Takes a long, sets bit 12 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set12(long bits) => bits | B12;
+
+        /// <summary>
+        /// Takes a long, sets bit 13 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set13(long bits) => bits | B13;
+
+        /// <summary>
+        /// Takes a long, sets bit 14 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set14(long bits) => bits | B14;
+
+        /// <summary>
+        /// Takes a long, sets bit 15 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set15(long bits) => bits | B15;
+
+        /// <summary>
+        /// Takes a long, sets bit 16 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set16(long bits) => bits | B16;
+
+        /// <summary>
+        /// Takes a long, sets bit 17 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set17(long bits) => bits | B17;
+
+        /// <summary>
+        /// Takes a long, sets bit 18 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set18(long bits) => bits | B18;
+
+        /// <summary>
+        /// Takes a long, sets bit 19 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set19(long bits) => bits | B19;
+
+        /// <summary>
+        /// Takes a long, sets bit 20 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set20(long bits) => bits | B20;
+
+        /// <summary>
+        /// Takes a long, sets bit 21 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set21(long bits) => bits | B21;
+
+        /// <summary>
+        /// Takes a long, sets bit 22 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set22(long bits) => bits | B22;
+
+        /// <summary>
+        /// Takes a long, sets bit 23 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set23(long bits) => bits | B23;
+
+        /// <summary>
+        /// Takes a long, sets bit 24 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set24(long bits) => bits | B24;
+
+        /// <summary>
+        /// Takes a long, sets bit 25 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set25(long bits) => bits | B25;
+
+        /// <summary>
+        /// Takes a long, sets bit 26 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set26(long bits) => bits | B26;
+
+        /// <summary>
+        /// Takes a long, sets bit 27 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set27(long bits) => bits | B27;
+
+        /// <summary>
+        /// Takes a long, sets bit 28 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set28(long bits) => bits | B28;
+
+        /// <summary>
+        /// Takes a long, sets bit 29 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set29(long bits) => bits | B29;
+
+        /// <summary>
+        /// Takes a long, sets bit 30 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set30(long bits) => bits | B30;
+
+        /// <summary>
+        /// Takes a long, sets bit 31 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set31(long bits) => bits | B31;
+
+        /// <summary>
+        /// Takes a long, sets bit 32 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set32(long bits) => bits | (long)B32;
+
+        /// <summary>
+        /// Takes a long, sets bit 33 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set33(long bits) => bits | (long)B33;
+
+        /// <summary>
+        /// Takes a long, sets bit 34 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set34(long bits) => bits | (long)B34;
+
+        /// <summary>
+        /// Takes a long, sets bit 35 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set35(long bits) => bits | (long)B35;
+
+        /// <summary>
+        /// Takes a long, sets bit 36 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set36(long bits) => bits | (long)B36;
+
+        /// <summary>
+        /// Takes a long, sets bit 37 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set37(long bits) => bits | (long)B37;
+
+        /// <summary>
+        /// Takes a long, sets bit 38 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set38(long bits) => bits | (long)B38;
+
+        /// <summary>
+        /// Takes a long, sets bit 39 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set39(long bits) => bits | (long)B39;
+
+        /// <summary>
+        /// Takes a long, sets bit 40 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set40(long bits) => bits | (long)B40;
+
+        /// <summary>
+        /// Takes a long, sets bit 41 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set41(long bits) => bits | (long)B41;
+
+        /// <summary>
+        /// Takes a long, sets bit 42 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set42(long bits) => bits | (long)B42;
+
+        /// <summary>
+        /// Takes a long, sets bit 43 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set43(long bits) => bits | (long)B43;
+
+        /// <summary>
+        /// Takes a long, sets bit 44 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set44(long bits) => bits | (long)B44;
+
+        /// <summary>
+        /// Takes a long, sets bit 45 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set45(long bits) => bits | (long)B45;
+
+        /// <summary>
+        /// Takes a long, sets bit 46 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set46(long bits) => bits | (long)B46;
+
+        /// <summary>
+        /// Takes a long, sets bit 47 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set47(long bits) => bits | (long)B47;
+
+        /// <summary>
+        /// Takes a long, sets bit 48 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set48(long bits) => bits | (long)B48;
+
+        /// <summary>
+        /// Takes a long, sets bit 49 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set49(long bits) => bits | (long)B49;
+
+        /// <summary>
+        /// Takes a long, sets bit 50 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set50(long bits) => bits | (long)B50;
+
+        /// <summary>
+        /// Takes a long, sets bit 51 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set51(long bits) => bits | (long)B51;
+
+        /// <summary>
+        /// Takes a long, sets bit 52 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set52(long bits) => bits | (long)B52;
+
+        /// <summary>
+        /// Takes a long, sets bit 53 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set53(long bits) => bits | (long)B53;
+
+        /// <summary>
+        /// Takes a long, sets bit 54 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set54(long bits) => bits | (long)B54;
+
+        /// <summary>
+        /// Takes a long, sets bit 55 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set55(long bits) => bits | (long)B55;
+
+        /// <summary>
+        /// Takes a long, sets bit 56 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set56(long bits) => bits | (long)B56;
+
+        /// <summary>
+        /// Takes a long, sets bit 57 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set57(long bits) => bits | (long)B57;
+
+        /// <summary>
+        /// Takes a long, sets bit 58 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set58(long bits) => bits | (long)B58;
+
+        /// <summary>
+        /// Takes a long, sets bit 59 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set59(long bits) => bits | (long)B59;
+
+        /// <summary>
+        /// Takes a long, sets bit 60 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set60(long bits) => bits | (long)B60;
+
+        /// <summary>
+        /// Takes a long, sets bit 61 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set61(long bits) => bits | (long)B61;
+
+        /// <summary>
+        /// Takes a long, sets bit 62 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set62(long bits) => bits | (long)B62;
+
+        /// <summary>
+        /// Takes a long, sets bit 63 of [0:63], and returns the result.
+        /// </summary>
+        public static long Set63(long bits) => bits | unchecked((long)B63);
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, sets or unsets the specified bit according to a boolean value, and returns the result.
+        /// </summary>
+        /// <param name="bits">The long before the set / unset.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set / unset.</param>
+        /// <param name="value">If true then the bit will be set to 1; otherwise to 0 (unset).</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static long Set(long bits, int bitIndex, bool value)
+        {
+            unchecked
+            {
+                long mask = 1L << (bitIndex & 0x3f);
+                return value ? bits | mask : bits & ~mask;
+            }
+        }
+
+        /// <summary>
+        /// Sets or unsets the specified bit according to a boolean value.
+        /// </summary>
+        /// <param name="bits">The long to set / unset a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set / unset.</param>
+        /// <param name="value">If true then the bit will be set to 1; otherwise to 0 (unset).</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Set(ref long bits, int bitIndex, bool value)
+        {
+            unchecked
+            {
+                long mask = 1L << (bitIndex & 0x3f);
+                bits = value ? bits | mask : bits & ~mask;
+            }
+        }
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 0 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set0(long bits, bool value) => value ? bits | B0 : bits & ~B0;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 1 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set1(long bits, bool value) => value ? bits | B1 : bits & ~B1;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 2 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set2(long bits, bool value) => value ? bits | B2 : bits & ~B2;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 3 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set3(long bits, bool value) => value ? bits | B3 : bits & ~B3;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 4 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set4(long bits, bool value) => value ? bits | B4 : bits & ~B4;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 5 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set5(long bits, bool value) => value ? bits | B5 : bits & ~B5;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 6 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set6(long bits, bool value) => value ? bits | B6 : bits & ~B6;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 7 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set7(long bits, bool value) => value ? bits | B7 : bits & ~B7;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 8 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set8(long bits, bool value) => value ? bits | B8 : bits & ~B8;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 9 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set9(long bits, bool value) => value ? bits | B9 : bits & ~B9;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 10 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set10(long bits, bool value) => value ? bits | B10 : bits & ~B10;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 11 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set11(long bits, bool value) => value ? bits | B11 : bits & ~B11;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 12 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set12(long bits, bool value) => value ? bits | B12 : bits & ~B12;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 13 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set13(long bits, bool value) => value ? bits | B13 : bits & ~B13;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 14 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set14(long bits, bool value) => value ? bits | B14 : bits & ~B14;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 15 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set15(long bits, bool value) => value ? bits | B15 : bits & ~B15;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 16 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set16(long bits, bool value) => value ? bits | B16 : bits & ~B16;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 17 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set17(long bits, bool value) => value ? bits | B17 : bits & ~B17;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 18 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set18(long bits, bool value) => value ? bits | B18 : bits & ~B18;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 19 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set19(long bits, bool value) => value ? bits | B19 : bits & ~B19;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 20 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set20(long bits, bool value) => value ? bits | B20 : bits & ~B20;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 21 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set21(long bits, bool value) => value ? bits | B21 : bits & ~B21;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 22 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set22(long bits, bool value) => value ? bits | B22 : bits & ~B22;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 23 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set23(long bits, bool value) => value ? bits | B23 : bits & ~B23;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 24 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set24(long bits, bool value) => value ? bits | B24 : bits & ~B24;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 25 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set25(long bits, bool value) => value ? bits | B25 : bits & ~B25;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 26 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set26(long bits, bool value) => value ? bits | B26 : bits & ~B26;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 27 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set27(long bits, bool value) => value ? bits | B27 : bits & ~B27;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 28 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set28(long bits, bool value) => value ? bits | B28 : bits & ~B28;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 29 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set29(long bits, bool value) => value ? bits | B29 : bits & ~B29;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 30 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set30(long bits, bool value) => value ? bits | B30 : bits & ~B30;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 31 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set31(long bits, bool value) => value ? bits | B31 : bits & ~B31;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 32 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set32(long bits, bool value) => value ? bits | (long)B32 : bits & ~(long)B32;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 33 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set33(long bits, bool value) => value ? bits | (long)B33 : bits & ~(long)B33;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 34 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set34(long bits, bool value) => value ? bits | (long)B34 : bits & ~(long)B34;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 35 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set35(long bits, bool value) => value ? bits | (long)B35 : bits & ~(long)B35;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 36 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set36(long bits, bool value) => value ? bits | (long)B36 : bits & ~(long)B36;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 37 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set37(long bits, bool value) => value ? bits | (long)B37 : bits & ~(long)B37;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 38 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set38(long bits, bool value) => value ? bits | (long)B38 : bits & ~(long)B38;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 39 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set39(long bits, bool value) => value ? bits | (long)B39 : bits & ~(long)B39;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 40 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set40(long bits, bool value) => value ? bits | (long)B40 : bits & ~(long)B40;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 41 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set41(long bits, bool value) => value ? bits | (long)B41 : bits & ~(long)B41;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 42 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set42(long bits, bool value) => value ? bits | (long)B42 : bits & ~(long)B42;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 43 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set43(long bits, bool value) => value ? bits | (long)B43 : bits & ~(long)B43;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 44 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set44(long bits, bool value) => value ? bits | (long)B44 : bits & ~(long)B44;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 45 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set45(long bits, bool value) => value ? bits | (long)B45 : bits & ~(long)B45;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 46 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set46(long bits, bool value) => value ? bits | (long)B46 : bits & ~(long)B46;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 47 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set47(long bits, bool value) => value ? bits | (long)B47 : bits & ~(long)B47;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 48 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set48(long bits, bool value) => value ? bits | (long)B48 : bits & ~(long)B48;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 49 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set49(long bits, bool value) => value ? bits | (long)B49 : bits & ~(long)B49;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 50 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set50(long bits, bool value) => value ? bits | (long)B50 : bits & ~(long)B50;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 51 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set51(long bits, bool value) => value ? bits | (long)B51 : bits & ~(long)B51;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 52 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set52(long bits, bool value) => value ? bits | (long)B52 : bits & ~(long)B52;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 53 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set53(long bits, bool value) => value ? bits | (long)B53 : bits & ~(long)B53;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 54 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set54(long bits, bool value) => value ? bits | (long)B54 : bits & ~(long)B54;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 55 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set55(long bits, bool value) => value ? bits | (long)B55 : bits & ~(long)B55;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 56 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set56(long bits, bool value) => value ? bits | (long)B56 : bits & ~(long)B56;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 57 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set57(long bits, bool value) => value ? bits | (long)B57 : bits & ~(long)B57;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 58 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set58(long bits, bool value) => value ? bits | (long)B58 : bits & ~(long)B58;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 59 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set59(long bits, bool value) => value ? bits | (long)B59 : bits & ~(long)B59;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 60 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set60(long bits, bool value) => value ? bits | (long)B60 : bits & ~(long)B60;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 61 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set61(long bits, bool value) => value ? bits | (long)B61 : bits & ~(long)B61;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 62 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set62(long bits, bool value) => value ? bits | (long)B62 : bits & ~(long)B62;
+
+        /// <summary>
+        /// Takes a long, sets or unsets bit 63 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static long Set63(long bits, bool value) => value ? bits | unchecked((long)B63) : bits & (long)~B63;
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, unsets the specified bit, and returns the result.
+        /// </summary>
+        /// <param name="bits">The long before unsetting a bit.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static long Unset(long bits, int bitIndex) => bits & ~(1L << (bitIndex & 0x3f));
+
+        /// <summary>
+        /// Unsets the specified bit on a long.
+        /// </summary>
+        /// <param name="bits">The long to unset a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to unset.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Unset(ref long bits, int bitIndex) => bits &= ~(1L << (bitIndex & 0x3f));
+
+        // ---
+
+        /// <summary>
+        /// Takes a long, unsets bit 0 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset0(long bits) => bits & ~B0;
+
+        /// <summary>
+        /// Takes a long, unsets bit 1 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset1(long bits) => bits & ~B1;
+
+        /// <summary>
+        /// Takes a long, unsets bit 2 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset2(long bits) => bits & ~B2;
+
+        /// <summary>
+        /// Takes a long, unsets bit 3 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset3(long bits) => bits & ~B3;
+
+        /// <summary>
+        /// Takes a long, unsets bit 4 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset4(long bits) => bits & ~B4;
+
+        /// <summary>
+        /// Takes a long, unsets bit 5 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset5(long bits) => bits & ~B5;
+
+        /// <summary>
+        /// Takes a long, unsets bit 6 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset6(long bits) => bits & ~B6;
+
+        /// <summary>
+        /// Takes a long, unsets bit 7 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset7(long bits) => bits & ~B7;
+
+        /// <summary>
+        /// Takes a long, unsets bit 8 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset8(long bits) => bits & ~B8;
+
+        /// <summary>
+        /// Takes a long, unsets bit 9 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset9(long bits) => bits & ~B9;
+
+        /// <summary>
+        /// Takes a long, unsets bit 10 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset10(long bits) => bits & ~B10;
+
+        /// <summary>
+        /// Takes a long, unsets bit 11 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset11(long bits) => bits & ~B11;
+
+        /// <summary>
+        /// Takes a long, unsets bit 12 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset12(long bits) => bits & ~B12;
+
+        /// <summary>
+        /// Takes a long, unsets bit 13 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset13(long bits) => bits & ~B13;
+
+        /// <summary>
+        /// Takes a long, unsets bit 14 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset14(long bits) => bits & ~B14;
+
+        /// <summary>
+        /// Takes a long, unsets bit 15 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset15(long bits) => bits & ~B15;
+
+        /// <summary>
+        /// Takes a long, unsets bit 16 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset16(long bits) => bits & ~B16;
+
+        /// <summary>
+        /// Takes a long, unsets bit 17 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset17(long bits) => bits & ~B17;
+
+        /// <summary>
+        /// Takes a long, unsets bit 18 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset18(long bits) => bits & ~B18;
+
+        /// <summary>
+        /// Takes a long, unsets bit 19 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset19(long bits) => bits & ~B19;
+
+        /// <summary>
+        /// Takes a long, unsets bit 20 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset20(long bits) => bits & ~B20;
+
+        /// <summary>
+        /// Takes a long, unsets bit 21 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset21(long bits) => bits & ~B21;
+
+        /// <summary>
+        /// Takes a long, unsets bit 22 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset22(long bits) => bits & ~B22;
+
+        /// <summary>
+        /// Takes a long, unsets bit 23 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset23(long bits) => bits & ~B23;
+
+        /// <summary>
+        /// Takes a long, unsets bit 24 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset24(long bits) => bits & ~B24;
+
+        /// <summary>
+        /// Takes a long, unsets bit 25 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset25(long bits) => bits & ~B25;
+
+        /// <summary>
+        /// Takes a long, unsets bit 26 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset26(long bits) => bits & ~B26;
+
+        /// <summary>
+        /// Takes a long, unsets bit 27 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset27(long bits) => bits & ~B27;
+
+        /// <summary>
+        /// Takes a long, unsets bit 28 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset28(long bits) => bits & ~B28;
+
+        /// <summary>
+        /// Takes a long, unsets bit 29 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset29(long bits) => bits & ~B29;
+
+        /// <summary>
+        /// Takes a long, unsets bit 30 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset30(long bits) => bits & ~B30;
+
+        /// <summary>
+        /// Takes a long, unsets bit 31 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset31(long bits) => bits & ~B31;
+
+        /// <summary>
+        /// Takes a long, unsets bit 32 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset32(long bits) => bits & ~(long)B32;
+
+        /// <summary>
+        /// Takes a long, unsets bit 33 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset33(long bits) => bits & ~(long)B33;
+
+        /// <summary>
+        /// Takes a long, unsets bit 34 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset34(long bits) => bits & ~(long)B34;
+
+        /// <summary>
+        /// Takes a long, unsets bit 35 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset35(long bits) => bits & ~(long)B35;
+
+        /// <summary>
+        /// Takes a long, unsets bit 36 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset36(long bits) => bits & ~(long)B36;
+
+        /// <summary>
+        /// Takes a long, unsets bit 37 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset37(long bits) => bits & ~(long)B37;
+
+        /// <summary>
+        /// Takes a long, unsets bit 38 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset38(long bits) => bits & ~(long)B38;
+
+        /// <summary>
+        /// Takes a long, unsets bit 39 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset39(long bits) => bits & ~(long)B39;
+
+        /// <summary>
+        /// Takes a long, unsets bit 40 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset40(long bits) => bits & ~(long)B40;
+
+        /// <summary>
+        /// Takes a long, unsets bit 41 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset41(long bits) => bits & ~(long)B41;
+
+        /// <summary>
+        /// Takes a long, unsets bit 42 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset42(long bits) => bits & ~(long)B42;
+
+        /// <summary>
+        /// Takes a long, unsets bit 43 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset43(long bits) => bits & ~(long)B43;
+
+        /// <summary>
+        /// Takes a long, unsets bit 44 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset44(long bits) => bits & ~(long)B44;
+
+        /// <summary>
+        /// Takes a long, unsets bit 45 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset45(long bits) => bits & ~(long)B45;
+
+        /// <summary>
+        /// Takes a long, unsets bit 46 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset46(long bits) => bits & ~(long)B46;
+
+        /// <summary>
+        /// Takes a long, unsets bit 47 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset47(long bits) => bits & ~(long)B47;
+
+        /// <summary>
+        /// Takes a long, unsets bit 48 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset48(long bits) => bits & ~(long)B48;
+
+        /// <summary>
+        /// Takes a long, unsets bit 49 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset49(long bits) => bits & ~(long)B49;
+
+        /// <summary>
+        /// Takes a long, unsets bit 50 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset50(long bits) => bits & ~(long)B50;
+
+        /// <summary>
+        /// Takes a long, unsets bit 51 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset51(long bits) => bits & ~(long)B51;
+
+        /// <summary>
+        /// Takes a long, unsets bit 52 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset52(long bits) => bits & ~(long)B52;
+
+        /// <summary>
+        /// Takes a long, unsets bit 53 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset53(long bits) => bits & ~(long)B53;
+
+        /// <summary>
+        /// Takes a long, unsets bit 54 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset54(long bits) => bits & ~(long)B54;
+
+        /// <summary>
+        /// Takes a long, unsets bit 55 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset55(long bits) => bits & ~(long)B55;
+
+        /// <summary>
+        /// Takes a long, unsets bit 56 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset56(long bits) => bits & ~(long)B56;
+
+        /// <summary>
+        /// Takes a long, unsets bit 57 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset57(long bits) => bits & ~(long)B57;
+
+        /// <summary>
+        /// Takes a long, unsets bit 58 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset58(long bits) => bits & ~(long)B58;
+
+        /// <summary>
+        /// Takes a long, unsets bit 59 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset59(long bits) => bits & ~(long)B59;
+
+        /// <summary>
+        /// Takes a long, unsets bit 60 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset60(long bits) => bits & ~(long)B60;
+
+        /// <summary>
+        /// Takes a long, unsets bit 61 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset61(long bits) => bits & ~(long)B61;
+
+        /// <summary>
+        /// Takes a long, unsets bit 62 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset62(long bits) => bits & ~(long)B62;
+
+        /// <summary>
+        /// Takes a long, unsets bit 63 of [0:63], and returns the result.
+        /// </summary>
+        public static long Unset63(long bits) => bits & (long)~B63;
+
+        #endregion
+
+        #region --- ULong ---
+
+        /// <summary>
+        /// Gets the specified bit on an ulong, as a boolean.
+        /// </summary>
+        /// <param name="bits">The ulong to get a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to get.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static bool Get(this ulong bits, int bitIndex) => (bits & (1ul << (bitIndex & 0x3f))) != 0;
+
+        // ---
+
+        /// <summary>
+        /// Gets bit 0 of [0:63].
+        /// </summary>
+        public static bool Get0(this ulong bits) => (bits & B0) != 0;
+
+        /// <summary>
+        /// Gets bit 1 of [0:63].
+        /// </summary>
+        public static bool Get1(this ulong bits) => (bits & B1) != 0;
+
+        /// <summary>
+        /// Gets bit 2 of [0:63].
+        /// </summary>
+        public static bool Get2(this ulong bits) => (bits & B2) != 0;
+
+        /// <summary>
+        /// Gets bit 3 of [0:63].
+        /// </summary>
+        public static bool Get3(this ulong bits) => (bits & B3) != 0;
+
+        /// <summary>
+        /// Gets bit 4 of [0:63].
+        /// </summary>
+        public static bool Get4(this ulong bits) => (bits & B4) != 0;
+
+        /// <summary>
+        /// Gets bit 5 of [0:63].
+        /// </summary>
+        public static bool Get5(this ulong bits) => (bits & B5) != 0;
+
+        /// <summary>
+        /// Gets bit 6 of [0:63].
+        /// </summary>
+        public static bool Get6(this ulong bits) => (bits & B6) != 0;
+
+        /// <summary>
+        /// Gets bit 7 of [0:63].
+        /// </summary>
+        public static bool Get7(this ulong bits) => (bits & B7) != 0;
+
+        /// <summary>
+        /// Gets bit 8 of [0:63].
+        /// </summary>
+        public static bool Get8(this ulong bits) => (bits & B8) != 0;
+
+        /// <summary>
+        /// Gets bit 9 of [0:63].
+        /// </summary>
+        public static bool Get9(this ulong bits) => (bits & B9) != 0;
+
+        /// <summary>
+        /// Gets bit 10 of [0:63].
+        /// </summary>
+        public static bool Get10(this ulong bits) => (bits & B10) != 0;
+
+        /// <summary>
+        /// Gets bit 11 of [0:63].
+        /// </summary>
+        public static bool Get11(this ulong bits) => (bits & B11) != 0;
+
+        /// <summary>
+        /// Gets bit 12 of [0:63].
+        /// </summary>
+        public static bool Get12(this ulong bits) => (bits & B12) != 0;
+
+        /// <summary>
+        /// Gets bit 13 of [0:63].
+        /// </summary>
+        public static bool Get13(this ulong bits) => (bits & B13) != 0;
+
+        /// <summary>
+        /// Gets bit 14 of [0:63].
+        /// </summary>
+        public static bool Get14(this ulong bits) => (bits & B14) != 0;
+
+        /// <summary>
+        /// Gets bit 15 of [0:63].
+        /// </summary>
+        public static bool Get15(this ulong bits) => (bits & B15) != 0;
+
+        /// <summary>
+        /// Gets bit 16 of [0:63].
+        /// </summary>
+        public static bool Get16(this ulong bits) => (bits & B16) != 0;
+
+        /// <summary>
+        /// Gets bit 17 of [0:63].
+        /// </summary>
+        public static bool Get17(this ulong bits) => (bits & B17) != 0;
+
+        /// <summary>
+        /// Gets bit 18 of [0:63].
+        /// </summary>
+        public static bool Get18(this ulong bits) => (bits & B18) != 0;
+
+        /// <summary>
+        /// Gets bit 19 of [0:63].
+        /// </summary>
+        public static bool Get19(this ulong bits) => (bits & B19) != 0;
+
+        /// <summary>
+        /// Gets bit 20 of [0:63].
+        /// </summary>
+        public static bool Get20(this ulong bits) => (bits & B20) != 0;
+
+        /// <summary>
+        /// Gets bit 21 of [0:63].
+        /// </summary>
+        public static bool Get21(this ulong bits) => (bits & B21) != 0;
+
+        /// <summary>
+        /// Gets bit 22 of [0:63].
+        /// </summary>
+        public static bool Get22(this ulong bits) => (bits & B22) != 0;
+
+        /// <summary>
+        /// Gets bit 23 of [0:63].
+        /// </summary>
+        public static bool Get23(this ulong bits) => (bits & B23) != 0;
+
+        /// <summary>
+        /// Gets bit 24 of [0:63].
+        /// </summary>
+        public static bool Get24(this ulong bits) => (bits & B24) != 0;
+
+        /// <summary>
+        /// Gets bit 25 of [0:63].
+        /// </summary>
+        public static bool Get25(this ulong bits) => (bits & B25) != 0;
+
+        /// <summary>
+        /// Gets bit 26 of [0:63].
+        /// </summary>
+        public static bool Get26(this ulong bits) => (bits & B26) != 0;
+
+        /// <summary>
+        /// Gets bit 27 of [0:63].
+        /// </summary>
+        public static bool Get27(this ulong bits) => (bits & B27) != 0;
+
+        /// <summary>
+        /// Gets bit 28 of [0:63].
+        /// </summary>
+        public static bool Get28(this ulong bits) => (bits & B28) != 0;
+
+        /// <summary>
+        /// Gets bit 29 of [0:63].
+        /// </summary>
+        public static bool Get29(this ulong bits) => (bits & B29) != 0;
+
+        /// <summary>
+        /// Gets bit 30 of [0:63].
+        /// </summary>
+        public static bool Get30(this ulong bits) => (bits & B30) != 0;
+
+        /// <summary>
+        /// Gets bit 31 of [0:63].
+        /// </summary>
+        public static bool Get31(this ulong bits) => (bits & B31) != 0;
+
+        /// <summary>
+        /// Gets bit 32 of [0:63].
+        /// </summary>
+        public static bool Get32(this ulong bits) => (bits & B32) != 0;
+
+        /// <summary>
+        /// Gets bit 33 of [0:63].
+        /// </summary>
+        public static bool Get33(this ulong bits) => (bits & B33) != 0;
+
+        /// <summary>
+        /// Gets bit 34 of [0:63].
+        /// </summary>
+        public static bool Get34(this ulong bits) => (bits & B34) != 0;
+
+        /// <summary>
+        /// Gets bit 35 of [0:63].
+        /// </summary>
+        public static bool Get35(this ulong bits) => (bits & B35) != 0;
+
+        /// <summary>
+        /// Gets bit 36 of [0:63].
+        /// </summary>
+        public static bool Get36(this ulong bits) => (bits & B36) != 0;
+
+        /// <summary>
+        /// Gets bit 37 of [0:63].
+        /// </summary>
+        public static bool Get37(this ulong bits) => (bits & B37) != 0;
+
+        /// <summary>
+        /// Gets bit 38 of [0:63].
+        /// </summary>
+        public static bool Get38(this ulong bits) => (bits & B38) != 0;
+
+        /// <summary>
+        /// Gets bit 39 of [0:63].
+        /// </summary>
+        public static bool Get39(this ulong bits) => (bits & B39) != 0;
+
+        /// <summary>
+        /// Gets bit 40 of [0:63].
+        /// </summary>
+        public static bool Get40(this ulong bits) => (bits & B40) != 0;
+
+        /// <summary>
+        /// Gets bit 41 of [0:63].
+        /// </summary>
+        public static bool Get41(this ulong bits) => (bits & B41) != 0;
+
+        /// <summary>
+        /// Gets bit 42 of [0:63].
+        /// </summary>
+        public static bool Get42(this ulong bits) => (bits & B42) != 0;
+
+        /// <summary>
+        /// Gets bit 43 of [0:63].
+        /// </summary>
+        public static bool Get43(this ulong bits) => (bits & B43) != 0;
+
+        /// <summary>
+        /// Gets bit 44 of [0:63].
+        /// </summary>
+        public static bool Get44(this ulong bits) => (bits & B44) != 0;
+
+        /// <summary>
+        /// Gets bit 45 of [0:63].
+        /// </summary>
+        public static bool Get45(this ulong bits) => (bits & B45) != 0;
+
+        /// <summary>
+        /// Gets bit 46 of [0:63].
+        /// </summary>
+        public static bool Get46(this ulong bits) => (bits & B46) != 0;
+
+        /// <summary>
+        /// Gets bit 47 of [0:63].
+        /// </summary>
+        public static bool Get47(this ulong bits) => (bits & B47) != 0;
+
+        /// <summary>
+        /// Gets bit 48 of [0:63].
+        /// </summary>
+        public static bool Get48(this ulong bits) => (bits & B48) != 0;
+
+        /// <summary>
+        /// Gets bit 49 of [0:63].
+        /// </summary>
+        public static bool Get49(this ulong bits) => (bits & B49) != 0;
+
+        /// <summary>
+        /// Gets bit 50 of [0:63].
+        /// </summary>
+        public static bool Get50(this ulong bits) => (bits & B50) != 0;
+
+        /// <summary>
+        /// Gets bit 51 of [0:63].
+        /// </summary>
+        public static bool Get51(this ulong bits) => (bits & B51) != 0;
+
+        /// <summary>
+        /// Gets bit 52 of [0:63].
+        /// </summary>
+        public static bool Get52(this ulong bits) => (bits & B52) != 0;
+
+        /// <summary>
+        /// Gets bit 53 of [0:63].
+        /// </summary>
+        public static bool Get53(this ulong bits) => (bits & B53) != 0;
+
+        /// <summary>
+        /// Gets bit 54 of [0:63].
+        /// </summary>
+        public static bool Get54(this ulong bits) => (bits & B54) != 0;
+
+        /// <summary>
+        /// Gets bit 55 of [0:63].
+        /// </summary>
+        public static bool Get55(this ulong bits) => (bits & B55) != 0;
+
+        /// <summary>
+        /// Gets bit 56 of [0:63].
+        /// </summary>
+        public static bool Get56(this ulong bits) => (bits & B56) != 0;
+
+        /// <summary>
+        /// Gets bit 57 of [0:63].
+        /// </summary>
+        public static bool Get57(this ulong bits) => (bits & B57) != 0;
+
+        /// <summary>
+        /// Gets bit 58 of [0:63].
+        /// </summary>
+        public static bool Get58(this ulong bits) => (bits & B58) != 0;
+
+        /// <summary>
+        /// Gets bit 59 of [0:63].
+        /// </summary>
+        public static bool Get59(this ulong bits) => (bits & B59) != 0;
+
+        /// <summary>
+        /// Gets bit 60 of [0:63].
+        /// </summary>
+        public static bool Get60(this ulong bits) => (bits & B60) != 0;
+
+        /// <summary>
+        /// Gets bit 61 of [0:63].
+        /// </summary>
+        public static bool Get61(this ulong bits) => (bits & B61) != 0;
+
+        /// <summary>
+        /// Gets bit 62 of [0:63].
+        /// </summary>
+        public static bool Get62(this ulong bits) => (bits & B62) != 0;
+
+        /// <summary>
+        /// Gets bit 63 of [0:63].
+        /// </summary>
+        public static bool Get63(this ulong bits) => (bits & B63) != 0;
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, sets the specified bit, and returns the result.
+        /// </summary>
+        /// <param name="bits">The ulong before setting a bit.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static ulong Set(ulong bits, int bitIndex) => bits | (1ul << (bitIndex & 0x3f));
+
+        /// <summary>
+        /// Sets the specified bit on an ulong.
+        /// </summary>
+        /// <param name="bits">The ulong to set a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Set(ref ulong bits, int bitIndex) => bits |= (1ul << (bitIndex & 0x3f));
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, sets bit 0 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set0(ulong bits) => bits | B0;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 1 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set1(ulong bits) => bits | B1;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 2 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set2(ulong bits) => bits | B2;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 3 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set3(ulong bits) => bits | B3;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 4 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set4(ulong bits) => bits | B4;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 5 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set5(ulong bits) => bits | B5;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 6 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set6(ulong bits) => bits | B6;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 7 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set7(ulong bits) => bits | B7;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 8 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set8(ulong bits) => bits | B8;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 9 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set9(ulong bits) => bits | B9;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 10 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set10(ulong bits) => bits | B10;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 11 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set11(ulong bits) => bits | B11;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 12 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set12(ulong bits) => bits | B12;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 13 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set13(ulong bits) => bits | B13;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 14 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set14(ulong bits) => bits | B14;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 15 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set15(ulong bits) => bits | B15;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 16 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set16(ulong bits) => bits | B16;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 17 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set17(ulong bits) => bits | B17;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 18 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set18(ulong bits) => bits | B18;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 19 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set19(ulong bits) => bits | B19;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 20 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set20(ulong bits) => bits | B20;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 21 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set21(ulong bits) => bits | B21;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 22 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set22(ulong bits) => bits | B22;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 23 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set23(ulong bits) => bits | B23;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 24 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set24(ulong bits) => bits | B24;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 25 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set25(ulong bits) => bits | B25;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 26 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set26(ulong bits) => bits | B26;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 27 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set27(ulong bits) => bits | B27;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 28 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set28(ulong bits) => bits | B28;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 29 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set29(ulong bits) => bits | B29;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 30 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set30(ulong bits) => bits | B30;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 31 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set31(ulong bits) => bits | B31;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 32 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set32(ulong bits) => bits | B32;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 33 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set33(ulong bits) => bits | B33;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 34 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set34(ulong bits) => bits | B34;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 35 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set35(ulong bits) => bits | B35;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 36 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set36(ulong bits) => bits | B36;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 37 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set37(ulong bits) => bits | B37;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 38 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set38(ulong bits) => bits | B38;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 39 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set39(ulong bits) => bits | B39;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 40 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set40(ulong bits) => bits | B40;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 41 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set41(ulong bits) => bits | B41;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 42 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set42(ulong bits) => bits | B42;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 43 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set43(ulong bits) => bits | B43;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 44 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set44(ulong bits) => bits | B44;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 45 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set45(ulong bits) => bits | B45;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 46 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set46(ulong bits) => bits | B46;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 47 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set47(ulong bits) => bits | B47;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 48 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set48(ulong bits) => bits | B48;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 49 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set49(ulong bits) => bits | B49;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 50 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set50(ulong bits) => bits | B50;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 51 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set51(ulong bits) => bits | B51;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 52 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set52(ulong bits) => bits | B52;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 53 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set53(ulong bits) => bits | B53;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 54 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set54(ulong bits) => bits | B54;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 55 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set55(ulong bits) => bits | B55;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 56 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set56(ulong bits) => bits | B56;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 57 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set57(ulong bits) => bits | B57;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 58 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set58(ulong bits) => bits | B58;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 59 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set59(ulong bits) => bits | B59;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 60 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set60(ulong bits) => bits | B60;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 61 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set61(ulong bits) => bits | B61;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 62 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set62(ulong bits) => bits | B62;
+
+        /// <summary>
+        /// Takes an ulong, sets bit 63 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Set63(ulong bits) => bits | B63;
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets the specified bit according to a boolean value, and returns the result.
+        /// </summary>
+        /// <param name="bits">The ulong before the set / unset.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set / unset.</param>
+        /// <param name="value">If true then the bit will be set to 1; otherwise to 0 (unset).</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static ulong Set(ulong bits, int bitIndex, bool value)
+        {
+            unchecked
+            {
+                ulong mask = 1ul << (bitIndex & 0x3f);
+                return value ? bits | mask : bits & ~mask;
+            }
+        }
+
+        /// <summary>
+        /// Sets or unsets the specified bit according to a boolean value.
+        /// </summary>
+        /// <param name="bits">The ulong to set / unset a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set / unset.</param>
+        /// <param name="value">If true then the bit will be set to 1; otherwise to 0 (unset).</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Set(ref ulong bits, int bitIndex, bool value)
+        {
+            unchecked
+            {
+                ulong mask = 1ul << (bitIndex & 0x3f);
+                bits = value ? bits | mask : bits & ~mask;
+            }
+        }
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 0 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set0(ulong bits, bool value) => value ? bits | B0 : bits & ~(ulong)B0;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 1 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set1(ulong bits, bool value) => value ? bits | B1 : bits & ~(ulong)B1;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 2 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set2(ulong bits, bool value) => value ? bits | B2 : bits & ~(ulong)B2;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 3 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set3(ulong bits, bool value) => value ? bits | B3 : bits & ~(ulong)B3;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 4 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set4(ulong bits, bool value) => value ? bits | B4 : bits & ~(ulong)B4;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 5 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set5(ulong bits, bool value) => value ? bits | B5 : bits & ~(ulong)B5;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 6 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set6(ulong bits, bool value) => value ? bits | B6 : bits & ~(ulong)B6;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 7 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set7(ulong bits, bool value) => value ? bits | B7 : bits & ~(ulong)B7;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 8 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set8(ulong bits, bool value) => value ? bits | B8 : bits & ~(ulong)B8;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 9 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set9(ulong bits, bool value) => value ? bits | B9 : bits & ~(ulong)B9;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 10 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set10(ulong bits, bool value) => value ? bits | B10 : bits & ~(ulong)B10;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 11 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set11(ulong bits, bool value) => value ? bits | B11 : bits & ~(ulong)B11;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 12 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set12(ulong bits, bool value) => value ? bits | B12 : bits & ~(ulong)B12;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 13 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set13(ulong bits, bool value) => value ? bits | B13 : bits & ~(ulong)B13;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 14 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set14(ulong bits, bool value) => value ? bits | B14 : bits & ~(ulong)B14;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 15 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set15(ulong bits, bool value) => value ? bits | B15 : bits & ~(ulong)B15;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 16 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set16(ulong bits, bool value) => value ? bits | B16 : bits & ~(ulong)B16;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 17 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set17(ulong bits, bool value) => value ? bits | B17 : bits & ~(ulong)B17;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 18 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set18(ulong bits, bool value) => value ? bits | B18 : bits & ~(ulong)B18;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 19 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set19(ulong bits, bool value) => value ? bits | B19 : bits & ~(ulong)B19;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 20 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set20(ulong bits, bool value) => value ? bits | B20 : bits & ~(ulong)B20;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 21 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set21(ulong bits, bool value) => value ? bits | B21 : bits & ~(ulong)B21;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 22 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set22(ulong bits, bool value) => value ? bits | B22 : bits & ~(ulong)B22;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 23 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set23(ulong bits, bool value) => value ? bits | B23 : bits & ~(ulong)B23;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 24 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set24(ulong bits, bool value) => value ? bits | B24 : bits & ~(ulong)B24;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 25 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set25(ulong bits, bool value) => value ? bits | B25 : bits & ~(ulong)B25;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 26 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set26(ulong bits, bool value) => value ? bits | B26 : bits & ~(ulong)B26;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 27 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set27(ulong bits, bool value) => value ? bits | B27 : bits & ~(ulong)B27;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 28 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set28(ulong bits, bool value) => value ? bits | B28 : bits & ~(ulong)B28;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 29 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set29(ulong bits, bool value) => value ? bits | B29 : bits & ~(ulong)B29;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 30 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set30(ulong bits, bool value) => value ? bits | B30 : bits & ~(ulong)B30;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 31 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set31(ulong bits, bool value) => value ? bits | B31 : bits & ~(ulong)B31;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 32 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set32(ulong bits, bool value) => value ? bits | B32 : bits & ~B32;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 33 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set33(ulong bits, bool value) => value ? bits | B33 : bits & ~B33;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 34 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set34(ulong bits, bool value) => value ? bits | B34 : bits & ~B34;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 35 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set35(ulong bits, bool value) => value ? bits | B35 : bits & ~B35;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 36 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set36(ulong bits, bool value) => value ? bits | B36 : bits & ~B36;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 37 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set37(ulong bits, bool value) => value ? bits | B37 : bits & ~B37;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 38 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set38(ulong bits, bool value) => value ? bits | B38 : bits & ~B38;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 39 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set39(ulong bits, bool value) => value ? bits | B39 : bits & ~B39;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 40 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set40(ulong bits, bool value) => value ? bits | B40 : bits & ~B40;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 41 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set41(ulong bits, bool value) => value ? bits | B41 : bits & ~B41;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 42 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set42(ulong bits, bool value) => value ? bits | B42 : bits & ~B42;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 43 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set43(ulong bits, bool value) => value ? bits | B43 : bits & ~B43;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 44 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set44(ulong bits, bool value) => value ? bits | B44 : bits & ~B44;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 45 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set45(ulong bits, bool value) => value ? bits | B45 : bits & ~B45;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 46 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set46(ulong bits, bool value) => value ? bits | B46 : bits & ~B46;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 47 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set47(ulong bits, bool value) => value ? bits | B47 : bits & ~B47;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 48 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set48(ulong bits, bool value) => value ? bits | B48 : bits & ~B48;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 49 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set49(ulong bits, bool value) => value ? bits | B49 : bits & ~B49;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 50 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set50(ulong bits, bool value) => value ? bits | B50 : bits & ~B50;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 51 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set51(ulong bits, bool value) => value ? bits | B51 : bits & ~B51;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 52 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set52(ulong bits, bool value) => value ? bits | B52 : bits & ~B52;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 53 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set53(ulong bits, bool value) => value ? bits | B53 : bits & ~B53;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 54 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set54(ulong bits, bool value) => value ? bits | B54 : bits & ~B54;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 55 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set55(ulong bits, bool value) => value ? bits | B55 : bits & ~B55;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 56 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set56(ulong bits, bool value) => value ? bits | B56 : bits & ~B56;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 57 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set57(ulong bits, bool value) => value ? bits | B57 : bits & ~B57;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 58 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set58(ulong bits, bool value) => value ? bits | B58 : bits & ~B58;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 59 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set59(ulong bits, bool value) => value ? bits | B59 : bits & ~B59;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 60 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set60(ulong bits, bool value) => value ? bits | B60 : bits & ~B60;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 61 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set61(ulong bits, bool value) => value ? bits | B61 : bits & ~B61;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 62 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set62(ulong bits, bool value) => value ? bits | B62 : bits & ~B62;
+
+        /// <summary>
+        /// Takes an ulong, sets or unsets bit 63 of [0:63] according to a boolean value, and returns the result.
+        /// </summary>
+        public static ulong Set63(ulong bits, bool value) => value ? bits | B63 : bits & ~B63;
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, unsets the specified bit, and returns the result.
+        /// </summary>
+        /// <param name="bits">The ulong before unsetting a bit.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to set.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static ulong Unset(ulong bits, int bitIndex) => bits & ~(1ul << (bitIndex & 0x3f));
+
+        /// <summary>
+        /// Unsets the specified bit on an ulong.
+        /// </summary>
+        /// <param name="bits">The ulong to unset a bit on.</param>
+        /// <param name="bitIndex">The zero-based index of the bit to unset.</param>
+        /// <remarks>
+        /// Only the lowest six bits of <paramref name="bitIndex"/> are used, i.e. <c>bitIndex &amp; 0x3f</c>.
+        /// </remarks>
+        public static void Unset(ref ulong bits, int bitIndex) => bits &= ~(1ul << (bitIndex & 0x3f));
+
+        // ---
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 0 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset0(ulong bits) => bits & ~(ulong)B0;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 1 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset1(ulong bits) => bits & ~(ulong)B1;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 2 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset2(ulong bits) => bits & ~(ulong)B2;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 3 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset3(ulong bits) => bits & ~(ulong)B3;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 4 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset4(ulong bits) => bits & ~(ulong)B4;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 5 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset5(ulong bits) => bits & ~(ulong)B5;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 6 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset6(ulong bits) => bits & ~(ulong)B6;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 7 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset7(ulong bits) => bits & ~(ulong)B7;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 8 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset8(ulong bits) => bits & ~(ulong)B8;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 9 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset9(ulong bits) => bits & ~(ulong)B9;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 10 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset10(ulong bits) => bits & ~(ulong)B10;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 11 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset11(ulong bits) => bits & ~(ulong)B11;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 12 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset12(ulong bits) => bits & ~(ulong)B12;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 13 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset13(ulong bits) => bits & ~(ulong)B13;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 14 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset14(ulong bits) => bits & ~(ulong)B14;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 15 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset15(ulong bits) => bits & ~(ulong)B15;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 16 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset16(ulong bits) => bits & ~(ulong)B16;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 17 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset17(ulong bits) => bits & ~(ulong)B17;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 18 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset18(ulong bits) => bits & ~(ulong)B18;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 19 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset19(ulong bits) => bits & ~(ulong)B19;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 20 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset20(ulong bits) => bits & ~(ulong)B20;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 21 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset21(ulong bits) => bits & ~(ulong)B21;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 22 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset22(ulong bits) => bits & ~(ulong)B22;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 23 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset23(ulong bits) => bits & ~(ulong)B23;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 24 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset24(ulong bits) => bits & ~(ulong)B24;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 25 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset25(ulong bits) => bits & ~(ulong)B25;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 26 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset26(ulong bits) => bits & ~(ulong)B26;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 27 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset27(ulong bits) => bits & ~(ulong)B27;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 28 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset28(ulong bits) => bits & ~(ulong)B28;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 29 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset29(ulong bits) => bits & ~(ulong)B29;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 30 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset30(ulong bits) => bits & ~(ulong)B30;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 31 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset31(ulong bits) => bits & ~(ulong)B31;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 32 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset32(ulong bits) => bits & ~B32;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 33 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset33(ulong bits) => bits & ~B33;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 34 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset34(ulong bits) => bits & ~B34;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 35 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset35(ulong bits) => bits & ~B35;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 36 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset36(ulong bits) => bits & ~B36;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 37 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset37(ulong bits) => bits & ~B37;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 38 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset38(ulong bits) => bits & ~B38;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 39 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset39(ulong bits) => bits & ~B39;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 40 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset40(ulong bits) => bits & ~B40;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 41 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset41(ulong bits) => bits & ~B41;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 42 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset42(ulong bits) => bits & ~B42;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 43 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset43(ulong bits) => bits & ~B43;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 44 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset44(ulong bits) => bits & ~B44;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 45 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset45(ulong bits) => bits & ~B45;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 46 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset46(ulong bits) => bits & ~B46;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 47 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset47(ulong bits) => bits & ~B47;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 48 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset48(ulong bits) => bits & ~B48;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 49 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset49(ulong bits) => bits & ~B49;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 50 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset50(ulong bits) => bits & ~B50;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 51 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset51(ulong bits) => bits & ~B51;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 52 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset52(ulong bits) => bits & ~B52;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 53 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset53(ulong bits) => bits & ~B53;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 54 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset54(ulong bits) => bits & ~B54;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 55 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset55(ulong bits) => bits & ~B55;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 56 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset56(ulong bits) => bits & ~B56;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 57 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset57(ulong bits) => bits & ~B57;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 58 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset58(ulong bits) => bits & ~B58;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 59 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset59(ulong bits) => bits & ~B59;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 60 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset60(ulong bits) => bits & ~B60;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 61 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset61(ulong bits) => bits & ~B61;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 62 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset62(ulong bits) => bits & ~B62;
+
+        /// <summary>
+        /// Takes an ulong, unsets bit 63 of [0:63], and returns the result.
+        /// </summary>
+        public static ulong Unset63(ulong bits) => bits & ~B63;
+
+        #endregion
+
+        #region ((( CodeGen )))
+#if AZ_CODEGEN_INTERNAL
+        internal static string _CG_GetLong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "long";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Gets bit {i} of [0:{MAX}].");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static bool Get{i}(this {TYPE} bits) => (bits & B{i}) != 0;");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Gets bit {i} of [0:{MAX}].");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static bool Get{i}(this {TYPE} bits) => (bits & ({TYPE})B{i}) != 0;");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_SetLong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "long";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, sets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits) => bits | B{i};");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, sets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits) => bits | ({TYPE})B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_SetBoolLong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "long";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, sets or unsets bit {i} of [0:{MAX}] according to a boolean value, and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits, bool value) => value ? bits | B{i} : bits & ~B{i};");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, sets or unsets bit {i} of [0:{MAX}] according to a boolean value, and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits, bool value) => value ? bits | ({TYPE})B{i} : bits & ~({TYPE})B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_UnsetLong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "long";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, unsets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Unset{i}({TYPE} bits) => bits & ~B{i};");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes a {TYPE}, unsets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Unset{i}({TYPE} bits) => bits & ~({TYPE})B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+        
+        internal static string _CG_GetULong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "ulong";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Gets bit {i} of [0:{MAX}].");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static bool Get{i}(this {TYPE} bits) => (bits & B{i}) != 0;");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_SetULong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "ulong";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes an {TYPE}, sets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits) => bits | B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_SetBoolULong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "ulong";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes an {TYPE}, sets or unsets bit {i} of [0:{MAX}] according to a boolean value, and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits, bool value) => value ? bits | B{i} : bits & ~({TYPE})B{i};");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes an {TYPE}, sets or unsets bit {i} of [0:{MAX}] according to a boolean value, and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Set{i}({TYPE} bits, bool value) => value ? bits | B{i} : bits & ~B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
+        internal static string _CG_UnsetULong()
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            const string TYPE = "ulong";
+            const int MAX = 63;
+
+            for (int i = 0; i <= MAX / 2; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes an {TYPE}, unsets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Unset{i}({TYPE} bits) => bits & ~({TYPE})B{i};");
+                sb.AppendLine();
+            }
+
+            for (int i = MAX / 2 + 1; i <= MAX; ++i)
+            {
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// Takes an {TYPE}, unsets bit {i} of [0:{MAX}], and returns the result.");
+                sb.AppendLine("/// </summary>");
+                sb.AppendLine($"public static {TYPE} Unset{i}({TYPE} bits) => bits & ~B{i};");
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+#endif
         #endregion
     }
 }
