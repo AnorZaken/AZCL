@@ -2655,322 +2655,322 @@ namespace AZCL.Bits
         /// <summary>
         /// Gets bit 0 of [0:63].
         /// </summary>
-        public static bool Get0(this long bits) => (bits & B0) != 0;
+        public static bool Get0(long bits) => (bits & B0) != 0;
 
         /// <summary>
         /// Gets bit 1 of [0:63].
         /// </summary>
-        public static bool Get1(this long bits) => (bits & B1) != 0;
+        public static bool Get1(long bits) => (bits & B1) != 0;
 
         /// <summary>
         /// Gets bit 2 of [0:63].
         /// </summary>
-        public static bool Get2(this long bits) => (bits & B2) != 0;
+        public static bool Get2(long bits) => (bits & B2) != 0;
 
         /// <summary>
         /// Gets bit 3 of [0:63].
         /// </summary>
-        public static bool Get3(this long bits) => (bits & B3) != 0;
+        public static bool Get3(long bits) => (bits & B3) != 0;
 
         /// <summary>
         /// Gets bit 4 of [0:63].
         /// </summary>
-        public static bool Get4(this long bits) => (bits & B4) != 0;
+        public static bool Get4(long bits) => (bits & B4) != 0;
 
         /// <summary>
         /// Gets bit 5 of [0:63].
         /// </summary>
-        public static bool Get5(this long bits) => (bits & B5) != 0;
+        public static bool Get5(long bits) => (bits & B5) != 0;
 
         /// <summary>
         /// Gets bit 6 of [0:63].
         /// </summary>
-        public static bool Get6(this long bits) => (bits & B6) != 0;
+        public static bool Get6(long bits) => (bits & B6) != 0;
 
         /// <summary>
         /// Gets bit 7 of [0:63].
         /// </summary>
-        public static bool Get7(this long bits) => (bits & B7) != 0;
+        public static bool Get7(long bits) => (bits & B7) != 0;
 
         /// <summary>
         /// Gets bit 8 of [0:63].
         /// </summary>
-        public static bool Get8(this long bits) => (bits & B8) != 0;
+        public static bool Get8(long bits) => (bits & B8) != 0;
 
         /// <summary>
         /// Gets bit 9 of [0:63].
         /// </summary>
-        public static bool Get9(this long bits) => (bits & B9) != 0;
+        public static bool Get9(long bits) => (bits & B9) != 0;
 
         /// <summary>
         /// Gets bit 10 of [0:63].
         /// </summary>
-        public static bool Get10(this long bits) => (bits & B10) != 0;
+        public static bool Get10(long bits) => (bits & B10) != 0;
 
         /// <summary>
         /// Gets bit 11 of [0:63].
         /// </summary>
-        public static bool Get11(this long bits) => (bits & B11) != 0;
+        public static bool Get11(long bits) => (bits & B11) != 0;
 
         /// <summary>
         /// Gets bit 12 of [0:63].
         /// </summary>
-        public static bool Get12(this long bits) => (bits & B12) != 0;
+        public static bool Get12(long bits) => (bits & B12) != 0;
 
         /// <summary>
         /// Gets bit 13 of [0:63].
         /// </summary>
-        public static bool Get13(this long bits) => (bits & B13) != 0;
+        public static bool Get13(long bits) => (bits & B13) != 0;
 
         /// <summary>
         /// Gets bit 14 of [0:63].
         /// </summary>
-        public static bool Get14(this long bits) => (bits & B14) != 0;
+        public static bool Get14(long bits) => (bits & B14) != 0;
 
         /// <summary>
         /// Gets bit 15 of [0:63].
         /// </summary>
-        public static bool Get15(this long bits) => (bits & B15) != 0;
+        public static bool Get15(long bits) => (bits & B15) != 0;
 
         /// <summary>
         /// Gets bit 16 of [0:63].
         /// </summary>
-        public static bool Get16(this long bits) => (bits & B16) != 0;
+        public static bool Get16(long bits) => (bits & B16) != 0;
 
         /// <summary>
         /// Gets bit 17 of [0:63].
         /// </summary>
-        public static bool Get17(this long bits) => (bits & B17) != 0;
+        public static bool Get17(long bits) => (bits & B17) != 0;
 
         /// <summary>
         /// Gets bit 18 of [0:63].
         /// </summary>
-        public static bool Get18(this long bits) => (bits & B18) != 0;
+        public static bool Get18(long bits) => (bits & B18) != 0;
 
         /// <summary>
         /// Gets bit 19 of [0:63].
         /// </summary>
-        public static bool Get19(this long bits) => (bits & B19) != 0;
+        public static bool Get19(long bits) => (bits & B19) != 0;
 
         /// <summary>
         /// Gets bit 20 of [0:63].
         /// </summary>
-        public static bool Get20(this long bits) => (bits & B20) != 0;
+        public static bool Get20(long bits) => (bits & B20) != 0;
 
         /// <summary>
         /// Gets bit 21 of [0:63].
         /// </summary>
-        public static bool Get21(this long bits) => (bits & B21) != 0;
+        public static bool Get21(long bits) => (bits & B21) != 0;
 
         /// <summary>
         /// Gets bit 22 of [0:63].
         /// </summary>
-        public static bool Get22(this long bits) => (bits & B22) != 0;
+        public static bool Get22(long bits) => (bits & B22) != 0;
 
         /// <summary>
         /// Gets bit 23 of [0:63].
         /// </summary>
-        public static bool Get23(this long bits) => (bits & B23) != 0;
+        public static bool Get23(long bits) => (bits & B23) != 0;
 
         /// <summary>
         /// Gets bit 24 of [0:63].
         /// </summary>
-        public static bool Get24(this long bits) => (bits & B24) != 0;
+        public static bool Get24(long bits) => (bits & B24) != 0;
 
         /// <summary>
         /// Gets bit 25 of [0:63].
         /// </summary>
-        public static bool Get25(this long bits) => (bits & B25) != 0;
+        public static bool Get25(long bits) => (bits & B25) != 0;
 
         /// <summary>
         /// Gets bit 26 of [0:63].
         /// </summary>
-        public static bool Get26(this long bits) => (bits & B26) != 0;
+        public static bool Get26(long bits) => (bits & B26) != 0;
 
         /// <summary>
         /// Gets bit 27 of [0:63].
         /// </summary>
-        public static bool Get27(this long bits) => (bits & B27) != 0;
+        public static bool Get27(long bits) => (bits & B27) != 0;
 
         /// <summary>
         /// Gets bit 28 of [0:63].
         /// </summary>
-        public static bool Get28(this long bits) => (bits & B28) != 0;
+        public static bool Get28(long bits) => (bits & B28) != 0;
 
         /// <summary>
         /// Gets bit 29 of [0:63].
         /// </summary>
-        public static bool Get29(this long bits) => (bits & B29) != 0;
+        public static bool Get29(long bits) => (bits & B29) != 0;
 
         /// <summary>
         /// Gets bit 30 of [0:63].
         /// </summary>
-        public static bool Get30(this long bits) => (bits & B30) != 0;
+        public static bool Get30(long bits) => (bits & B30) != 0;
 
         /// <summary>
         /// Gets bit 31 of [0:63].
         /// </summary>
-        public static bool Get31(this long bits) => (bits & B31) != 0;
+        public static bool Get31(long bits) => (bits & B31) != 0;
 
         /// <summary>
         /// Gets bit 32 of [0:63].
         /// </summary>
-        public static bool Get32(this long bits) => (bits & (long)B32) != 0;
+        public static bool Get32(long bits) => (bits & (long)B32) != 0;
 
         /// <summary>
         /// Gets bit 33 of [0:63].
         /// </summary>
-        public static bool Get33(this long bits) => (bits & (long)B33) != 0;
+        public static bool Get33(long bits) => (bits & (long)B33) != 0;
 
         /// <summary>
         /// Gets bit 34 of [0:63].
         /// </summary>
-        public static bool Get34(this long bits) => (bits & (long)B34) != 0;
+        public static bool Get34(long bits) => (bits & (long)B34) != 0;
 
         /// <summary>
         /// Gets bit 35 of [0:63].
         /// </summary>
-        public static bool Get35(this long bits) => (bits & (long)B35) != 0;
+        public static bool Get35(long bits) => (bits & (long)B35) != 0;
 
         /// <summary>
         /// Gets bit 36 of [0:63].
         /// </summary>
-        public static bool Get36(this long bits) => (bits & (long)B36) != 0;
+        public static bool Get36(long bits) => (bits & (long)B36) != 0;
 
         /// <summary>
         /// Gets bit 37 of [0:63].
         /// </summary>
-        public static bool Get37(this long bits) => (bits & (long)B37) != 0;
+        public static bool Get37(long bits) => (bits & (long)B37) != 0;
 
         /// <summary>
         /// Gets bit 38 of [0:63].
         /// </summary>
-        public static bool Get38(this long bits) => (bits & (long)B38) != 0;
+        public static bool Get38(long bits) => (bits & (long)B38) != 0;
 
         /// <summary>
         /// Gets bit 39 of [0:63].
         /// </summary>
-        public static bool Get39(this long bits) => (bits & (long)B39) != 0;
+        public static bool Get39(long bits) => (bits & (long)B39) != 0;
 
         /// <summary>
         /// Gets bit 40 of [0:63].
         /// </summary>
-        public static bool Get40(this long bits) => (bits & (long)B40) != 0;
+        public static bool Get40(long bits) => (bits & (long)B40) != 0;
 
         /// <summary>
         /// Gets bit 41 of [0:63].
         /// </summary>
-        public static bool Get41(this long bits) => (bits & (long)B41) != 0;
+        public static bool Get41(long bits) => (bits & (long)B41) != 0;
 
         /// <summary>
         /// Gets bit 42 of [0:63].
         /// </summary>
-        public static bool Get42(this long bits) => (bits & (long)B42) != 0;
+        public static bool Get42(long bits) => (bits & (long)B42) != 0;
 
         /// <summary>
         /// Gets bit 43 of [0:63].
         /// </summary>
-        public static bool Get43(this long bits) => (bits & (long)B43) != 0;
+        public static bool Get43(long bits) => (bits & (long)B43) != 0;
 
         /// <summary>
         /// Gets bit 44 of [0:63].
         /// </summary>
-        public static bool Get44(this long bits) => (bits & (long)B44) != 0;
+        public static bool Get44(long bits) => (bits & (long)B44) != 0;
 
         /// <summary>
         /// Gets bit 45 of [0:63].
         /// </summary>
-        public static bool Get45(this long bits) => (bits & (long)B45) != 0;
+        public static bool Get45(long bits) => (bits & (long)B45) != 0;
 
         /// <summary>
         /// Gets bit 46 of [0:63].
         /// </summary>
-        public static bool Get46(this long bits) => (bits & (long)B46) != 0;
+        public static bool Get46(long bits) => (bits & (long)B46) != 0;
 
         /// <summary>
         /// Gets bit 47 of [0:63].
         /// </summary>
-        public static bool Get47(this long bits) => (bits & (long)B47) != 0;
+        public static bool Get47(long bits) => (bits & (long)B47) != 0;
 
         /// <summary>
         /// Gets bit 48 of [0:63].
         /// </summary>
-        public static bool Get48(this long bits) => (bits & (long)B48) != 0;
+        public static bool Get48(long bits) => (bits & (long)B48) != 0;
 
         /// <summary>
         /// Gets bit 49 of [0:63].
         /// </summary>
-        public static bool Get49(this long bits) => (bits & (long)B49) != 0;
+        public static bool Get49(long bits) => (bits & (long)B49) != 0;
 
         /// <summary>
         /// Gets bit 50 of [0:63].
         /// </summary>
-        public static bool Get50(this long bits) => (bits & (long)B50) != 0;
+        public static bool Get50(long bits) => (bits & (long)B50) != 0;
 
         /// <summary>
         /// Gets bit 51 of [0:63].
         /// </summary>
-        public static bool Get51(this long bits) => (bits & (long)B51) != 0;
+        public static bool Get51(long bits) => (bits & (long)B51) != 0;
 
         /// <summary>
         /// Gets bit 52 of [0:63].
         /// </summary>
-        public static bool Get52(this long bits) => (bits & (long)B52) != 0;
+        public static bool Get52(long bits) => (bits & (long)B52) != 0;
 
         /// <summary>
         /// Gets bit 53 of [0:63].
         /// </summary>
-        public static bool Get53(this long bits) => (bits & (long)B53) != 0;
+        public static bool Get53(long bits) => (bits & (long)B53) != 0;
 
         /// <summary>
         /// Gets bit 54 of [0:63].
         /// </summary>
-        public static bool Get54(this long bits) => (bits & (long)B54) != 0;
+        public static bool Get54(long bits) => (bits & (long)B54) != 0;
 
         /// <summary>
         /// Gets bit 55 of [0:63].
         /// </summary>
-        public static bool Get55(this long bits) => (bits & (long)B55) != 0;
+        public static bool Get55(long bits) => (bits & (long)B55) != 0;
 
         /// <summary>
         /// Gets bit 56 of [0:63].
         /// </summary>
-        public static bool Get56(this long bits) => (bits & (long)B56) != 0;
+        public static bool Get56(long bits) => (bits & (long)B56) != 0;
 
         /// <summary>
         /// Gets bit 57 of [0:63].
         /// </summary>
-        public static bool Get57(this long bits) => (bits & (long)B57) != 0;
+        public static bool Get57(long bits) => (bits & (long)B57) != 0;
 
         /// <summary>
         /// Gets bit 58 of [0:63].
         /// </summary>
-        public static bool Get58(this long bits) => (bits & (long)B58) != 0;
+        public static bool Get58(long bits) => (bits & (long)B58) != 0;
 
         /// <summary>
         /// Gets bit 59 of [0:63].
         /// </summary>
-        public static bool Get59(this long bits) => (bits & (long)B59) != 0;
+        public static bool Get59(long bits) => (bits & (long)B59) != 0;
 
         /// <summary>
         /// Gets bit 60 of [0:63].
         /// </summary>
-        public static bool Get60(this long bits) => (bits & (long)B60) != 0;
+        public static bool Get60(long bits) => (bits & (long)B60) != 0;
 
         /// <summary>
         /// Gets bit 61 of [0:63].
         /// </summary>
-        public static bool Get61(this long bits) => (bits & (long)B61) != 0;
+        public static bool Get61(long bits) => (bits & (long)B61) != 0;
 
         /// <summary>
         /// Gets bit 62 of [0:63].
         /// </summary>
-        public static bool Get62(this long bits) => (bits & (long)B62) != 0;
+        public static bool Get62(long bits) => (bits & (long)B62) != 0;
 
         /// <summary>
         /// Gets bit 63 of [0:63].
         /// </summary>
-        public static bool Get63(this long bits) => (bits & unchecked((long)B63)) != 0;
+        public static bool Get63(long bits) => (bits & unchecked((long)B63)) != 0;
 
         // ---
 
